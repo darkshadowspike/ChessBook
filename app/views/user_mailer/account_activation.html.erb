@@ -1,0 +1,4 @@
+<h1>Hello <%=@user.first_name %></h1>
+<p> Thanks for creating an account at Chessbook,to confirm your account go here: </p>
+					      <!--  "/account_activation/#{@user.activation_token }/edit?email=#{@user.email}" bia rails url_helper  -->
+<%= link_to "Account Activation", edit_account_activation_url(@user.activation_token, email: @user.email)  , target: "_blank" %>

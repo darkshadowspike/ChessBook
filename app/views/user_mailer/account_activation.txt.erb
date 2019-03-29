@@ -1,0 +1,4 @@
+Hello <%=@user.first_name %>
+Thanks for creating an account at Chessbook,to confirm your account go here: 
+					     
+<%=  edit_account_activation_url(@user.activation_token, email: @user.email)  %>

@@ -1,0 +1,28 @@
+
+<%= form_for(@user) do |f| %>
+	<div>
+	 	<%= f.text_field :first_name, placeholder: "Firstname"%>
+	 </div>
+
+	 <div>
+	 	<%= f.text_field :last_name, placeholder: "Surname"%>
+	 </div>
+
+	 <div>
+	 	<%= f.text_field :user_name, placeholder: "Username"%>
+	 </div>
+
+	 <div>
+	 	<%= f.email_field :email, placeholder: "Email address"%>
+	 </div>
+
+	  <div>
+	 	<%= f.label :birthday, "Birthday" %>
+	 	<input type="date" id="user_birthday" name="user[birthday]" value= <%=@user.birthday %> >	
+	 </div>
+
+	 <div>
+	 	<%= f.submit "Save changes" %>
+	 </div>
+
+<% end %>

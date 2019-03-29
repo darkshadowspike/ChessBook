@@ -1,0 +1,7 @@
+<h1><%= @user.user_name %></h1>
+
+<p>Born in <%= @user.birthday %></p>
+
+<% if current_user?(@user)%>
+	<%= link_to "edit", edit_user_url %>
+<% end %>

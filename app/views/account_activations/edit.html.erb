@@ -1,0 +1,14 @@
+<% if @user.activated  %>
+	<h1>Your account was succesfully activated!</h1>
+	<p>Introduce your User or Public name</p>
+	<%= form_for(@user) do |f| %>
+		<div>
+		<%= f.text_field :user_name, value: @user.first_name  %>
+		<div>
+		<div>
+	 		<%= f.submit "Done" %>
+	 	</div>
+	<% end %>
+<% else %>
+	<h1>Invalid activation link</h1>
+<% end %>

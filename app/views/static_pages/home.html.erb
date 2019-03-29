@@ -1,0 +1,11 @@
+	
+<% if logged_in? %>
+	<%= link_to "log out", logout_url, method: :delete %>
+	<h1><%= link_to "#{@user.user_name}", @user %></h1>
+
+<% else %>
+	<!-- sessionless signup form  -->
+	<%= form_for(@user) do |f|%>
+		<%= render "shared/form", f: f %>
+ 	<% end %>
+ <% end %>
