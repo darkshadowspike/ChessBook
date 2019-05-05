@@ -17,7 +17,7 @@ module SessionsHelper
 			@current_user||= User.find_by(id: session[:user_id])
 		#checks out if permanent cookies id is nil 
 		elsif cookies.signed[:user_id]
-			#if not it find the user by that id
+			#if not it finds the user by that id
 			user = User.find_by(id: cookies.signed[:user_id])
 			#checks if the user is nil and uses the user method authentic? to compare the cookie remember_token to the remember_digest
 			if user && user.authentic?(:remember, cookies[:remember_token])

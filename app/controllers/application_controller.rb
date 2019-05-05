@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
 
 	#confirms that users is logged with sessions helper logged_in? method and saves its location with store_location and redirects to login url
 
-
 	def logged_in_user
 		unless logged_in?
 			store_location

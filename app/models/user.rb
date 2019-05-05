@@ -1,7 +1,7 @@
 
 class User < ApplicationRecord
 	attr_accessor :activation_token, :remember_token
-	#Has_secure_passwords Adds methods to set and authenticate against a BCrypt password
+	#Has_secure_passwords Adds methods to set and authenticate  a password with  BCrypt password
 	has_secure_password 
 	before_save :downcase_email	
 	before_create :create_activation_hash

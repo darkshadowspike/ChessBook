@@ -1,4 +1,9 @@
-<h1><%= @user.user_name %></h1>
+
+<% if @user.user_name %>
+	<h1><%= @user.user_name %></h1>
+<% else %>
+	<h1><%= @user.first_name + @user.first_name %></h1>
+<% end %>
 
 <p>Born in <%= @user.birthday %></p>
 

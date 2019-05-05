@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
 	before_action :logged_in_user, only: [:edit, :update, :index, :destroy]
 	before_action :correct_user, only: [:edit, :update]
+	before_action :is_admin, only: [:index, :destroy]
 
 	def index
+		@users = User.all
 	end
 
 	def games
@@ -41,6 +43,10 @@ class UsersController < ApplicationController
 	end
 
 	def destroy
+		@user =User.find(params[:id])
+		@user.destroy
+		flash[:sucess] = "user deleted"
+		redirect_to root_url
 	end
 
 	private
@@ -56,5 +62,11 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		end
 	end 
+
+	def is_admin
+		unless current_user.admin?
+			redirect_to root_url
+		end
+	end
 
 end
