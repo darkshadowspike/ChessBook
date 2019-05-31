@@ -1,32 +1,33 @@
 
-	 <div>
+	 <div id="sp_first_name">
 	 	<%= f.text_field :first_name, placeholder: "First name"%>
 	 </div>
 
-	 <div>
+	 <div id="sp_last_name">
 	 	<%= f.text_field :last_name, placeholder: "Surname"%>
 	 </div>
 
-	 <div>
+	 <div id="sp_email">
 	 	<%= f.email_field :email, placeholder: "Email address"%>
 	 </div>
 
-	 <div>
+	 <div id="sp_password">
         <%= f.password_field :password, placeholder: "Password" %>
 	 </div>
 
-	 <div>
+	 <div id="sp_birthday">
 	 	<%= f.label :birthday, "Birthday" %>
 	 	<input type="date" id="user_birthday" name="user[birthday]">	
 	 </div>
 
-	 <div>
-	 	<%= f.label :gender, "Male" %>
+	 <div id="sp_gender">
 	 	<%= f.radio_button :gender , "male" %>
-	 	<%= f.label :gender, "Female" %>
+	 	<%= f.label :gender, "Male" %>
+	 	
 	 	<%= f.radio_button :gender , "female" %>
+	 	<%= f.label :gender, "Female" %>
 	 </div>
 
-	 <div>
+	 <div id="sp_submit">
 	 	<%= f.submit "Sign up" %>
 	 </div>

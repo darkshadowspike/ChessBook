@@ -9,4 +9,16 @@
 
 <% if current_user?(@user)%>
 	<%= link_to "edit", edit_user_url %>
+	<%= render "shared/post_form"  %>
 <% end %>
+
+<% if @posts.any? %>
+		<ul>
+			<% @posts.each do |post| %>
+				
+				<%= render "shared/post", post: post   %>
+			<% end %>
+		</ul>
+<% end %>
+
+

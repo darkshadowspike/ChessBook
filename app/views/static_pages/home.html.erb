@@ -1,11 +1,60 @@
-	
+<% provide(:title, @title) %>	
 <% if logged_in? %>
 	<%= link_to "log out", logout_url, method: :delete %>
 	<h1><%= link_to "#{@user.user_name}", @user %></h1>
 
+	<%= render "shared/post_form"%> 
+
+	<% if @posts.any? %>
+		<ul>
+			<% @posts.each do |post| %>
+				<%= render "shared/post", post: post%>
+			<% end %>
+		</ul>
+	<% end %>
+
 <% else %>
 	<!-- sessionless signup form  -->
-	<%= form_for(@user) do |f|%>
-		<%= render "shared/form", f: f %>
- 	<% end %>
+
+	<div id="log-in-bar">
+			<h1> <%=link_to "Chessbook", root_url %> </h1>
+			<form accept-charset="UTF-8" Action="login" method="POST" id="login_grid">
+
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+
+				<label id="label_email" for="session_email">Email</label>
+				<input  id="session_email" type="text" name="session[email]">
+
+				<label id="label_password" for="session_password">Password</label>
+				<input id="session_password" type="password" name="session[password]">
+
+
+
+				<!-- implement properly using link_to rails method -->
+
+				<a href="#" id="forgot_pass">Forgot Password?</a>
+
+				<input id="submit_button" type="submit" name="commit" value="Log In">
+
+			</form>
+			
+	</div>
+
+	<div id="start_signup">
+		<div id="start_signup_grid">
+
+			<div id="signup_phrase">
+				<h2>Share, connect and play Chess with your friends.</h2>
+			</div>
+
+			<%= form_for(@user) do |f|%>
+				<div id="sp_title">
+					<h2>Create an account</h2>
+				</div>
+				<%= render "shared/form", f: f %>
+		 	<% end %>
+		</div>
+	
+ 	</div>
+
  <% end %>

@@ -26,6 +26,9 @@ class User < ApplicationRecord
 	validate :birthdate_cannot_be_before_1900
 	validates :password, presence: true,  allow_nil: true, length: {in: 6..15}
 
+	has_many :posts, dependent: :destroy
+
+
 	# method made for birthday validation
 
 	def birthdate_cannot_be_before_1900

@@ -1,0 +1,9 @@
+<%= form_for (@post) do |f| %>
+	<div>
+		<%= f.text_area :content, placeholder: "post something" %>
+	</div>
+	<div>
+		<%= f.submit "Post" %>
+	</div>
+
+<% end %>

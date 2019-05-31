@@ -68,7 +68,7 @@ RSpec.describe User, type: :model do
 
    	    context "when validates email" do
 
-   	    	it "shoudln't accept nill" do 
+   	    	it "shoudln't accept nil" do 
    	    		user.email = nil
    	    		expect(user.valid?).to eq(false)
    	    	end
