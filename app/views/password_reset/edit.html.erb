@@ -1,0 +1,14 @@
+<% provide(:title, "New Password") %>
+
+<p>Write your new password</p>
+
+<form accept-charset="UTF-8" action="/password_reset/<%=params[:id]%>" method="POST">
+	
+	<input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token %>" >
+	<input type="hidden" name="_method" value="patch" />
+	<input type="hidden" name="email" value="<%=@user.email %>" />
+
+	<input id="user_password" type="password" name="user[password]" value="">
+	
+	<input name="commit"type="submit" value="save new password">
+</form>

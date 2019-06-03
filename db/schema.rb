@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_184827) do
+ActiveRecord::Schema.define(version: 2019_06_03_160848) do
 
   create_table "posts", force: :cascade do |t|
     t.text "content"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2019_05_05_184827) do
     t.datetime "activated_at"
     t.string "remember_digest"
     t.boolean "admin", default: false
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
   end
 
 end

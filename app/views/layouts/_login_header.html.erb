@@ -1,0 +1,27 @@
+<!-- sessionless signup form  -->
+
+	<div id="log-in-bar">
+			<h1> <%=link_to "Chessbook", root_url %> </h1>
+			<form accept-charset="UTF-8" Action="login" method="POST" id="login_grid">
+
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+
+				<label id="label_email" for="session_email">Email</label>
+				<input  id="session_email" type="text" name="session[email]">
+
+				<label id="label_password" for="session_password">Password</label>
+				<input id="session_password" type="password" name="session[password]">
+
+
+
+				<!-- implement properly using link_to rails method -->
+				<%= link_to "Need an Account?", new_user_url ,{id:"need_account"} %>
+				<%= link_to "Forgot Password?", new_password_reset_url ,{id:"forgot_pass"} %>
+
+				
+
+				<input id="submit_button" type="submit" name="commit" value="Log In">
+
+			</form>
+			
+	</div>

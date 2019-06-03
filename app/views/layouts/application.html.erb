@@ -10,6 +10,16 @@
   </head>
 
   <body>
+
+    <% if logged_in? %>
+    <% else %>
+      <%= render "layouts/login_header" %>
+    <% end %>
+
+    <% flash.each do |message_type, message| %>
+        <div class="flash_message flash_<%=message_type%>"> <%= message %> </div>
+    <% end %>
+
     <%= yield %>
     <%= render "layouts/footer" %>
   </body>

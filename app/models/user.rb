@@ -1,6 +1,6 @@
 
 class User < ApplicationRecord
-	attr_accessor :activation_token, :remember_token
+	attr_accessor :activation_token, :remember_token, :reset_token
 	#Has_secure_passwords Adds methods to set and authenticate  a password with  BCrypt password
 	has_secure_password 
 	before_save :downcase_email	
@@ -43,10 +43,30 @@ class User < ApplicationRecord
 		UserMailer.account_activation(self).deliver_now
 	end
 
+	#Sends email to reset password
+
+
+	def send_reset_email
+		UserMailer.reset_password(self).deliver_now
+	end
+
+
 
 	#returns token using SecureRandom module generator and url_sage base 64 to make a value usable in urls
 	def self.new_token
 		SecureRandom.urlsafe_base64
+	end
+
+	#similar to create an activation hash 
+	def create_reset_hash
+		self.reset_token = User.new_token
+		update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+	end
+
+
+	#Returns true if the reset password was created before 3 hours  has passed
+	def reset_expired?
+		reset_sent_at > 3.hours.ago
 	end
 
 	# returns hash digest froma string
@@ -63,7 +83,7 @@ class User < ApplicationRecord
 		if attr_digest.nil?
 			false
 		else
-			#creates a new instance of Bcrypt to use method is_password? in our attr_digest
+			#creates a new instance of Bcrypt to use method is_password? in our attr_digest , returns false if the string token doesn't match the digest hash
 			BCrypt::Password.new(attr_digest).is_password?(string)
 		end
 	end
@@ -100,5 +120,7 @@ class User < ApplicationRecord
 		self.activation_token = User.new_token
 		self.activation_digest = User.digest(activation_token)
 	end
+
+
 
 end

@@ -1,0 +1,14 @@
+<% provide(:title, "Forgotten Password") %>
+
+<div>
+	<h1>Recover</h1>
+	<p>Please enter your Email address to send a mail to create a new password</p>
+	<form accept-charset="UTF-8" action="/password_reset" method="POST">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type="text" name="password_reset[email]" class="form-control" >
+
+		<input type="submit" name="commit" value="Send">
+		
+	</form>
+</div>
+	
