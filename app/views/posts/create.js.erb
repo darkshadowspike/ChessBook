@@ -1,0 +1,8 @@
+posts = document.querySelector("#posts_lists");
+
+<% if @post.errors.empty? %>
+	
+	posts.insertAdjacentHTML("afterbegin", "<li><%= j render 'shared/post' , post: @post  %></li>");
+
+
+<% end %>

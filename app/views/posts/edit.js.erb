@@ -1,0 +1,7 @@
+post = document.querySelector("a[href*='<%=edit_post_url(@post)%>']").parentNode;
+while (post.firstChild) {
+	post.removeChild(post.firstChild);
+};
+
+post.setAttribute("id","post_editing");
+post.insertAdjacentHTML("afterbegin", "<%= j render 'shared/post_form' %>");

@@ -1,11 +1,31 @@
 
 
 
-<li><%= post.content %> 
+<%= post.content %> 
+
+	<% if post.media.attached? %>
+		<% if (post.media.content_type =~ /image.+/im) %>
+			<img src="<%= url_for(post.media) %>">
+
+		<% elsif (post.media.content_type =~ /video\/(mp4|webm|ogg)/im) %>
+
+			 <video width="320" height="240" controls>
+
+			 	<% if post.media.content_type =~ /video\/mp4/im %>
+			 		<source src="<%= url_for(post.media) %>" type="video/mp4">
+			 	<% elsif post.media.content_type =~ /video\/ogg/im %>
+			 		<source src="<%= url_for(post.media) %>" type="video/ogg">
+			 	<% elsif post.media.content_type =~ /video\/webm/im %>
+			 		<source src="<%= url_for(post.media) %>" type="video/webm">
+			 	<% end %>
+			 	
+ 				 Update your browser to watch the video.
+ 			</video> 
+		<% end %>
+ 	<% end %>
 
 	<% if logged_in? && post.user_id == current_user.id%>
-		<%= link_to "edit", post, method: :edit %>
+		<%= link_to "edit", edit_post_url(post) , remote: true %>
 		<%= link_to "delete", post, method: :delete %>
-	<% end %>
+<% end %>
 	
-</li>

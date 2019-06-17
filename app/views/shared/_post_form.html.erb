@@ -1,9 +1,15 @@
-<%= form_for (@post) do |f| %>
-	<div>
+<%= form_with(model: @post) do |f| %>
+	
 		<%= f.text_area :content, placeholder: "post something" %>
-	</div>
-	<div>
+
+		<br>
+
+		<%= f.label " Upload Image or video" %>
+		<%= f.file_field :media %>  
+
+		<br>
+
 		<%= f.submit "Post" %>
-	</div>
+		
 
 <% end %>

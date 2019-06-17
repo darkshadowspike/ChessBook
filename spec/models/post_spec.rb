@@ -33,4 +33,18 @@ RSpec.describe Post, type: :model do
     	end
     end
 
+    context "when validates media uploaded" do  
+
+        it "should accept valid media" do 
+            post.media.attach(io: File.open('spec/models/Files/image.jpg'), filename: "image.jpg")
+            expect(post.valid?).to eq(true)
+        end 
+        
+        it "shouldn't accept invalid media" do 
+            post.media.attach(io: File.open('spec/models/Files/invalid.pdf'), filename: "invalid.pdf")
+            expect(post.valid?).to eq(false)
+        end 
+        
+    end
+
 end

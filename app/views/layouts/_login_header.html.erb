@@ -2,7 +2,7 @@
 
 	<div id="log-in-bar">
 			<h1> <%=link_to "Chessbook", root_url %> </h1>
-			<form accept-charset="UTF-8" Action="login" method="POST" id="login_grid">
+			<form accept-charset="UTF-8" Action="<%= login_url %>" method="POST" id="login_grid">
 
 				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
 

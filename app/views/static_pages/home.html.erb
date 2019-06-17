@@ -5,13 +5,7 @@
 
 	<%= render "shared/post_form"%> 
 
-	<% if @posts.any? %>
-		<ul>
-			<% @posts.each do |post| %>
-				<%= render "shared/post", post: post%>
-			<% end %>
-		</ul>
-	<% end %>
+	<%= render "shared/posts", posts: @posts   %>
 
 <% else %>
 	

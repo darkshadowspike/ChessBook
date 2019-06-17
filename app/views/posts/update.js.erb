@@ -1,0 +1,16 @@
+post = document.querySelector("#post_editing");
+
+while (post.firstChild) {
+	post.removeChild(post.firstChild);
+}
+
+<% if @post.errors.empty? %>
+	
+	post.insertAdjacentHTML("afterbegin", "<%= j render 'shared/post' , post: @post  %>");
+
+<% else %>
+	
+	//create errors partial to display
+	post.insertAdjacentHTML("afterbegin", "<%= j render 'shared/post_form' %>");
+
+<% end %>

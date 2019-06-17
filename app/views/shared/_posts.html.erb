@@ -1,0 +1,8 @@
+<% if posts.any? %>
+		<ul id="posts_lists">
+			<% posts.each do |post| %>
+				
+				<li><%= render "shared/post", post: post   %></li>
+			<% end %>
+		</ul>
+<% end %>
