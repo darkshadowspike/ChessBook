@@ -2,10 +2,11 @@
 
 
 <%= post.content %> 
-
+	
 	<% if post.media.attached? %>
+	<br>
 		<% if (post.media.content_type =~ /image.+/im) %>
-			<img src="<%= url_for(post.media) %>">
+			<img src="<%= url_for(post.media) %>"  height="320" >
 
 		<% elsif (post.media.content_type =~ /video\/(mp4|webm|ogg)/im) %>
 

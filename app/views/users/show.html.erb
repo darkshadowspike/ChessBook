@@ -13,7 +13,10 @@
 <% end %>
 
 
+<ul id="posts">
+	<%= render "shared/posts", posts: @posts   %>
+</ul>
 
-<%= render "shared/posts", posts: @posts   %>
-
-
+<div id="next_posts_link">
+	<%= render 'shared/next_link' %>
+</div>

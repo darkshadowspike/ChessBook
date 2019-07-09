@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
 	#include Sessions helper module to give their methods to all controllers
 	include SessionsHelper
 
+	#include pagy  gem for pagination
+	include Pagy::Backend
+
 	private
 
 	#confirms that users is logged with sessions helper logged_in? method and saves its location with store_location and redirects to login url

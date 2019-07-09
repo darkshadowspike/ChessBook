@@ -5,7 +5,13 @@
 
 	<%= render "shared/post_form"%> 
 
-	<%= render "shared/posts", posts: @posts   %>
+	<ul id="posts">
+		<%= render "shared/posts", posts: @posts   %>
+	</ul>
+
+	<div id="next_posts_link">
+		 <%= render 'shared/next_link' %>
+	</div>
 
 <% else %>
 	

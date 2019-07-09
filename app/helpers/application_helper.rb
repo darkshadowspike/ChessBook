@@ -1,4 +1,5 @@
 module ApplicationHelper
+	include Pagy::Frontend
 	def title_changer(title ="")
 		base_title ="Chessbook"
 
