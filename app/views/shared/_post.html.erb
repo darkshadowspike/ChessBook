@@ -27,6 +27,6 @@
 
 	<% if logged_in? && post.user_id == current_user.id%>
 		<%= link_to "edit", edit_post_url(post) , remote: true %>
-		<%= link_to "delete", post, method: :delete %>
+		<%= link_to "delete", post, method: :delete, remote: true %>
 <% end %>
 	

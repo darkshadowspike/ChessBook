@@ -12,7 +12,7 @@ Post.destroy_all
 User.create!(first_name:"admin", last_name:"istrator", user_name: "administrator" ,email: "andrewmatosdiaz@hotmail.com", gender: "male", birthday: Date.today, password: "adminb117", password_confirmation: "adminb117", activated: true , activated_at: Time.zone.now, admin: true)
 
 
-100.times do |index| 
+40.times do |index| 
 	User.create!(
 		first_name: "seeded",
 		last_name: "user",
@@ -29,7 +29,7 @@ end
 
 user =  User.find_by(email: "seeduser1@mail.com" )
 
-20.times do |index|
+10.times do |index|
 	post_img = user.posts.create!(content: "Servants chess #{index}" )
 	post_img.media.attach(io: File.open('app/assets/images/servantchess.jpg'), filename: "servantchess.jpg")
 	user.posts.create!(content: "hello there! #{index}")

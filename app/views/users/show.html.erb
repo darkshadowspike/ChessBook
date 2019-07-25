@@ -7,6 +7,13 @@
 
 <p>Born in <%= @user.birthday %></p>
 
+<% if logged_in?  && @user != current_user %>
+	<div id ="friendship_button">
+		<%= render "shared/friendship_form" %>
+	</div>
+	
+<% end %>
+
 <% if current_user?(@user)%>
 	<%= link_to "edit", edit_user_url %>
 	<%= render "shared/post_form"  %>

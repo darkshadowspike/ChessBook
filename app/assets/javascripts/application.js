@@ -13,4 +13,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require loadNextPage.js
+//= require reload_in_top.js
+//= require delete_post.js
 //= require_tree .

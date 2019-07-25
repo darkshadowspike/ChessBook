@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 		if logged_in?
 			@user = current_user
 			@post = current_user.posts.build
-			@pagy, @posts = pagy(@user.posts.all, page: params[:page] ,items: 7, link_extra: 'data-remote="true"')
+			@pagy, @posts = pagy(@user.user_feed, page: params[:page] ,items: 7, link_extra: 'data-remote="true"')
 			respond_to do |format|
 				format.html 
 				format.js

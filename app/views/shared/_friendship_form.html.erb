@@ -1,0 +1,9 @@
+<% if current_user.is_friend?(@user) %>
+	<%= render "shared/unfriend" %>
+<% elsif current_user.request_sent?(@user)  %>
+	<%= render "shared/cancel_request" %>
+<% elsif current_user.request_receive?(@user)   %>
+	<%= render "shared/accept_request" %>
+<% else %>
+	<%= render "shared/send_request" %>
+<% end %>

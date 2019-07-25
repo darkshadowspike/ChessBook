@@ -1,0 +1,4 @@
+<%= form_for(current_user.requested_relationships.build, remote: true) do |f| %>
+	<div><%= hidden_field_tag :friend_pasive_id, @user.id %></div>
+	<%= f.submit "Send friendship request" %>
+<% end %>

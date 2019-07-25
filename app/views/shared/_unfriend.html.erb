@@ -1,0 +1,18 @@
+
+<% if current_user.request_sent?(@user) %>
+	
+	<%= form_for(current_user.requested_relationships.find_by(friend_pasive_id: @user.id),html:{ method: :delete} ,remote: true) do |f| %>
+		<div><%= hidden_field_tag :user_id, @user.id %></div>
+		<%= f.submit "Friend" %>
+	<% end %>
+
+<% elsif current_user.request_receive?(@user) %>
+
+	<%= form_for(current_user.received_relationships.find_by(friend_active_id: @user.id),html:{ method: :delete} ,remote: true) do |f| %>
+		<div><%= hidden_field_tag :user_id, @user.id %></div>
+		<%= f.submit "Friend" %>
+	<% end %>
+
+<% end %>
+
+	

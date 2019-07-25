@@ -26,8 +26,16 @@ class User < ApplicationRecord
 	validate :birthdate_cannot_be_before_1900
 	validates :password, presence: true,  allow_nil: true, length: {in: 6..15}
 
+	#association with the posts model
 	has_many :posts, dependent: :destroy
 
+    #association with the relationship model, but as the active(requester) and the other user as the pasive(receiver)
+	has_many :requested_relationships, class_name: "Relationship", foreign_key: "friend_active_id", dependent: :destroy
+    has_many :requested_friends, through: :requested_relationships, source: :friend_pasive
+
+    #association with the relationship model, but as the pasive(receiver) and the other user as the active(requester) 
+    has_many :received_relationships, class_name: "Relationship", foreign_key: "friend_pasive_id", dependent: :destroy
+    has_many :received_friends, through: :received_relationships, source: :friend_active
 
 	# method made for birthday validation
 
@@ -49,7 +57,6 @@ class User < ApplicationRecord
 	def send_reset_email
 		UserMailer.reset_password(self).deliver_now
 	end
-
 
 
 	#returns token using SecureRandom module generator and url_sage base 64 to make a value usable in urls
@@ -107,7 +114,77 @@ class User < ApplicationRecord
 		self.remember_token = nil 
 		update_attribute(:remember_digest, nil)
 	end
-	
+
+	#push an user as a request_friends, creating a relationship
+
+	def friend_request(other_user)
+		requested_friends.push(other_user)
+	end
+
+	#cancels a request made
+
+	def cancel_request(other_user)
+		if requested_friends.include?(other_user) && requested_relationships.find_by(friend_pasive_id: other_user.id).accepted == false
+
+		end
+	end
+
+	#accepts a relationship created by other user
+
+	def accept_request(other_user)
+		received_relationships.find_by(friend_active_id: other_user.id).update_attribute(:accepted, true)
+	end
+
+	#checks if the user request was sent
+
+	def request_sent?(other_user)
+		if requested_friends.include?(other_user)
+			return true
+		else 
+			return false
+		end
+	end
+
+	#checks if the user recieve a friend request
+
+	def request_receive?(other_user)
+		if received_friends.include?(other_user)
+			return true
+		else 
+			return false
+		end
+	end
+
+	#checks if a relationship exist and if it was accepted
+	def is_friend?(other_user)
+
+		if requested_friends.include?(other_user) &&  requested_relationships.find_by(friend_pasive_id: other_user.id).accepted?
+			return true
+		elsif received_friends.include?(other_user) && received_relationships.find_by(friend_active_id: other_user.id).accepted?	
+			return true
+		else 
+			return false
+		end
+	end
+
+	#deletes a relationship only if you requested it or if you accepted it
+
+	def delete_friend(other_user)		
+		if requested_friends.include?(other_user) 
+				requested_friends.delete(other_user)
+		elsif received_friends.include?(other_user) && received_relationships.find_by(friend_active_id: other_user.id).accepted?
+				received_friends.delete(other_user)
+		end
+	end
+
+	def user_feed
+		#sql query for the requested  and accepted friendships ID's using the user id
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		#sql query for the received and accepted friendships ID's using the user id
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		#sql for the post using both previous ids and the users id
+		return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) OR user_id = :user_id", user_id: self.id)
+	end
 
 	private
 
