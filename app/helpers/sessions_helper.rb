@@ -2,6 +2,7 @@ module SessionsHelper
 
 	#assigns user ID to rails cookies session
 	def login(user)
+		cookies.signed[:user_id] = user.id
 		session[:user_id] = user.id
 	end
 

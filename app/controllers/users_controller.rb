@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :logged_in_user, only: [:edit, :update, :index, :destroy]
+	before_action :logged_in_user, only: [:edit, :update, :index, :destroy, :gamechat]
 	before_action :correct_user, only: [:edit, :update]
 	before_action :is_admin, only: [:index, :destroy]
 
@@ -22,7 +22,19 @@ class UsersController < ApplicationController
 		@pagy, @users = pagy(User.all, page: params[:page], items: 10)
 	end
 
-	def games
+	def gamechat
+		@friends = current_user.friends
+		@message = current_user.sended_messages.build
+		unless params[:friend_id]
+			@friend =  @friends[0]
+		else 
+			@friend = User.find(params[:friend_id])
+		end
+		@pagy, @messages = pagy(current_user.messages_with_user(@friend ),   page: params[:page] ,  items: 6, link_extra: 'data-remote="true"')
+		respond_to do |format|
+				format.html 
+				format.js
+		end
 	end
 
 	def show

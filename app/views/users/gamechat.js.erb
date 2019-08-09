@@ -1,0 +1,5 @@
+
+document.querySelector("#message_list").insertAdjacentHTML("afterbegin", "<%= j(render 'shared/messages', messages: @messages)%>");
+document.querySelector('#next_message_link').innerHTML = "<%= j(render 'shared/next_link') %>" ;
+
+

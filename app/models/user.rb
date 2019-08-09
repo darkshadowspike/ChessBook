@@ -1,5 +1,6 @@
 
 class User < ApplicationRecord
+	
 	attr_accessor :activation_token, :remember_token, :reset_token
 	#Has_secure_passwords Adds methods to set and authenticate  a password with  BCrypt password
 	has_secure_password 
@@ -36,6 +37,10 @@ class User < ApplicationRecord
     #association with the relationship model, but as the pasive(receiver) and the other user as the active(requester) 
     has_many :received_relationships, class_name: "Relationship", foreign_key: "friend_pasive_id", dependent: :destroy
     has_many :received_friends, through: :received_relationships, source: :friend_active
+
+    #associations  with the message model
+    has_many :sended_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
+    has_many :received_messages, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
 
 	# method made for birthday validation
 
@@ -177,13 +182,28 @@ class User < ApplicationRecord
 		end
 	end
 
-	def user_feed
+	#return all friends using only one query instead of u.requested_friends + u.received_friends (2 queries)
+
+	def friends
 		#sql query for the requested  and accepted friendships ID's using the user id
 		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
 		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		return User.where("id IN (#{active_ids}) OR id IN (#{pasive_ids})", user_id: self.id)
+	end
+
+	#returns all the friends post
+	def user_feed
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
 		#sql for the post using both previous ids and the users id, user eager loading  for users and  the media attached , improving perfomance avoiding multiple querys
 		return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) OR user_id = :user_id", user_id: self.id).includes(:user, media_attachment: :blob)
+	end
+
+	#returns all messages sended or received by an user
+
+	def messages_with_user(other_user)
+		return Message.where("(sender_id = :user_id AND receiver_id = :other_user_id) OR (sender_id = :other_user_id AND receiver_id = :user_id) ", user_id: self.id, other_user_id: other_user.id)
 	end
 
 	private

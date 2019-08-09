@@ -1,0 +1,29 @@
+<% if @friends %>
+	<ul>
+		<% @friends.each do |friend| %>
+			<li>
+
+				<%= form_tag("/gamechat", method: "get", remote: true) do %>	
+				
+					<div> 
+						<%= hidden_field_tag :friend_id, friend.id %>	
+					</div>
+					
+					<div>
+						<input  type="submit" value="<%=friend.user_name %>">
+					</div>
+				<% end %>
+				
+			</li>
+		<% end %>
+	</ul>
+
+	
+
+	<div id ="chat">
+		<div id="next_message_link">
+		 	<%= render 'shared/next_link' %>
+		</div>
+		<%= render "chat" %>
+	</div>	
+<% end %>

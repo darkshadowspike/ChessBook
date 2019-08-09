@@ -1,0 +1,11 @@
+<% if messages %>
+		<% (messages.reverse).each do |message| %>
+			<% if message.from_user?(current_user) %>
+				<li class ="user<%=current_user.id%>"><%=current_user.user_name%>: <%=message.content%></li>
+			<% else %>
+				<li class ="user<%=@friend.id%>"> <%=@friend.user_name%>: <%=message.content%></li>
+			<% end %>
+		<% end %>
+<% else %>
+		<div>Empty chat... write something!</div>
+<% end %>

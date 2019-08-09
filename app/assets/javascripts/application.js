@@ -14,6 +14,7 @@
 //= require activestorage
 //= require turbolinks
 //= require loadNextPage.js
-//= require reload_in_top.js
+//= require in_reload.js
 //= require delete_post.js
+//= require chat_messages.js
 //= require_tree .

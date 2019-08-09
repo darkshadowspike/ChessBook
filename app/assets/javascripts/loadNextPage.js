@@ -1,6 +1,6 @@
 
 
-var loadNextPage = function(){
+let loadNextPage = function(){
 
 	if(document.querySelector("#next_link") == null){
 		window.removeEventListener('resize', loadNextPage);
