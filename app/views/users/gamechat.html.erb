@@ -3,7 +3,7 @@
 		<% @friends.each do |friend| %>
 			<li>
 
-				<%= form_tag("/gamechat", method: "get", remote: true) do %>	
+				<%= form_tag("/gamechat", method: "get") do %>	
 				
 					<div> 
 						<%= hidden_field_tag :friend_id, friend.id %>	
