@@ -1,0 +1,14 @@
+#chess{
+	margin-bottom: 200px
+}
+
+#chessboard{
+	margin: 0 10px;
+	display: grid;
+	list-style: none;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 5px;
+	height: 60vh;
+	width: 40vw;
+
+}
