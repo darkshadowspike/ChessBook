@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
 	def home
 		if logged_in?
+
 			@user = current_user
 			@post = current_user.posts.build
 			@pagy, @posts = pagy(@user.user_feed, page: params[:page] ,items: 7, link_extra: 'data-remote="true"')
@@ -23,14 +24,26 @@ class UsersController < ApplicationController
 	end
 
 	def gamechat
-		@friends = current_user.friends
+		@friends = current_user.friends_ordered_by_latest_messaged
 		@message = current_user.sended_messages.build
+
 		unless params[:friend_id]
 			@friend =  @friends[0]
 		else 
 			@friend = User.find(params[:friend_id])
 		end
-		@pagy, @messages = pagy(current_user.messages_with_user(@friend ),   page: params[:page] ,  items: 6, link_extra: 'data-remote="true"')
+
+		if @friend
+			@relationship = Relationship.friendship(current_user.id, @friend.id)
+			@pagy, @messages = pagy(current_user.messages_with_user(@friend ),   page: params[:page] ,  items: 6, link_extra: 'data-remote="true"')
+			@chessgame = current_user.game_with_user(@friend)
+			if  @chessgame
+				@chessgame.load_board
+			else
+				@chessgame = current_user.game_as_player1.create(player2_id: @friend.id)
+			end
+		end
+		
 		respond_to do |format|
 				format.html 
 				format.js

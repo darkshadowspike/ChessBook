@@ -6,9 +6,54 @@
 	margin: 0 10px;
 	display: grid;
 	list-style: none;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-auto-flow: column;
 	grid-gap: 5px;
 	height: 60vh;
 	width: 40vw;
 
+}
+
+.board_box_container{
+	
+	border: solid 1px ;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+}
+
+.board_box{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+	border: solid 0px;
+	height: 100%;
+	width: 100%;
+	font-size: 4vh;
+
+}
+
+.board_white_box{
+	
+ 	background: white;
+	
+}
+
+.board_black_box{
+	
+ 	background: grey;
+	
+}
+
+.movable{
+	border: solid 2px;
+}
+
+.selected{
+	transform: scale(1.1);
+}
+
+.selectable_for_move{
+	background: #f2ffa1;
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_154611) do
+ActiveRecord::Schema.define(version: 2019_09_27_213419) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_08_16_154611) do
     t.json "gamesave"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "player1_turn", default: true
     t.index ["player1_id", "player2_id"], name: "index_chessgames_on_player1_id_and_player2_id"
     t.index ["player1_id"], name: "index_chessgames_on_player1_id"
     t.index ["player2_id"], name: "index_chessgames_on_player2_id"

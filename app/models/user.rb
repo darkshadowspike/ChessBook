@@ -42,6 +42,10 @@ class User < ApplicationRecord
     has_many :sended_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
     has_many :received_messages, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
 
+     #associations  with the message model
+    has_many :game_as_player1, class_name: "Chessgame", foreign_key: "player1_id", dependent: :destroy
+    has_many :game_as_player2, class_name: "Chessgame", foreign_key: "player2_id", dependent: :destroy
+
 	# method made for birthday validation
 
 	def birthdate_cannot_be_before_1900
@@ -185,11 +189,25 @@ class User < ApplicationRecord
 	#return all friends using only one query instead of u.requested_friends + u.received_friends (2 queries)
 
 	def friends
-		#sql query for the requested  and accepted friendships ID's using the user id
+		#sql query for the requested  and accepted friendships ID's using the user idusers/20
 		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
 		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
 		return User.where("id IN (#{active_ids}) OR id IN (#{pasive_ids})", user_id: self.id)
+	end
+
+	def friends_ordered_by_latest_messaged
+		#sql query for the requested  and accepted friendships ID's using the user id
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		#sql query for the received and accepted friendships ID's using the user id
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		friends_query ="SELECT * FROM 'users' WHERE id IN (#{active_ids}) OR id IN (#{pasive_ids})"
+		users_receive_messages = "SELECT DISTINCT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT JOIN messages ON  users.id = messages.sender_id  WHERE receiver_id = :user_id "
+		user_last_sended_message = "SELECT DISTINCT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT JOIN messages ON users.id = messages.receiver_id WHERE sender_id = :user_id "
+		messages_query = "#{user_last_sended_message } UNION #{users_receive_messages}  ORDER BY last_message DESC"
+		users_query =  "SELECT DISTINCT users.id, users.first_name, users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at FROM (#{messages_query}) AS users"
+		return User.find_by_sql(["#{users_query}", {user_id: self.id}])
+		
 	end
 
 	#returns all the friends post
@@ -204,6 +222,10 @@ class User < ApplicationRecord
 
 	def messages_with_user(other_user)
 		return Message.where("(sender_id = :user_id AND receiver_id = :other_user_id) OR (sender_id = :other_user_id AND receiver_id = :user_id) ", user_id: self.id, other_user_id: other_user.id)
+	end
+
+	def game_with_user(other_user)
+		return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: self.id, other_user_id: other_user.id)[0]
 	end
 
 	private

@@ -1,46 +1,3 @@
-function put_chessboard (){
-
-	for ( y = 1; y<= 8; y++ ){
-			for (  x = 8; x >= 1 ; x--){
-				switch(x){
-					case 1:
-				        xs="A";
-				        break;
-				    case 2:
-				        xs="B";
-				        break;
-				    case 3:
-				        xs="C";
-				        break;
-				    case 4:
-				        xs="D";
-				        break;
-				    case 5:
-				        xs="E";
-				        break;
-				    case 6:
-				        xs="F";
-				        break;
-				    case 7:
-				        xs="G";
-				        break;
-				    case 8:
-				        xs="H";
-				        break;
-				}
-
-				chessboard.insertAdjacentHTML("afterbegin", `
-					<li> 
-						<form action="/gamechat" accept-charset="UTF-8" method="get" data-remote="true"><input name="utf8" type="hidden" value="✓">	
-							<input type="hidden" name="board_id" id="board_id" value="${xs + y}">	
-							<input id= ${xs + y} type="submit" value="${xs + y}" >
-						</form>				
-							
-					</li>
-				`);
-			}
-	}
-}
 
 function add_message_autoload (){
 		let messages = document.querySelector("#message_list")
@@ -75,7 +32,7 @@ function add_message_autoload (){
 window.onload = function(){
 	
 	if (document.readyState === "complete" ){
-		put_chessboard();
+		playable_pieces();
 		add_message_autoload();
 	}	
 };

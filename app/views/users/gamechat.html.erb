@@ -1,4 +1,4 @@
-<% if @friends %>
+<% if @friends.any? %>
 	<ul>
 		<% @friends.each do |friend| %>
 			<li>
@@ -17,16 +17,35 @@
 			</li>
 		<% end %>
 	</ul>
+	<div id="game_chat"  data-chat-room-id = "<%=@relationship.id %>">
+		<% if @chessgame %>
 
-	<div id ="chess">
-		<ul id="chessboard"></ul>
+			
+			<%= render "chess", chessgame: @chessgame , friend: @friend %>
+
+			<div id= newgame-button>
+
+				<%= form_for(:chessgame, url: chessgames_url) do |f| %>
+
+					<%= f.hidden_field :friend_id, value: @friend.id %>	
+					<%= f.submit "New Game"%>
+
+				<% end %>
+			
+			</div>
+
+		<% end %>
+		
+		<div id ="chat">
+			<div id="next_message_link">
+			 	<%= render 'shared/next_link' %>
+			</div>
+			<%= render "chat" %>
+		</div>	
 	</div>
-
-	<div id ="chat">
-		<div id="next_message_link">
-		 	<%= render 'shared/next_link' %>
-		</div>
-		<%= render "chat" %>
-	</div>	
+<% else %>
+	<div class= "warning">
+		<p>You don't have any friends to chat or play with! go and find some.</p>
+	</div>
 
 <% end %>
