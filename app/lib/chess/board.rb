@@ -62,6 +62,7 @@ class Board
 	     	put_piece(Queen.new([3,7],"\u265B",false,self))
 	    	put_piece(King.new([4,7],"\u265A",false,self), true)
 
+
 		end 
 
 		def put_white
@@ -78,6 +79,33 @@ class Board
 			put_piece(Bishop.new([5,0],"\u2657",true,self))
 			put_piece(Queen.new([3,0],"\u2655",true,self))
 			put_piece(King.new([4,0],"\u2654",true,self) , true)
+
+		end
+
+		def new_piece_by_promotion(promotion, new_pos, white)
+			if white
+				case promotion
+					when "Queen"
+						put_piece(Queen.new(new_pos,"\u2655",true,self))
+					when "Rook"
+						put_piece(Rook.new(new_pos,"\u2656",true,self))
+					when "Bishop"
+						put_piece(Bishop.new(new_pos,"\u2657",true,self))
+					when "Knight"
+						put_piece(Knight.new(new_pos,"\u2658",true,self))
+				end
+			else
+				case promotion
+					when "Queen"
+						put_piece(Queen.new(new_pos,"\u265B",false,self))
+					when "Rook"
+						put_piece(Rook.new(new_pos,"\u265C",false,self))
+					when "Bishop"
+						put_piece(Bishop.new(new_pos,"\u265D",false,self))
+					when "Knight"
+						put_piece(Knight.new(new_pos,"\u265E",false,self))
+				end				
+			end
 		end
 
 		def put_piece(piece, king = false)
@@ -93,6 +121,17 @@ class Board
 			add_node(piece)
 		end
 
+		def valid_move?(start_pos_str, new_pos_str, is_white)
+			valid = false
+			playable_info = playable_pieces(is_white)
+			playable_info[:pieces].each do |piece|
+				if piece[:pos] == start_pos_str && piece[:posible_moves].include?(new_pos_str)
+					valid = true
+				end
+			end
+			return valid
+		end
+
 		def playable_pieces(white = true)
 			playable = {
 				check: false,
@@ -102,6 +141,11 @@ class Board
 			if white
 					#white pieces
 					check = player_in_check?
+					if check 
+						limited_moves = []
+						limited_moves.push(@can_capture_white.pos) 
+						limited_moves += @can_capture_white.check_interrupters
+					end
 					@nodes.each do |node|
 						if node.class != Node &&  node.white 
 							if node.class != King
@@ -109,9 +153,6 @@ class Board
 									pos_move = node.posible_moves_letters
 								else
 									playable[:check] = true
-									limited_moves = []
-									limited_moves.push(@can_capture_white.pos) 
-									limited_moves += @can_capture_white.check_interrupters
 								    pos_move = node.posible_moves_letters([] ,limited_moves)								
 								end 
 							else
@@ -129,16 +170,18 @@ class Board
 			else
 					#black pieces
 					check = player_in_check?(false)
+					if check
+						limited_moves = []
+						limited_moves.push(@can_capture_black.pos) 
+						limited_moves += @can_capture_black.check_interrupters
+					end
 					@nodes.each do |node|
 						if node.class != Node && !node.white 
 							if node.class != King
 								unless check								
 									pos_move = node.posible_moves_letters
 								else
-									playable[:check] = true
-									limited_moves = []
-									limited_moves.push(@can_capture_black.pos) 
-									limited_moves += @can_capture_black.check_interrupters
+									playable[:check] = true						
 									pos_move = node.posible_moves_letters([] ,limited_moves)									
 								end 
 							else 
@@ -152,6 +195,7 @@ class Board
 
 						end
 					end
+
 
 			end
 			if !playable[:pieces].any?
@@ -188,10 +232,10 @@ class Board
 			    return  in_check
 		end
 
-		def move_piece_alegebraic(start_pos_str, new_pos_str)
+		def alegebraic_chess_notation_to_cordenates(start_pos_str, new_pos_str)
 			start_pos = to_pos(start_pos_str)
 			new_pos = to_pos(new_pos_str)
-			return move_piece(start_pos, new_pos)
+			return [start_pos, new_pos]
 		end
 
 				# turns the x position from a string to an integer
@@ -222,12 +266,16 @@ class Board
 
 		#moves the piece, replaces previous position with an empty node and clean the calculate risk for the king
 
-		def move_piece(start_pos, new_pos)
+		def move_piece(start_pos, new_pos, promotion)
 			index_start = index_of(start_pos)
 			index_new = index_of(new_pos)
 			node =  @nodes[index_start]
-			@nodes[index_new] = node
-			node.pos = new_pos
+			unless promotion && node.class == Pawn
+				@nodes[index_new] = node
+				node.pos = new_pos
+			else
+				@nodes[index_new] = new_piece_by_promotion(promotion, new_pos, node.white)
+			end
 			@nodes[index_start] =  Node.new(pos = start_pos, board = self)
 			clean_after_moving(start_pos)
 			return node.pos

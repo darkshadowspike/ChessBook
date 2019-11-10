@@ -68,30 +68,7 @@ class Node
 	       			return single_pos
 	end		
 
-		# turns the x position from a string to an integer
 
-	def to_pos(single_pos)
-			 		x = single_pos.downcase
-					case x
-						when "a"
-							x = 0
-						when "b"
-							x = 1
-						when "c"
-							x = 2
-						when "d"
-							x = 3
-						when "e"
-							x = 4
-						when "f"
-							x = 5
-						when "g"
-							x = 6 
-						when "h"
-							x = 7
-					end
-					return x
-	end
 
 		#translate to position to match interface /text version
 

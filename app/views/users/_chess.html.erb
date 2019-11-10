@@ -72,11 +72,11 @@
 										
 							
 										<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
-												 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box" ><%= symbol %></button>
+												 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>" ><%= symbol %></button>
 									</div>
 								<% else %>
 									<div class="board_box_container" >
-										<button id= "<%= pos_str %>" type="button" class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box"><%= symbol %></button>
+										<button id= "<%= pos_str %>" type="button" class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>"><%= symbol %></button>
 									</div>
 								<% end %>			
 							</li>			
@@ -96,11 +96,11 @@
 									<div class="board_box_container"> 
 
 										<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
-											 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box" ><%= symbol %></button>
+											 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>" ><%= symbol %></button>
 									</div>
 								<% else %>
 									<div class="board_box_container" >
-										<button id= "<%= pos_str %>" type="button" class="board_box board_box board_<%=(ind.even?)? 'white' : 'black'%>_box"><%= symbol %></button>
+										<button id= "<%= pos_str %>" type="button" class="board_box board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>"><%= symbol %></button>
 									</div>
 								<% end %>			
 							</li>		

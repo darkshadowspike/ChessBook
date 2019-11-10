@@ -12,24 +12,24 @@ class Chessgame < ApplicationRecord
 
 	belongs_to :player1, class_name: "User"
 	belongs_to :player2, class_name: "User"
-	#Chess::Pieces::Pawn
 	validates :player1_id, :player2_id, presence: true
 
 	def play
-
 		if board
-			if player1_turn
-				play_info = board.playable_pieces(true)
-			else
-				play_info = board.playable_pieces(false)
-			end
-
+			play_info = board.playable_pieces(player1_turn)
 			return play_info.to_json
 		end
 	end
 
-	def piece_move(start_pos, new_pos)
-		board.move_piece_alegebraic(start_pos, new_pos)
+	def is_valid?(start_pos, new_pos)
+		if board
+			return board.valid_move?(start_pos, new_pos, player1_turn)
+		end
+	end
+
+	def piece_move(start_pos, new_pos,promotion)
+		moves = board.alegebraic_chess_notation_to_cordenates(start_pos, new_pos)
+		board.move_piece(moves[0], moves[1], promotion)
 		update_columns(gamesave: board.to_json, player1_turn: !player1_turn)
 	end
 

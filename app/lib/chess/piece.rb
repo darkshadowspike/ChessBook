@@ -58,16 +58,17 @@ class Piece < Node
 			end
 		end
 
+
 		#checks if a move doesn't put king in danger by cheking if ignoring the piece position results in the king becoming avaible for the enemy piece
 
 	    def safe_move(pos)
 
 				@board.nodes.each do |node|
 					if @white
-						if (node.class == Queen || node.class == Bishop || node.class == Rook ) && !node.white
-							if node.neighbours_includes?(@pos)
+						if  (node.class == Queen || node.class == Bishop || node.class == Rook ) && !node.white   
+							if node.neighbours_includes?(@pos) && node != @board.can_capture_white
 								original_neighbours = node.neighbours.dup
-								node.calculate_posible_moves(pos, [], @pos)
+								node.calculate_posible_moves(pos, [], @pos, false)
 								if node.neighbours_includes?(@board.white_king.pos) && node.pos != pos
 									node.neighbours = original_neighbours
 									return false
@@ -77,10 +78,10 @@ class Piece < Node
 							end
 						end
 					else
-						if (node.class == Queen || node.class == Bishop || node.class == Rook ) && node.white
-							if node.neighbours_includes?(@pos)
+						if (node.class == Queen || node.class == Bishop || node.class == Rook ) && node.white 
+							if node.neighbours_includes?(@pos) && node != @board.can_capture_black 
 								original_neighbours = node.neighbours.dup
-								node.calculate_posible_moves(pos,[], @pos)
+								node.calculate_posible_moves(pos,[], @pos, false)
 								if node.neighbours_includes?(@board.black_king.pos) && node.pos != pos
 									node.neighbours = original_neighbours
 									return false
@@ -93,7 +94,7 @@ class Piece < Node
 				end
 
 				return true
-		 end		
+		end		
 
 		#check what moves would stop this piece of threating the king checking its move with a block
 

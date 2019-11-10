@@ -5,21 +5,40 @@ function submit_move(e){
     e.target.type = 'submit'
 }
 
+function submit_move_with_promotion(e){
+    form  = document.querySelector("#chess_form")
+    form.insertAdjacentHTML("afterbegin", `<input type="hidden" id="chessgame_start_pos" name="chessgame[start_pos]" value=${button_id}>`);
+    form.insertAdjacentHTML("afterbegin", `<input type="hidden" id="chessgame_new_pos" name="chessgame[new_pos]" value=${e.target.id}>`);
+    form.insertAdjacentHTML("afterbegin", `
+        <ul id="promotion_buttons">
+            <div>Choose a piece for the promotion</div>
+            <li><button type="submit" name="chessgame[promotion]" value="Queen">Queen</button></li>
+            <li><button type="submit" name="chessgame[promotion]" value="Knight">Knight</button></li>
+            <li><button type="submit" name="chessgame[promotion]" value="Rook">Rook</button></li>
+            <li><button type="submit" name="chessgame[promotion]" value="Bishop">Bishop</button></li>
+        </ul>
+    `);
+}
+
 function select_move(e){
+    clean_board(true)
     e.target.classList.add('selected');
-    button_id = e.target.id
-    posible_moves = moves_for_piece.call(player_data,`${button_id}`)
+    let pawn =  e.target.classList.contains('Pawn');
+    button_id = e.target.id;
+    posible_moves = moves_for_piece.call(player_data,`${button_id}`);
     squares = document.querySelectorAll(".board_box");
     squares.forEach(
         square => {
             if( square.id != button_id){ 
-                if(square.classList.contains('movable') ){
-                    square.classList.remove('movable');
-                    square.removeEventListener('click', select_move)
-                }               
-                if(posible_moves.includes(square.id) ) {
+                s_id = square.id 
+                if(posible_moves.includes(s_id) ) {
                     square.classList.add('selectable_for_move');
-                    square.addEventListener('click', submit_move)
+                    if(pawn && (parseInt(s_id[1]) == 1 ||parseInt(s_id[1]) == 8 ) ){
+                        square.classList.add('selectable_for_move2');
+                        square.addEventListener('click', submit_move_with_promotion)
+                    }else{
+                        square.addEventListener('click', submit_move)
+                    }                    
                 }
             }
         }
@@ -60,7 +79,7 @@ function moves_for_piece (pos){
         return posible_moves
 }
 
-function clean_board(){
+function clean_board(for_playable_piece = false){
    let form  = document.querySelector("#chess_form");
    let squares = document.querySelectorAll(".board_box");
    let check  = document.querySelector("#checkstate");
@@ -70,8 +89,11 @@ function clean_board(){
 
                 if(square.classList.contains('movable') ){
                     square.classList.remove('selected');
-                    square.classList.remove('movable');
-                    square.removeEventListener('click', select_move)
+                    if (!for_playable_piece){
+                        square.classList.remove('movable');
+                        square.removeEventListener('click', select_move);
+                    }
+
                 }
                 if(square.classList.contains('selectable_for_move') ){
                     square.type = 'button';

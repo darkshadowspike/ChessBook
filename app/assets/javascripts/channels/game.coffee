@@ -15,10 +15,13 @@ document.addEventListener("turbolinks:load", ->(
 			    if gamedata.new_game == true
 			    	document.location.reload(true);
 			    else
-			    	if player_data.your_turn
-			    		end_turn(gamedata.player_data, gamedata.move_info );
+			    	if gamedata.move_info[2]
+			    		document.location.reload(true);
 			    	else
-			    		begin_turn(gamedata.player_data, gamedata.move_info );
+				    	if player_data.your_turn
+				    		end_turn(gamedata.player_data, gamedata.move_info );
+				    	else
+				    		begin_turn(gamedata.player_data, gamedata.move_info );
 
 			    }
 

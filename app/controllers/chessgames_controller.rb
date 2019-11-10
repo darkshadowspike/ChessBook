@@ -20,11 +20,13 @@ class ChessgamesController < ApplicationController
 	def update
 		@chessgame = Chessgame.find(params[:id])
 		@chessgame.load_board
-		@chessgame.piece_move(chessgame_params[:start_pos], chessgame_params[:new_pos])
+		if @chessgame.is_valid?(chessgame_params[:start_pos], chessgame_params[:new_pos])
+			@chessgame.piece_move(chessgame_params[:start_pos], chessgame_params[:new_pos],chessgame_params[:promotion] )
+		end
 		@relationship = Relationship.friendship(current_user.id, chessgame_params[:friend_id].to_i)
 		ActionCable.server.broadcast "game_#{@relationship.id}_channel", 
 		new_game: false,
-		move_info:[chessgame_params[:start_pos], chessgame_params[:new_pos] ],
+		move_info:[chessgame_params[:start_pos], chessgame_params[:new_pos] , chessgame_params[:promotion]],
 		player_data: JSON.parse(@chessgame.play)
 
 	end
@@ -32,7 +34,7 @@ class ChessgamesController < ApplicationController
 	private 
 
 	def chessgame_params
-		params.require(:chessgame).permit(:friend_id, :start_pos, :new_pos)
+		params.require(:chessgame).permit(:friend_id, :start_pos, :new_pos, :promotion)
 	end
 
 end

@@ -9,32 +9,30 @@ class Pawn < Piece
 						if node_in_move.class == Node 
 							@board.add_edge(initial_pos, posible_move)
 						end
-					else
-						if node_in_move.class != Node	
+					else	
 
-							if @white
+						if @white
 
-								if !node_in_move.white 
+							if node_in_move.class != Node && !node_in_move.white 
 									@board.add_edge(initial_pos, posible_move)
-								else
-									if !@board.danger_to_bking.include?(posible_move)
-										@board.danger_to_bking.push(posible_move)
-									end 
-								end							
-
 							else
+								if !@board.danger_to_bking.include?(posible_move)
+									@board.danger_to_bking.push(posible_move)
+								end 
+							end							
+
+						else
 								
-								if  node_in_move.white 
-
-									@board.add_edge(initial_pos, posible_move)
-								else
-									if !@board.danger_to_wking.include?(posible_move)
-										@board.danger_to_wking.push(posible_move)
-									end
+							if  node_in_move.class != Node && node_in_move.white 
+								@board.add_edge(initial_pos, posible_move)
+							else
+								if !@board.danger_to_wking.include?(posible_move)
+									@board.danger_to_wking.push(posible_move)
 								end
-
 							end
+
 						end
+
 					end
 				end
 			end

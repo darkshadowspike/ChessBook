@@ -103,8 +103,8 @@ class King < Piece
 						if (node.class == Queen || node.class == Bishop || node.class == Rook ) && !node.white
 							if node.neighbours_includes?(@pos)
 								original_neighbours = node.neighbours.dup
-								node.calculate_posible_moves([], [], @pos)
-								if node.neighbours_includes?(pos)
+								node.calculate_posible_moves([], [], @pos, false)
+								if node.neighbours_includes?(pos) && node.pos != pos
 									node.neighbours = original_neighbours
 									return false
 								else
@@ -118,8 +118,8 @@ class King < Piece
 						if (node.class == Queen || node.class == Bishop || node.class == Rook ) && node.white
 							if node.neighbours_includes?(@pos)
 								original_neighbours = node.neighbours.dup
-								node.calculate_posible_moves( [], [], @pos)
-								if node.neighbours_includes?(pos)
+								node.calculate_posible_moves( [], [], @pos, false)
+								if node.neighbours_includes?(pos) && node.pos != pos
 									node.neighbours = original_neighbours
 									return false
 								else

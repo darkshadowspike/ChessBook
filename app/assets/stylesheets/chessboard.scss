@@ -51,9 +51,14 @@
 }
 
 .selected{
-	transform: scale(1.1);
+	transform: scale(1.2);
 }
 
 .selectable_for_move{
 	background: #f2ffa1;
+}
+
+#promotion_buttons{
+	list-style: none;
+	display: flex;
 }

@@ -32,8 +32,10 @@ function add_message_autoload (){
 window.onload = function(){
 	
 	if (document.readyState === "complete" ){
-		playable_pieces();
-		add_message_autoload();
+		if (document.querySelector("#game_chat") != null){
+					playable_pieces();
+					add_message_autoload();
+		}
 	}	
 };
 
