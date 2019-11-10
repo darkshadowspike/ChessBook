@@ -16,5 +16,6 @@
 //= require loadNextPage.js
 //= require in_reload.js
 //= require delete_post.js
-//= require chat_messages.js
+//= require window_onload.js
+//= require chess.js
 //= require_tree .

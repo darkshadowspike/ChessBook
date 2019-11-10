@@ -1,5 +1,5 @@
-window.onload = function(){
-	if (document.readyState === "complete" ){
+
+function add_message_autoload (){
 		let messages = document.querySelector("#message_list")
 
 		if (messages){
@@ -15,9 +15,8 @@ window.onload = function(){
 				}
 
 				if(document.querySelector("#next_link").hasAttribute("loading")){ return } //checks for the loading attribute to stop if loading
-					
+						
 				if ( messages.scrollTop < Math.round((messages.scrollHeight ) * 13 /100)){
-					console.log("ok")
 					document.querySelector("#next_link").click();
 					document.querySelector("#next_link").setAttribute("loading", true)
 				}
@@ -26,6 +25,16 @@ window.onload = function(){
 			messages.addEventListener('resize', loadNextPageMessages);
 			messages.addEventListener('scroll', loadNextPageMessages);
 			messages.addEventListener('load',   loadNextPageMessages);
+		}
+}
+
+
+window.onload = function(){
+	
+	if (document.readyState === "complete" ){
+		if (document.querySelector("#game_chat") != null){
+					playable_pieces();
+					add_message_autoload();
 		}
 	}	
 };

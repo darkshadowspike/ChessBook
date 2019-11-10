@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :password_reset, only:[:new, :create, :edit,:update]
   resources :relationships, only:[:create, :update, :destroy]
   resources :messages, only:[:create, :destroy]
+  resources :chessgames, only:[:create, :update, :destroy]
 
   
   # Server websocket cable requests in-process

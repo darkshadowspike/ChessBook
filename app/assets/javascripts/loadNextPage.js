@@ -2,11 +2,13 @@
 
 let loadNextPage = function(){
 
-	if(document.querySelector("#next_link") == null){
+	if(document.querySelector("#next_link") == null || document.querySelector("#game_chat") != null){
 		window.removeEventListener('resize', loadNextPage);
 		window.removeEventListener('scroll', loadNextPage);
 		window.removeEventListener('load',   loadNextPage);
-		document.querySelector(".page.next.disabled").setAttribute("style", "display:none;");
+		if (document.querySelector("#game_chat") == null){
+			document.querySelector(".page.next.disabled").setAttribute("style", "display:none;");
+		}
 		return;
 	}
 	if(document.querySelector("#next_link").hasAttribute("loading")){ return } //checks for the loading attribute to stop if loading
