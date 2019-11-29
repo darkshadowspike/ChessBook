@@ -1,7 +1,9 @@
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
    if (document.readyState === "complete" && document.querySelector("#game_chat") != null ){
-	messages = document.querySelector("#message_list");
-	messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+	messages = document.querySelectorAll(".message_list");
+	messages.forEach(message_list => {
+		message_list.scrollTop = message_list.scrollHeight - message_list.clientHeight;
+	})
   }
 }

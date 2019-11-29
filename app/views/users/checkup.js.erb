@@ -1,0 +1,3 @@
+if( document.querySelector("#contacts") != null){
+	document.querySelector("#contacts").innerHTML = "<%= j(render 'shared/friends_list', friends: @friends)%>";
+}

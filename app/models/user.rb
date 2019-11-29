@@ -25,6 +25,8 @@ class User < ApplicationRecord
 	validates :gender, format: {with: GENDER_REGEX, message: "Should be either female or male" }
 	validates :birthday, presence: true
 	validate :birthdate_cannot_be_before_1900
+	validate  :avatar_attached
+	validate  :mural_attached
 	validates :password, presence: true,  allow_nil: true, length: {in: 6..15}
 
 	#association with the posts model
@@ -45,6 +47,9 @@ class User < ApplicationRecord
      #associations  with the message model
     has_many :game_as_player1, class_name: "Chessgame", foreign_key: "player1_id", dependent: :destroy
     has_many :game_as_player2, class_name: "Chessgame", foreign_key: "player2_id", dependent: :destroy
+
+    has_one_attached :avatar
+    has_one_attached :mural
 
 	# method made for birthday validation
 
@@ -79,6 +84,42 @@ class User < ApplicationRecord
 		update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
 	end
 
+	#Returns true if the reset password was created before 3 hours  has passed
+	def is_connected?
+		 !online_at.nil? && online_at > 10.minutes.ago
+	end
+
+	def last_time_connected
+		if online_at
+			seconds_dif = (online_at - Time.zone.now).to_i.abs
+			if seconds_dif > 60
+				min = seconds_dif/60
+				if min > 60
+					hour = min/60
+					if hour > 24 
+						days = hour/24
+						if days > 28
+							return ""
+						else
+							return "#{days} d"
+						end
+					else 
+						return "#{hour} h"
+					end
+				else
+					return "#{min} min"
+				end
+			else 
+				return "#{seconds_dif} s"
+			end
+		else 
+			return ""
+		end
+	end
+
+	def connect
+		update_attributes(online_at: Time.zone.now)
+	end
 
 	#Returns true if the reset password was created before 3 hours  has passed
 	def reset_expired?
@@ -114,14 +155,14 @@ class User < ApplicationRecord
 
 	def remember
 		self.remember_token = User.new_token
-		update_attribute(:remember_token, User.digest(remember_token))
+		update_attributes(remember_digest: User.digest(remember_token))
 	end
 
 	#deletes token
 
 	def forget
 		self.remember_token = nil 
-		update_attribute(:remember_digest, nil)
+		update_attributes(remember_digest: nil)
 	end
 
 	#push an user as a request_friends, creating a relationship
@@ -133,8 +174,9 @@ class User < ApplicationRecord
 	#cancels a request made
 
 	def cancel_request(other_user)
-		if requested_friends.include?(other_user) && requested_relationships.find_by(friend_pasive_id: other_user.id).accepted == false
-
+		relationship = requested_relationships.find_by(friend_pasive_id: other_user.id)
+		if requested_friends.include?(other_user) && relationship.accepted == false
+			relationship.destroy
 		end
 	end
 
@@ -202,12 +244,11 @@ class User < ApplicationRecord
 		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
 		friends_query ="SELECT * FROM 'users' WHERE id IN (#{active_ids}) OR id IN (#{pasive_ids})"
-		users_receive_messages = "SELECT DISTINCT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT JOIN messages ON  users.id = messages.sender_id  WHERE receiver_id = :user_id "
-		user_last_sended_message = "SELECT DISTINCT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT JOIN messages ON users.id = messages.receiver_id WHERE sender_id = :user_id "
-		messages_query = "#{user_last_sended_message } UNION #{users_receive_messages}  ORDER BY last_message DESC"
-		users_query =  "SELECT DISTINCT users.id, users.first_name, users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at FROM (#{messages_query}) AS users"
+		users_receive_messages = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON  users.id = messages.sender_id"
+		user_last_sended_message = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON users.id = messages.receiver_id WHERE sender_id = :user_id "
+		messages_query = "#{user_last_sended_message} UNION #{users_receive_messages} ORDER BY last_message DESC"
+		users_query =  "SELECT DISTINCT users.id, users.first_name, users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at, users.online_at FROM (#{messages_query}) AS users"
 		return User.find_by_sql(["#{users_query}", {user_id: self.id}])
-		
 	end
 
 	#returns all the friends post
@@ -227,6 +268,22 @@ class User < ApplicationRecord
 	def game_with_user(other_user)
 		return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: self.id, other_user_id: other_user.id)[0]
 	end
+
+  	def avatar_attached
+  		if self.avatar.attached?
+	  		unless avatar.content_type =~ /image.+/im  && avatar.byte_size.to_f/1000000 <= 110
+	  			errors.add(:avatar, "invalid file ")
+	  		end
+  		end
+  	end	
+
+  	def mural_attached
+  		if self.mural.attached?
+	  		unless mural.content_type =~ /image.+/im  && mural.byte_size.to_f/1000000 <= 110
+	  			errors.add(:mural, "invalid file ")
+	  		end
+  		end
+  	end	
 
 	private
 

@@ -1,29 +1,75 @@
+<% if logged_in?  %>
+	<button id="connect_chat_action_cable" class="hidden"></button> 
+	<% if @friends %>
+			<div id="contacts">
+				<%= render "shared/friends_list", friends: @friends %>
+			</div>
+	<% end %>
 
-<% if @user.user_name %>
-	<h1><%= @user.user_name %></h1>
-<% else %>
-	<h1><%= @user.first_name + @user.first_name %></h1>
-<% end %>
+	<div id="space_for_chat_boxes">
 
-<p>Born in <%= @user.birthday %></p>
-
-<% if logged_in?  && @user != current_user %>
-	<div id ="friendship_button">
-		<%= render "shared/friendship_form" %>
 	</div>
-	
 <% end %>
 
-<% if current_user?(@user)%>
-	<%= link_to "edit", edit_user_url %>
-	<%= render "shared/post_form"  %>
-<% end %>
+<div id="show">
+	<div id ="show_wrapper">
+		<% if @user.mural.attached? %>
+			<img src="<%= url_for(@user.mural) %>"  height="320" >
+			
+		<% end %>
+
+		<% if current_user?(@user)%>
+			<%= form_for(@user) do |f| %>
+					<input name="_method" type="hidden" value="patch" />
+					<%= f.label "choose mural pic" %>
+					<%= f.file_field :mural %> 
+					<%= f.submit "upload" %>
+			<% end %>
+		<% end %>
 
 
-<ul id="posts">
-	<%= render "shared/posts", posts: @posts   %>
-</ul>
+		<% if @user.user_name %>
+			<h1><%= @user.user_name %></h1>
+		<% else %>
+			<h1><%= @user.first_name + @user.first_name %></h1>
+		<% end %>
 
-<div id="next_posts_link">
-	<%= render 'shared/next_link' %>
+		<% if @user.avatar.attached? %>
+			<img src="<%= url_for(@user.avatar) %>"  height="120" >
+		<% end %>
+
+		<% if current_user?(@user)%>
+			<%= form_for(@user) do |f| %>
+					<input name="_method" type="hidden" value="patch" />
+					<%= f.label "choose avatar pic" %>
+					<%= f.file_field :avatar %> 
+					<%= f.submit "upload" %>
+			<% end %>
+		<% end %>
+
+		<p>Born in <%= @user.birthday %></p>
+
+		<% if logged_in?  && @user != current_user %>
+			<div id ="friendship_button">
+				<%= render "shared/friendship_form" %>
+			</div>
+			
+		<% end %>
+
+		<% if current_user?(@user)%>
+			<%= link_to "edit", edit_user_url %>
+			<%= render "shared/post_form"  %>
+		<% end %>
+
+
+		<ul id="posts">
+			<%= render "shared/posts", posts: @posts   %>
+		</ul>
+
+		<div id="next_posts_link">
+			<%= render 'shared/next_link' %>
+		</div>
+	</div>
+
 </div>
+

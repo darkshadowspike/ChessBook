@@ -11,9 +11,14 @@ class SessionsController < ApplicationController
 		#athenticates if  password is the same using byicrypt authenticate method
 		if @user && @user.authenticate(params[:session][:password])
 			if @user.activated
-				#if remember is checked  it will asaign the user id to permanent cookies else it will forget
-				params[:session][:remember] == "1" ? remember(@user) :  forget(@user)
-				login(@user)
+				#if remember is checked  it will asign the user id to a permanent cookies if not it will forget  it.
+				if params[:session][:remember] == "1"
+					remember(@user)   
+				else
+					forget(@user)
+					login(@user)
+				end
+				@user.update_attributes(online_at: Time.zone.now)
 				redirect_to root_url
 			else
 				@message = "Account not activated"
@@ -29,6 +34,7 @@ class SessionsController < ApplicationController
 
 	def destroy
 		if logged_in?
+			current_user.update_attributes(online_at: 10.minutes.ago)
 			log_out
 		end
 		redirect_to root_url

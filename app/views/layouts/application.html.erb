@@ -12,7 +12,15 @@
 
   <body>
 
-    <% if logged_in? %>
+    <% if logged_in? %>    
+          <form action="/checkup" accept-charset="UTF-8" method="post" data-remote="true" class="hide">    
+            <input id="user_id" name="user" type="hidden" value="<%= current_user.id %>" />
+            <button type="submit" id="checkup_button" ></button>
+          </form>
+
+          <script>  
+              const user_name = "<%= current_user.user_name %>"
+          </script>
     <% else %>
       <%= render "layouts/login_header" %>
     <% end %>

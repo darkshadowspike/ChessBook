@@ -13,9 +13,10 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require loadNextPage.js
-//= require in_reload.js
-//= require delete_post.js
 //= require window_onload.js
+//= require in_reload.js
+//= require posts_display.js
+//= require chat_messages.js
+//= require checkup.js
 //= require chess.js
 //= require_tree .

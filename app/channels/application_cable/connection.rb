@@ -21,9 +21,7 @@ module ApplicationCable
 				user = User.find_by(id: cookies.signed[:user_id])
 				#checks if the user is nil and uses the user method authentic? to compare the cookie remember_token to the remember_digest
 				if user && user.authentic?(:remember, cookies[:remember_token])
-					#if user is not nil and  the permanent cookie match the token it creates a new session based
-					login(user)
-					#and it assigns the verified user
+					#if user is not nil and  the permanent cookie match the token 
 					verified_user||= user
 				end
 			else 

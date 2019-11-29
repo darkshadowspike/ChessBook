@@ -2,8 +2,64 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#message_list{
+
+.message_list{
 	border: 1px solid black;
-	height: 100px;
-	overflow-y: scroll;
+	height: 240px;
+	overflow-y: scroll; 
+	list-style: none;
+	max-width: 60vw;
+	padding: 0;
+	margin:0;
+	
 }
+
+
+.message_list li{
+	display: flex;
+	width: 60%;
+	align-items: center;
+	padding: 0;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.current_user_message{
+	margin-left: auto;
+}
+.current_user_message p{
+	margin-left: auto;
+	margin-top: 0;
+	margin-bottom: 0;
+	color: white;
+	border-top-right-radius: 1.3em;
+	border-top-left-radius: 1.3em;
+	border-bottom-left-radius: 1.3em;
+	border-bottom-right-radius: 1.3em;
+	background-color: #ca4d4d;
+	padding: 7px 10PX;
+}
+
+.friend_message{
+	margin-right: auto;
+}
+
+.friend_message p{
+	margin-right: auto;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	color: black;
+	border-top-right-radius: 1.3em;
+	border-top-left-radius: 1.3em;
+	border-bottom-right-radius: 1.3em;
+	border-bottom-left-radius: 1.3em;
+	background-color: #f0ebeb;
+	padding: 7px 10PX;
+}
+
+.friend_message img{
+	border-radius: 50%;
+	height: 20px ;
+	width: 20px;
+}
+

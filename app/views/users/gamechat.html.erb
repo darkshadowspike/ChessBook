@@ -1,3 +1,4 @@
+
 <% if @friends.any? %>
 	<ul>
 		<% @friends.each do |friend| %>
@@ -37,10 +38,7 @@
 		<% end %>
 		
 		<div id ="chat">
-			<div id="next_message_link">
-			 	<%= render 'shared/next_link' %>
-			</div>
-			<%= render "chat" %>
+			<%= render "shared/chat" %>
 		</div>	
 	</div>
 <% else %>

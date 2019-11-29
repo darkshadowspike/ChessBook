@@ -1,0 +1,21 @@
+
+	<div id="connected_friends_list_container">
+		<form action="/mini_chat" accept-charset="UTF-8" method="get" data-remote="true" > 	
+			<h2>CONTACTS</h2>
+			<ul id="connected_friends_list">
+				<% friends.each do |friend| %>
+				<li>											
+						<button type="submit" name="message[friend_id]" value="<%=friend.id %>">
+							<img src="<%= url_for(friend.avatar) %>"  height="40" width="40">
+							<h3><%= friend.user_name %> </h3>
+							<% if friend.is_connected? %>
+								<span class="green_dot">  </span>
+							<% else %>
+								<span id="last_connected"><%= friend.last_time_connected %></span>
+							<% end %>
+						</button>					
+				</li>
+				<% end %>
+			</ul>
+		</form>
+	</div>

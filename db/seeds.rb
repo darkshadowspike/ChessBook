@@ -9,11 +9,12 @@
 User.destroy_all
 Post.destroy_all
 
-User.create!(first_name:"admin", last_name:"istrator", user_name: "administrator" ,email: "andrewmatosdiaz@hotmail.com", gender: "male", birthday: Date.today, password: "adminb117", password_confirmation: "adminb117", activated: true , activated_at: Time.zone.now, admin: true)
+admin = User.create!(first_name:"admin", last_name:"istrator", user_name: "administrator" ,email: "andrewmatosdiaz@hotmail.com", gender: "male", birthday: Date.today, password: "adminb117", password_confirmation: "adminb117", activated: true , activated_at: Time.zone.now, admin: true)
+admin.avatar.attach(io: File.open('app/assets/images/default_profile_pic.png'), filename: "default_profile_pic.png")
+admin.mural.attach(io: File.open('app/assets/images/default_profile_mural.jpg'), filename: "default_profile_mural.jpg")
 
-
-40.times do |index| 
-	User.create!(
+20.times do |index| 
+	user = User.create!(
 		first_name: "seeded",
 		last_name: "user",
 		user_name: "seeded user #{index}",
@@ -24,7 +25,9 @@ User.create!(first_name:"admin", last_name:"istrator", user_name: "administrator
 		password_confirmation: "Password",
 		activated: true,
 		activated_at: Time.zone.now
-		)
+	)
+	user.avatar.attach(io: File.open('app/assets/images/default_profile_pic.png'), filename: "default_profile_pic.png")
+	user.mural.attach(io: File.open('app/assets/images/default_profile_mural.jpg'), filename: "default_profile_mural.jpg")
 end
 
 user =  User.find_by(email: "seeduser1@mail.com" )

@@ -1,9 +1,14 @@
 <% if messages %>
 		<% (messages.reverse).each do |message| %>
 			<% if message.from_user?(current_user) %>
-				<li class ="user<%=current_user.id%>"><%=current_user.user_name%>: <%=message.content%></li>
+				<li class = "current_user_message">
+					<p><%=message.content%></p>
+				</li>
 			<% else %>
-				<li class ="user<%=@friend.id%>"> <%=@friend.user_name%>: <%=message.content%></li>
+				<li class ="friend_message">
+					<img src="<%= url_for(@friend.avatar) %>"  >
+					<p><%=message.content%></p>				 
+				</li>
 			<% end %>
 		<% end %>
 <% else %>

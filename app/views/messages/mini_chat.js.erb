@@ -1,0 +1,42 @@
+<% if @load_messages %>
+	document.querySelector("#message_list_<%=@relationship.id %>").insertAdjacentHTML("afterbegin", "<%= j(render 'shared/messages', messages: @messages)%>");
+	document.querySelector('#next_message_link_<%=@relationship.id %>').innerHTML = "<%= j(render 'shared/next_link_messages') %>" ;
+<% else %>
+	message_list = document.querySelector("#message_list_<%=@relationship.id%>")
+
+
+	chat_space = document.querySelector("#space_for_chat_boxes");
+	chat_box = document.querySelector("#chat_box_<%=@relationship.id %>");
+	if(chat_box != null){
+		chat_space.removeChild(chat_box);
+	}
+	chat_space.insertAdjacentHTML("beforeend", `		
+		<div class ="chat_box" id="chat_box_<%=@relationship.id %>" >
+			<div class="chat_box_name">
+				<a href="<%= url_for(@friend) %>">
+					<img src="<%= url_for(@friend.avatar) %>"  height="28" width="28">
+					<h3><%= @friend.user_name %> </h3>
+				</a>
+				<button class="close_mini_chat_button" value="<%=@relationship.id %>"> 
+					<svg class="svgIcon" height="16px" width="16px" version="1.1" viewBox="0 0 16 16" x="0px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" y="0px"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g transform="translate(-712.000000, -1096.000000)"><g stroke="#bec2c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(709.000000, 320.000000)"><path d="M5.833,778.833 L16.167,789.167"></path><path d="M16.167,778.833 L5.833,789.167"></path></g></g></g></svg>
+				</button>
+			</div>			
+			<%= j(render 'shared/chat')%>
+		</div>
+	`);
+	
+	message_list = document.querySelector("#message_list_<%=@relationship.id%>");
+	message_list.scrollTop = message_list.scrollHeight - message_list.clientHeight;
+	message_list.addEventListener('resize', loadNextPageMessages);
+	message_list.addEventListener('scroll', loadNextPageMessages);
+	message_list.addEventListener('load',   loadNextPageMessages);
+
+	document.querySelector("#connect_chat_action_cable").click();
+	
+	
+	document.querySelector("#chat_box_<%=@relationship.id%> .close_mini_chat_button").addEventListener("click",close_mini_box);
+
+	delete message_list;
+	delete connected;
+
+<% end %>
