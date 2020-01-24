@@ -1,9 +1,12 @@
-<% if current_user.is_friend?(@user) %>
-	<%= render "shared/unfriend" %>
-<% elsif current_user.request_sent?(@user)  %>
-	<%= render "shared/cancel_request" %>
-<% elsif current_user.request_receive?(@user)   %>
-	<%= render "shared/accept_request" %>
-<% else %>
-	<%= render "shared/send_request" %>
-<% end %>
+	<div class="friendship_form" id="friendship_form_<%=user.id%>">
+		<% if current_user.is_friend?(user) %>
+			<%= render "shared/unfriend", user: user  %>
+		<% elsif current_user.request_sent?(user)  %>
+			<%= render "shared/cancel_request", user: user  %>
+		<% elsif current_user.request_receive?(user)   %>
+			<% current_user.request_viewed(user) %>
+			<%= render "shared/accept_request", user: user  %>
+		<% else %>
+			<%= render "shared/send_request", user: user  %>
+		<% end %>
+	</div>

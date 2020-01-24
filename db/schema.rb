@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_010831) do
+ActiveRecord::Schema.define(version: 2020_01_20_144633) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_11_15_010831) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "player1_turn", default: true
+    t.boolean "viewed_play", default: true
     t.index ["player1_id", "player2_id"], name: "index_chessgames_on_player1_id_and_player2_id"
     t.index ["player1_id"], name: "index_chessgames_on_player1_id"
     t.index ["player2_id"], name: "index_chessgames_on_player2_id"
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 2019_11_15_010831) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "viewed", default: false
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id", "receiver_id"], name: "index_messages_on_sender_id_and_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
@@ -61,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_11_15_010831) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "viewed", default: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -70,6 +73,9 @@ ActiveRecord::Schema.define(version: 2019_11_15_010831) do
     t.boolean "accepted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "new_request", default: true
+    t.integer "friend_active_new_posts", default: 0
+    t.integer "friend_pasive_new_posts", default: 0
     t.index ["friend_active_id", "friend_pasive_id"], name: "index_relationships_on_friend_active_id_and_friend_pasive_id", unique: true
     t.index ["friend_active_id"], name: "index_relationships_on_friend_active_id"
     t.index ["friend_pasive_id"], name: "index_relationships_on_friend_pasive_id"

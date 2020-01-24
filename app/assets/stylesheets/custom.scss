@@ -1,6 +1,9 @@
+
+
 html{
 	box-sizing: border-box;
-	font-family:Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
+	height: 100%;
 }
 
 *, *:before, *:after{
@@ -10,7 +13,9 @@ html{
 body{
 	font-family: sans-serif;
 	margin: 0;
+	height: 100%;
 }
+
 
 /* hidden miscellaneous elements */
 
@@ -214,7 +219,18 @@ body{
 
 }
 
+/* static pages */
+
+.static_page_wrapper{
+	margin-top: 40px;
+}
+
 /* friends list */
+#contacts{
+	position:fixed;
+	right: 0;
+	top: 0;
+}
 
 #connected_friends_list_container{
 	z-index: 3;
@@ -261,6 +277,7 @@ body{
 	border: 0px solid;
 	align-items: center;
 	justify-content: flex-start;
+	cursor: pointer;
 
 }
 
@@ -314,6 +331,7 @@ body{
     align-items: flex-end;
     flex-wrap: wrap;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .chat_box{
@@ -325,6 +343,7 @@ body{
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 	display: flex;
 	flex-direction: column; 
+	pointer-events: auto;
 }
 
 .chat_box_name{
@@ -336,10 +355,12 @@ body{
 	transition: background-color .4s;
 	height: 28px;
 	padding: 8px 4px 7px 8px;
+	cursor: pointer;
 }
 
 .chat_box_name:hover{
 	background-color: #f0ebeb;
+	text-decoration: underline;
 }
 
 .chat_box_name a{
@@ -377,7 +398,7 @@ svg {
 	display: flex;
 	height: 40px;
 	align-items: center;
-	border-top: 1px solid #c9d0da;
+	border-top: 1px solid #dac9c9;
 }
 
 .chat_box form textarea{
@@ -417,5 +438,351 @@ svg {
 	width:28px;
 	margin-right: 5px;
 	margin-left: 5px;
+}
+
+/* user navbar */
+
+#user_navbar{
+	z-index: 4;
+	position:fixed;
+	top:0;
+	width: 100%;
+	height: 43px;
+	background: #ca4d4d;
+	border-bottom: 1px solid #5b1d1d69;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#user_navbar_container{
+	display:flex;
+	width: var(--screen-width);
+	align-items: center;
+
+}
+
+#logo_home_link{
+	padding: 0;
+	height: 24px;
+	width: 24px;
+	flex:0;
+	margin-right: 7px;	
+	margin-left: 5%;
+}
+
+#logo_home_link svg{
+
+	border-radius: 1px; 
+	fill:#ca4d4d;
+}
+
+#logo_home_link:hover svg{
+	fill: #b74040;
+	box-shadow: 0px 0px 5px 1px #ac3939;
+}
+
+
+#search_friend_form{
+	width: 448px;
+	display: flex;
+	margin-right: 25px;
+}
+
+
+#search_friend_bar{
+	background-color: #fff;
+	border-top: 1px solid #983b3b;
+	border-right: 0px solid #983b3b;
+	border-bottom: 1px solid #983b3b;
+	border-left: 1px solid #983b3b;
+    border-radius: 3px 0 0 3px;
+    box-sizing: border-box;
+   	height: 26px;
+ 	width: auto;
+   	max-width: 448px;
+	overflow: hidden;
+	padding-left: 5px;
+	padding-right: 48px;
+	flex:1;
+}
+
+
+#search_friend_button{
+	background-color: #f0ebeb;
+	border-top: 1px solid #983b3b;
+	border-right: 1px solid #983b3b;
+	border-bottom: 1px solid #983b3b;
+	border-left: 0px solid #983b3b;
+    border-radius: 0 3px 3px 0;
+    box-sizing: border-box;
+   	height: 26px;
+   	width: 46px;
+   	cursor: pointer;
+}
+
+#search_friend_button:hover{
+	background-color:#dbd5d5;
+}
+
+#navbar_user_buttons, #navbar_options_buttons{
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+	flex-shrink: 0;
+}
+
+#navbar_options_buttons{
+	margin-left: auto;
+}
+
+#navbar_user_buttons a,  #navbar_options_buttons a{
+	text-decoration: none;
+	flex-shrink: 0;
+}
+
+#navbar_user_buttons button,  #navbar_options_buttons button{
+	width: auto;
+	height: 28px;
+	background: none;
+	display: flex;
+	border: 0px solid;
+	box-sizing: content-box;
+	border-radius: 2px;
+	align-items: center;
+	transition: all 0.3s;
+	cursor: pointer;
+}
+
+#navbar_user_buttons button:hover, #navbar_options_buttons button:hover{
+	background: #aa3a3a;
+	border-radius: 2px;
+}
+
+#navbar_user_buttons img {
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+#navbar_user_buttons h3, #navbar_options_buttons h3{
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #fafafa;
+}
+
+.separation_line_navbar_buttons{
+	height: 24px;
+	width:1px;
+	background-color: #aa3a3a;
+}
+
+#navbar_notification_buttons{
+	display: flex;
+	margin-left: 5px;
+}
+
+#navbar_notification_buttons div{
+	margin-right: 12px;
+}
+
+#navbar_notification_buttons  .navbar_button{
+	width: auto;
+	height: auto;
+	padding: 0;
+	background: none;
+	border: 0px solid;
+	transition: all 0.3s;
+	cursor: pointer;
+}
+
+#navbar_notification_buttons  .navbar_button svg{
+	fill:#792b2b;
+}
+
+#navbar_notification_buttons  .navbar_button .svg-white{
+	fill:white;
+}
+
+#navbar_notification_buttons  .navbar_button:hover svg{ 
+	fill: #4f1414; 
+}
+
+#navbar_notification_buttons  .navbar_button:hover .svg-white{
+	fill:white;
+}
+
+.display_pointer{
+	fill: #ffffff;
+	position: absolute;
+}
+
+.navbar_display_container{
+	position: absolute;
+	width: 430px;
+	height: auto;
+	max-height: calc(var(--screen-height)*0.5);
+	background-color: white ;
+	top: 8px; 
+	right: -16px; 
+	border: 1px solid rgba(100, 100, 100, .4);
+	border-radius: 0 0 2px 2px;
+	box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+}
+
+
+.navbar_display{
+ 	width: 100%;
+}
+
+.navbar_display ul{
+ 	list-style: none;
+ 	width: 100%;
+ 	padding: 0;
+ 	margin: 0 ;
+}
+
+.navbar_display a{
+  text-decoration: none;
+}
+
+.navbar_display button{
+	border: 0;
+	border-bottom: 1px solid rgba(100, 100, 100, .4);
+	width: 100%;
+	height: 61px;
+	display: flex;	
+}
+
+.navbar_display button img{
+	height: 48px;
+	width: 48px;
+	border-radius: 50%;
+	margin: 0 10px 0 10px;
+}
+
+.navbar_display button div {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.navbar_display button:hover{
+	background-color: #f0ebeb;
+}
+
+.navbar_display button div p, .navbar_display button div h4, {
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.navbar_display button div p strong{
+ 	font-weight: 900;
+ }
+
+.navbar_display button div h4{
+	font-weight: 405;
+}
+
+.navbar_display  button div h3{
+ 	font-size: 14px;
+	margin: 0px;
+	padding: 0px;
+ }
+
+.no_post_notification{
+	font-size: 14px;
+	text-align: center;
+	font-weight: 600;
+	color: #95720b;
+}
+
+ .navbar_display .mini_user_info_box{
+	border-bottom: 1px solid #dac9c9b8;
+	width: 95%;
+	margin: 0 5px;
+
+	padding: 10px 0;
+}
+
+ .navbar_display .mini_user_info_box img{
+	height: 48px;
+	width: 48px;
+	border-radius: 50%;
+	margin: 0 10px 0 10px;
+}
+
+ .navbar_display .mini_user_info_box .mini_user_info_name{
+	margin-left: 0;
+	padding: 0;
+}
+
+ .navbar_display .mini_user_info_box a{
+	color: #ca4d4d;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+ .navbar_display .mini_user_info_box a:hover{
+	text-decoration: underline;
+}
+
+ .navbar_display .mini_user_info_box .friendship_form{
+	margin-left: auto;
+}
+
+ .navbar_display .mini_user_info_box  button{
+	margin-left: auto;
+	color:#fff;
+	background-color: #c94b4b;
+	border: 1px solid #7d2929;
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 2px 6px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	vertical-align: top;
+	white-space: nowrap;
+	height: auto;
+	width: auto;
+}
+
+ .navbar_display .mini_user_info_box  button:hover{
+	background-color: #a23b3b;
+	border: 1px solid #662121;
+}
+
+ .navbar_display .common_friends_container{
+	color: #9c9090;
+	font-size: 12px;
+	align-items: flex-start;
+	display: flex;
+	justify-content: flex-end;
+}
+
+ .navbar_display .common_friends_container .micro_avatar{
+	height: 10px;
+	width: 10px;	
+	border-radius: 50%;	
+	margin:0 ;
+}
+
+ .navbar_display .common_friends_container  a{
+	margin-right:5px;
+	width: 10px;
+	height: 10px;
+}
+
+ .navbar_display .common_friends_container  span{
+	font-size: 8px;
 }
 

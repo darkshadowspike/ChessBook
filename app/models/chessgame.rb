@@ -30,7 +30,7 @@ class Chessgame < ApplicationRecord
 	def piece_move(start_pos, new_pos,promotion)
 		moves = board.alegebraic_chess_notation_to_cordenates(start_pos, new_pos)
 		board.move_piece(moves[0], moves[1], promotion)
-		update_columns(gamesave: board.to_json, player1_turn: !player1_turn)
+		update_columns(gamesave: board.to_json, player1_turn: !player1_turn, viewed_play: false)
 	end
 
 	def load_board
@@ -56,10 +56,29 @@ class Chessgame < ApplicationRecord
 		end
 	end
 
+	def viewing_game
+		unless viewed_play?
+			update_columns(viewed_play: true)
+		end
+		return true
+	end
+
+	def self.game_between_users(first_user, other_user)
+		return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: first_user.id, other_user_id: other_user.id)[0]
+	end
+
+	#check if there is a game where the player hasn't check a new move or play
+	def self.check_games_with_new_player_moves(user)
+		query ="(player1_id = :user_id AND player1_turn = 1 AND viewed_play = 0) OR (player2_id = :user_id AND player1_turn = 0 AND viewed_play = 0) "
+		return Chessgame.where("#{query}",user_id: user.id).includes(:player1, :player2)
+	end
+
+
 	private
 
 	def create_board
    		self.board = Board.new
    		self.gamesave =	board.to_json
    	end
+
 end

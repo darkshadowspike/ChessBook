@@ -21,9 +21,9 @@ class MessagesController < ApplicationController
 		@friend = User.find(message_params[:friend_id])
 		@message = current_user.sended_messages.build
 		@relationship = Relationship.friendship(current_user.id, @friend.id)
-		@pagy, @messages = pagy(current_user.messages_with_user(@friend),   page: params[:page] ,  items: 8, link_extra: 'data-remote="true"')
+		@pagy, @messages = pagy(Message.messages_between_users(current_user,@friend ),   page: params[:page] ,  items: 8, link_extra: 'data-remote="true"')
 		respond_to do |format|
-			format.html 
+			format.html {redirect_to gamechat_url}
 			format.js
 		end
 	end

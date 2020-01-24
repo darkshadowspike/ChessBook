@@ -1,0 +1,5 @@
+
+document.querySelector("#show_users").insertAdjacentHTML("beforeend", "<%= j(render 'shared/show_users', users: @users)%>");
+document.querySelector('#next_users_link').innerHTML = "<%= j(render 'shared/next_link') %>" ;
+
+

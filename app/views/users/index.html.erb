@@ -1,5 +1,37 @@
-<% @users.each do |user| %>
-		<p><%= link_to "#{user.user_name}", user %> <%= link_to "delete", user, method: :delete, data:{confirm: "you want to delete this user?"} %></p>
+<% if logged_in?  %>
+	<button id="connect_chat_action_cable" class="hidden"></button> 
+	<% if @friends %>
+			<div id="contacts">
+				<%= render "shared/friends_list", friends: @friends %>
+			</div>
+	<% end %>
+
+	<div id="space_for_chat_boxes">
+
+	</div>
 <% end %>
 
-<%== pagy_nav(@pagy).html_safe %>
+<div id="users_page_wrapper">
+
+	<% if logged_in?  && !@search %>
+		<div id="accept_frienships">
+			<h2>Friendship requests</h2>
+			<%= render "shared/friendship_requests" %>
+		</div>
+	<% end %>
+	
+	<div id="show_users">
+		<% if logged_in?  && !@search %>
+			<h2>Add more friends</h2>
+		<% elsif !@search %>
+			<h2>Check some users</h2>
+		<% else %>
+			<h2>Search results</h2>
+		<% end %>
+		<%= render "shared/show_users", users: @users %>
+	</div>
+
+	<div id="next_users_link">
+		<%= render 'shared/next_link' %>
+	</div>
+</div>

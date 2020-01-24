@@ -1,7 +1,21 @@
 <% provide(:title, "contact") %>
+<% if logged_in?  %>
+	<button id="connect_chat_action_cable" class="hidden"></button> 
+	<% if @friends %>
+			<div id="contacts">
+				<%= render "shared/friends_list", friends: @friends %>
+			</div>
+	<% end %>
 
-<h1>Contact</h1>
+	<div id="space_for_chat_boxes">
 
-<p>
-	Contact the creator of this page in the <a class="red_link"  href="#">Contact Page</a>
-</p>
+	</div>
+<% end %>
+
+<div class="static_page_wrapper">
+	<h1>Contact</h1>
+
+	<p>
+		Contact the creator of this page in the <a class="red_link"  href="#">Contact Page</a>
+	</p>
+</div>

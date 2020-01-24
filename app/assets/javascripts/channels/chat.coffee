@@ -1,4 +1,4 @@
-+connect_chat_channel= ()-> (
+connect_chat_channel= ()-> (
 
 	  connect = (message) ->(
 
@@ -16,7 +16,7 @@
 				    # Called when there's incoming data on the websocket for this channel'
 				    messages = document.querySelector("#message_list_#{message.relationship_id}");
 				    if messages != null
-				    	if  message.sender_name == user_name	    
+				    	if  message.sender_name == chat_data.user_name    
 					   		messages.insertAdjacentHTML("beforeend", "<li class='current_user_message'><p>#{message.content}</p></li>");
 					   	else
 					   		messages.insertAdjacentHTML("beforeend", "<li class='friend_message'><img src=#{message.sender_avatar_link}><p>#{message.content}</p></li>");					   		

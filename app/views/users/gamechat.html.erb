@@ -11,7 +11,11 @@
 					</div>
 					
 					<div>
-						<input  type="submit" value="<%=friend.user_name %>">
+						<% if friend.user_name %>
+							<input  type="submit" value="<%=friend.user_name %>">
+						<% else %>
+							<input  type="submit" value="<%=friend.first_name %>">
+						<% end %>
 					</div>
 				<% end %>
 				

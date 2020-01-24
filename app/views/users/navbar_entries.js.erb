@@ -1,0 +1,19 @@
+
+
+<% if  @get_posts && @get_posts == "1" %>
+	posts_button = document.querySelector("#general_notification");
+	posts_button.childNodes[1].classList.add("svg-white");
+	posts_button.parentNode.insertAdjacentHTML("afterend", "<%= j(render 'shared/navbar_posts_display', relationships_new_posts: @relationships_new_posts, visible: true )%>");
+	posts_button.setAttribute("type", "button"); 
+<% elsif @get_messages && @get_messages =="1" %>
+	messages_button = document.querySelector("#new_message_notification");
+	messages_button.childNodes[1].classList.add("svg-white");
+	messages_button.parentNode.insertAdjacentHTML("afterend", "<%= j(render 'shared/navbar_messages_display', new_messages: @new_messages , new_chessgames_moves: @new_chessgame_moves , visible: true)%>");
+	messages_button.setAttribute("type", "button");
+<% elsif @get_requests && @get_requests == "1" %>
+	friendship_requests_button = document.querySelector("#friendship_request_notification");
+	friendship_requests_button.childNodes[1].classList.add("svg-white");
+	friendship_requests_button.parentNode.insertAdjacentHTML("afterend", "<%= j(render 'shared/navbar_requests_display', new_requests: @new_requests, visible: true )%>");
+	friendship_requests_button.setAttribute("type", "button");
+<% end %>
+

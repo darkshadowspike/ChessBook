@@ -19,4 +19,28 @@ class ApplicationController < ActionController::Base
 			redirect_to login_url
 		end
 	end
+
+	def set_friends
+		if current_user
+			@friends = current_user.friends_ordered_by_latest_messaged
+			unless @friends.any?
+				@friends = current_user.friends
+			end 
+		end
+	end
+
+	def set_user
+		if current_user
+			@user = current_user
+		end
+	end
+
+	def check_new_content
+		if current_user
+			@relationships_new_posts = Relationship.friends_with_new_posts(current_user)
+			@new_messages = Message.user_new_messages(current_user)
+			@new_requests = current_user.friend_new_requests
+			@new_chessgame_moves = Chessgame.check_games_with_new_player_moves(current_user)
+		end
+	end
 end

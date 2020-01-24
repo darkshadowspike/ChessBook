@@ -117,6 +117,14 @@ class User < ApplicationRecord
 		end
 	end
 
+	def name_capitalized
+		if user_name
+			return user_name.capitalize
+		else
+			return first_name.capitalize
+		end
+	end
+
 	def connect
 		update_attributes(online_at: Time.zone.now)
 	end
@@ -206,6 +214,15 @@ class User < ApplicationRecord
 		end
 	end
 
+	#marks the request as viewed
+
+	def request_viewed(other_user)
+		request = received_relationships.find_by(friend_active_id: other_user.id)
+		if request.new_request?
+			request.update_attributes(new_request: false)
+		end
+	end
+
 	#checks if a relationship exist and if it was accepted
 	def is_friend?(other_user)
 
@@ -218,6 +235,17 @@ class User < ApplicationRecord
 		end
 	end
 
+	#returns an array with all the friends in common
+	def common_friends(other_user_friends)
+		common_friends = []
+		other_user_friends.each do |user|
+			if self.is_friend?(user)
+				common_friends.push(user)
+			end
+		end
+		return common_friends
+	end
+
 	#deletes a relationship only if you requested it or if you accepted it
 
 	def delete_friend(other_user)		
@@ -228,14 +256,29 @@ class User < ApplicationRecord
 		end
 	end
 
+	#return other users that have requested a friendship with the user
+
+	def friend_requests
+		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0 ORDER BY new_request ASC , created_at ASC"
+		return User.where("id IN (#{active_ids})", user_id: self.id).includes( avatar_attachment: :blob)
+	end
+
+	def friend_new_requests
+		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0 AND new_request = 1"
+		return User.where("id IN (#{active_ids})", user_id: self.id).includes( avatar_attachment: :blob)
+	end
+
+
+
+
 	#return all friends using only one query instead of u.requested_friends + u.received_friends (2 queries)
 
 	def friends
-		#sql query for the requested  and accepted friendships ID's using the user idusers/20
+		#sql query for the requested  and accepted friendships ID's using the user id
 		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
 		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
-		return User.where("id IN (#{active_ids}) OR id IN (#{pasive_ids})", user_id: self.id)
+		return User.where("id IN (#{active_ids}) OR id IN (#{pasive_ids})", user_id: self.id).includes( avatar_attachment: :blob)
 	end
 
 	def friends_ordered_by_latest_messaged
@@ -243,30 +286,37 @@ class User < ApplicationRecord
 		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
 		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		#sql query with both active and pasive ids
 		friends_query ="SELECT * FROM 'users' WHERE id IN (#{active_ids}) OR id IN (#{pasive_ids})"
 		users_receive_messages = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON  users.id = messages.sender_id"
 		user_last_sended_message = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON users.id = messages.receiver_id WHERE sender_id = :user_id "
 		messages_query = "#{user_last_sended_message} UNION #{users_receive_messages} ORDER BY last_message DESC"
 		users_query =  "SELECT DISTINCT users.id, users.first_name, users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at, users.online_at FROM (#{messages_query}) AS users"
 		return User.find_by_sql(["#{users_query}", {user_id: self.id}])
+
 	end
 
-	#returns all the friends post
-	def user_feed
+	#returns users that are friends of the user's friend or  users unrelated to the user or his friends
+	def friends_suggestion(friends_of_friends = false)
+		#sql query for the requested  and accepted friendships ID's using the user id
 		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		#sql query for the received and accepted friendships ID's using the user id
 		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
-		#sql for the post using both previous ids and the users id, user eager loading  for users and  the media attached , improving perfomance avoiding multiple querys
-		return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) OR user_id = :user_id", user_id: self.id).includes(:user, media_attachment: :blob)
-	end
-
-	#returns all messages sended or received by an user
-
-	def messages_with_user(other_user)
-		return Message.where("(sender_id = :user_id AND receiver_id = :other_user_id) OR (sender_id = :other_user_id AND receiver_id = :user_id) ", user_id: self.id, other_user_id: other_user.id)
-	end
-
-	def game_with_user(other_user)
-		return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: self.id, other_user_id: other_user.id)[0]
+		#not answered friendship request
+		friend_requests_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0"
+		#sql query for  the id's of the pasive friends from the user's id friends
+		friends_pasive_friends_ids ="SELECT friend_pasive_id FROM relationships WHERE friend_active_id IN (#{active_ids}) OR friend_active_id IN (#{pasive_ids})"
+		#sql query for  the id's of the active friends from the user's id friends
+		friends_active_friends_ids ="SELECT friend_active_id FROM relationships WHERE friend_pasive_id IN (#{active_ids}) OR friend_pasive_id IN (#{pasive_ids})"		
+		
+		if friends_of_friends
+			users_query = "NOT (id IN (#{active_ids}) OR id IN (#{pasive_ids})) AND (id IN (#{friends_pasive_friends_ids}) OR id IN (#{friends_active_friends_ids}) ) AND  (id <> :user_id ) "
+			
+		else
+			users_query = "NOT (id IN (#{active_ids}) OR id IN (#{pasive_ids}) OR id IN (#{friend_requests_ids})) AND NOT (id IN (#{friends_pasive_friends_ids}) OR id IN (#{friends_active_friends_ids}) ) AND  (id <> :user_id ) "
+		
+		end
+		return User.where("#{users_query}", user_id: self.id).distinct.includes( avatar_attachment: :blob)
 	end
 
   	def avatar_attached
@@ -276,7 +326,7 @@ class User < ApplicationRecord
 	  		end
   		end
   	end	
-
+ 
   	def mural_attached
   		if self.mural.attached?
 	  		unless mural.content_type =~ /image.+/im  && mural.byte_size.to_f/1000000 <= 110

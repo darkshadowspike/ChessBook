@@ -18,4 +18,23 @@ class Message < ApplicationRecord
 		end
 	end
 
+	def read
+		unless viewed?
+			update_attributes(viewed: true)
+		end
+	end
+
+	def self.messages_between_users(first_user, other_user)
+		return Message.where("(sender_id = :user_id AND receiver_id = :other_user_id) OR (sender_id = :other_user_id AND receiver_id = :user_id) ", user_id: first_user.id, other_user_id: other_user.id)
+	end
+
+	def self.user_new_messages(user, new_only = true)
+		if new_only
+			messages_query = "receiver_id = :user_id AND viewed = 0"
+		else
+			messages_query = "receiver_id = :user_id"
+		end
+		return Message.where("#{messages_query}",user_id: user.id).group(:sender_id).includes(:sender)
+	end
+
 end

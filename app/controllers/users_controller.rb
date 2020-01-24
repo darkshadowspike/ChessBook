@@ -1,15 +1,17 @@
 class UsersController < ApplicationController
-	before_action :logged_in_user, only: [:edit, :update, :index, :destroy, :gamechat]
+	before_action :logged_in_user, only: [:edit, :update, :destroy, :gamechat]
 	before_action :correct_user, only: [:edit, :update]
-	before_action :is_admin, only: [:index, :destroy]
-	before_action :set_friends, only: [:home, :gamechat, :show, :checkup]
+	before_action :is_admin, only: [:destroy]
+	before_action :set_friends, only: [:home, :gamechat, :show, :checkup, :index]
+	before_action :set_user, only: [:home, :gamechat, :checkup, :index]
+	before_action :check_new_content, only: [:home, :gamechat,:show,  :checkup, :index]
 
 	def home
 		if logged_in?
-
-			@user = current_user
+			Relationship.watch_all_the_post_from_user(current_user)
+			@relationships_new_posts = []
 			@post = current_user.posts.build
-			@pagy, @posts = pagy(@user.user_feed, page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
+			@pagy, @posts = pagy(Post.user_feed(@user), page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
 			respond_to do |format|
 				format.html 
 				format.js
@@ -21,8 +23,30 @@ class UsersController < ApplicationController
 	end
 
 	def index
-		@pagy, @users = pagy(User.all, page: params[:page], items: 10)
+
+		@search = params[:search]
+		unless @search 
+			if logged_in?
+				@new_requests =[]
+				@requests = current_user.friend_requests
+				@pagy, @users = pagy( current_user.friends_suggestion(false), page: params[:page], items: 10,link_extra: 'data-remote="true"')
+				# adds the friends of friends if there isn't a page num params for pagy	
+				unless params[:page]				
+					@users = current_user.friends_suggestion(true) + @users
+				end 
+
+			else
+				@pagy, @users = pagy(User.all, page: params[:page], items: 10, items: 10,link_extra: 'data-remote="true"')
+			end
+		else
+			@pagy, @users = pagy(User.where("user_name LIKE '%#{@search}%'") , page: params[:page], items: 10,link_extra: 'data-remote="true"')
+		end
+		respond_to do |format|
+				format.html 
+				format.js
+		end
 	end
+
 
 	def checkup
 		if logged_in?
@@ -34,7 +58,31 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def gamechat	
+	def navbar_entries
+		@get_posts = user_params[:get_posts] 
+		@get_messages = user_params[:get_messages]
+		@get_requests = user_params[:get_requests]
+
+		if @get_posts && @get_posts == "1"
+			@relationships_new_posts = []
+		elsif @get_messages && @get_messages =="1"
+			@new_chessgame_moves = Chessgame.check_games_with_new_player_moves(current_user)
+			@pagy, @new_messages = pagy(Message.user_new_messages(current_user, false) , page: 1 ,items: 5)
+		elsif @get_requests && @get_requests == "1"
+			@pagy , @new_requests = pagy(current_user.friend_requests , page: 1 ,items: 5)
+			if !@new_requests.any?
+				@pagy, @new_requests = pagy(current_user.friends_suggestion(true) , page: 1 ,items: 5)
+			end
+		end
+		respond_to do |format|
+				format.html 
+				format.js
+		end
+	end
+
+	def gamechat
+		@new_messages= []
+		@new_chessgame_moves = []
 		@message = current_user.sended_messages.build
 		unless params[:friend_id]
 			@friend = @friends[0]
@@ -43,8 +91,8 @@ class UsersController < ApplicationController
 		end
 		if @friend
 			@relationship = Relationship.friendship(current_user.id, @friend.id)
-			@pagy, @messages = pagy(current_user.messages_with_user(@friend ),   page: params[:page] ,  items: 8, link_extra: 'data-remote="true"')
-			@chessgame = current_user.game_with_user(@friend)
+			@pagy, @messages = pagy(Message.messages_between_users(current_user,@friend ),   page: params[:page] ,  items: 8, link_extra: 'data-remote="true"')
+			@chessgame = Chessgame.game_between_users(current_user,@friend)
 			if  @chessgame
 				@chessgame.load_board
 			else
@@ -56,11 +104,15 @@ class UsersController < ApplicationController
 				format.html 
 				format.js
 		end
+
 	end
 
 	def show
-
 		@user =User.find(params[:id])
+		@relationship = Relationship.friendship(current_user.id, @user.id)
+		if @relationship
+			@relationship.watched_posts_from_user(@user)
+		end
 		@pagy, @posts = pagy(@user.posts.all, page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
 		if logged_in?
 			@post = current_user.posts.build
@@ -112,7 +164,7 @@ class UsersController < ApplicationController
 
 	#check the paramaters and only passes permited  ones
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural)
+		params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural, :get_messages, :get_posts, :get_requests)
 	end
 
 	def correct_user
@@ -125,15 +177,6 @@ class UsersController < ApplicationController
 	def is_admin
 		unless current_user.admin?
 			redirect_to root_url
-		end
-	end
-
-	def set_friends
-		if current_user
-			@friends = current_user.friends_ordered_by_latest_messaged
-			unless @friends.any?
-				@friends = current_user.friends
-			end 
 		end
 	end
 

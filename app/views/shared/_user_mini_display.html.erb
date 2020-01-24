@@ -1,0 +1,47 @@
+<% if ind == 0  %>
+	<div class="mini_user_info_box first">
+<% else %>
+	<div class="mini_user_info_box ">
+<% end %>	
+		<a href="<%= url_for(user) %>">
+			<img src="<%= url_for(user.avatar) %>"  >
+		</a>
+
+		<div class="mini_user_info_name">
+			<a href="<%= url_for(user) %>">
+				<h3><%= user.name_capitalized %> </h3>
+			</a>
+
+			<% if logged_in? && @friends %>
+				<div class="common_friends_container">
+
+						<% @common_friends = user.common_friends(@friends)%>
+
+						<% if @common_friends.length >= 1 &&   @common_friends.length <= 4 %>		
+											
+							<% @common_friends.each do |friend| %>
+								<a href="<%= url_for(friend) %>">
+									<img src="<%= url_for(friend.avatar) %>"  class="micro_avatar">
+								</a>
+							<% end %>
+
+							<span>Are Friends in common</span>
+
+						<% elsif  @common_friends.length > 4 %>
+								<a href="<%= url_for(common_friends[0]) %>">
+									<img src="<%= url_for(common_friends[0].avatar) %>"  class="micro_avatar">
+								</a>
+								<a href="<%= url_for(common_friends[1]) %>">
+									<img src="<%= url_for(common_friends[1].avatar) %>"  class="micro_avatar">
+								</a>
+								<span>...And <%= @common_friends.length -2 %> more, are friends in common</span>
+						<% end %>
+				</div>
+			<% end %>
+		</div>
+		
+		<% if logged_in? %>
+			<%= render "shared/friendship_form", user: user %>
+		<% end %>
+
+	</div>

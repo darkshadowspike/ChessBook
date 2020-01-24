@@ -1,7 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
   #using a lambda with default scope to retrive in descendent order
-  default_scope -> { order(created_at: :desc)}
+  default_scope -> { order( created_at: :desc)}
+
   validates :user_id, :content, presence: true
   validates :content, length: {maximum: 130}
   validate :media_attached
@@ -13,6 +14,24 @@ class Post < ApplicationRecord
 	  		errors.add(:media, "invalid file type")
 	  	end
   	end
+  end
+
+  def viewing
+    unless viewed?
+      update_attributes(viewed: true)
+    end
+  end
+
+  #returns all the friends post
+  def self.user_feed(user, user_posts = true)
+    active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+    pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+    #sql for the post using both previous ids and the users id, user eager loading  for users and  the media attached , improving perfomance avoiding multiple querys
+    if user_posts 
+      return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) OR user_id = :user_id", user_id: user.id).includes(:user, media_attachment: :blob)
+    else
+      return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) ", user_id: user.id).includes(:user, media_attachment: :blob)
+    end
   end
 
 end

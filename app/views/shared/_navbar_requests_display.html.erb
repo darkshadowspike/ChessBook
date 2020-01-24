@@ -1,0 +1,23 @@
+<div  <% if visible %> class="display_pointer pressed requests" <% else %> class="display_pointer hidden requests" <% end %> >
+	<svg width="15px" height="15px" viewBox="0 0 680 680" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<g id="#ffffffff">
+	<path fill="#ffffff" opacity="1.00" d=" M 328.71 12.87 C 337.68 10.05 348.11 12.53 354.77 19.20 C 365.64 29.60 371.59 43.71 378.00 57.04 C 432.47 164.31 486.79 271.67 541.16 379.00 C 404.71 379.00 268.26 379.00 131.81 379.00 C 187.46 269.17 243.18 159.38 298.71 49.50 C 303.55 39.54 308.17 29.11 316.18 21.21 C 319.85 17.79 323.80 14.33 328.71 12.87 Z" />
+	</g>
+	</svg>
+
+	<div class="navbar_display_container">
+		<div class="navbar_display">
+			<ul>
+				<% if new_requests.any? %>
+						<% new_requests.each_with_index do |user,ind|  %>
+							<li>
+								<%= render "shared/user_mini_display", user: user , ind: ind %>
+							</li>
+						<% end  %>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+</div>
+
+

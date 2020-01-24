@@ -1,7 +1,7 @@
-button = document.querySelector("#friendship_button");
+button = document.querySelector("#friendship_form_<%=@user.id%>");
 
 while (button.firstChild) {
 	button.removeChild(button.firstChild);
 }
 
-button.insertAdjacentHTML("afterbegin", "<%= j render 'shared/friendship_form' %>");
+button.insertAdjacentHTML("afterbegin", "<%= j render 'shared/friendship_form', user: @user %>");

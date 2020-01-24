@@ -1,0 +1,4 @@
+
+	<% @requests.each_with_index do |user,ind|  %>
+		<%= render "shared/user_mini_display", user: user , ind: ind %>
+	<% end  %>

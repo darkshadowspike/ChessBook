@@ -2,9 +2,9 @@ class ChessgamesController < ApplicationController
 
 	def create
 		@friend = User.find(chessgame_params[:friend_id].to_i)
-		@chessgame = current_user.game_with_user(@friend)
+		@chessgame = Chessgame.game_between_users(current_user,@friend)
 		@chessgame.destroy
-		@chessgame = current_user.game_with_user(@friend)
+		@chessgame = Chessgame.game_between_users(current_user,@friend)
 		unless @chessgame
 			@relationship = Relationship.friendship(current_user.id, @friend.id)
 			@chessgame = current_user.game_as_player1.create(player2_id: @friend.id)

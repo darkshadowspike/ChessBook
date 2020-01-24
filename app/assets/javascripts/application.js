@@ -15,8 +15,10 @@
 //= require turbolinks
 //= require window_onload.js
 //= require in_reload.js
+//= require pagy_load_next_page.js
 //= require posts_display.js
 //= require chat_messages.js
+//= require navbar_buttons.js
 //= require checkup.js
 //= require chess.js
 //= require_tree .

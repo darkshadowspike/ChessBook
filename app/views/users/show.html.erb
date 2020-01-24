@@ -28,11 +28,8 @@
 		<% end %>
 
 
-		<% if @user.user_name %>
-			<h1><%= @user.user_name %></h1>
-		<% else %>
-			<h1><%= @user.first_name + @user.first_name %></h1>
-		<% end %>
+
+		<h1><%= @user.name_capitalized %></h1>
 
 		<% if @user.avatar.attached? %>
 			<img src="<%= url_for(@user.avatar) %>"  height="120" >
@@ -51,7 +48,7 @@
 
 		<% if logged_in?  && @user != current_user %>
 			<div id ="friendship_button">
-				<%= render "shared/friendship_form" %>
+				<%= render "shared/friendship_form", user: @user %>
 			</div>
 			
 		<% end %>

@@ -1,0 +1,122 @@
+<div  <% if visible %> class="display_pointer pressed messages" <% else %> class="display_pointer hidden messages" <% end %> >
+	<svg width="15px" height="15px" viewBox="0 0 680 680" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<g id="#ffffffff">
+	<path fill="#ffffff" opacity="1.00" d=" M 328.71 12.87 C 337.68 10.05 348.11 12.53 354.77 19.20 C 365.64 29.60 371.59 43.71 378.00 57.04 C 432.47 164.31 486.79 271.67 541.16 379.00 C 404.71 379.00 268.26 379.00 131.81 379.00 C 187.46 269.17 243.18 159.38 298.71 49.50 C 303.55 39.54 308.17 29.11 316.18 21.21 C 319.85 17.79 323.80 14.33 328.71 12.87 Z" />
+	</g>
+	</svg>
+
+	<div class="navbar_display_container">
+		<form action="/mini_chat" accept-charset="UTF-8" method="get" data-remote="true" class="navbar_display"> 	
+			<ul>
+				<% if new_messages.any? && new_chessgames_moves.any? %>
+						<% @message_and_move = [] %>
+
+						<% new_messages.each do |message|%>		
+							<% new_chessgames_moves.each do |game| %>
+								  <% if game.player1_id == message.sender_id || game.player2_id == message.sender_id %>
+								  	<% @message_and_move.push(message.sender_id) %>
+								  <% end %>
+							<% end %>				
+						<% end %>
+
+
+						<% new_chessgames_moves.each do |game|%>
+							<li>
+
+									
+										<% if game.player1_id == current_user.id %>
+											<a href="/gamechat?friend_id=<%=game.player2_id %>">
+
+												<button>
+													<img src="<%= url_for(game.player2.avatar) %>" >
+													<div>
+														<h3><%= game.player2.name_capitalized %> </h3>
+														<% if  @message_and_move.include?(game.player2_id)   %>
+															<h4> Made a move and wrote new messages.</h4>
+														<% else %>
+															<h4> Made a move.</h4>
+														<% end %>
+													</div>
+												</button>
+											</a>
+
+										<% elsif game.player2_id == current_user.id %>
+											<a href="/gamechat?friend_id=<%=game.player1_id %>">
+												<button>
+													<img src="<%= url_for(game.player1.avatar) %>" >
+													<div>
+														<h3><%= game.player1.name_capitalized %> </h3>
+														<% if  @message_and_move.include?(game.player1_id)   %>									
+															<h4> Made a move and wrote new messages. </h4>
+														<% else %>
+															<h4> Made a move.</h4>
+														<% end %>
+													</div>
+												</button>
+											</a>
+										<% end %>
+							</li>
+						<% end %>
+
+						<% new_messages.each do |message|%>
+							<% if !@message_and_move.include?(message.sender_id)%>
+								<li>
+									<button type="submit" name="message[friend_id]" value="<%=message.sender_id %>">
+										<img src="<%= url_for(message.sender.avatar) %>"  >
+										<div>
+											<h3><%= message.sender.name_capitalized %> </h3>
+											<p><%= message.content %></p>
+										</div>
+									</button>
+								</li>
+							<% end %>
+						<% end %>
+
+
+				<% elsif new_messages.any?%>
+							<% new_messages.each do |message|%>
+								<li>
+									<button type="submit" name="message[friend_id]" value="<%=message.sender_id %>">
+										<img src="<%= url_for(message.sender.avatar) %>" >
+										<div>
+											<h3><%= message.sender.name_capitalized %> </h3>
+											<p><%= message.content %></p>
+										</div>
+									</button>
+								</li>
+							<% end %>
+				<% elsif new_chessgames_moves.any?%>
+						<% new_chessgames.each do |game|%>
+							<li>
+								
+									<% if game.player1_id == current_user.id %>
+										<a href="/gamechat?friend_id=<%=game.player2_id %>">
+											<button>
+												<img src="<%= url_for(game.player2.avatar) %>" >
+												<div>
+													<h3><%= game.player2.name_capitalized %> </h3>
+													<p> Made a move.</p>
+												</div>
+											</button>
+										</a>
+
+									<% elsif game.player2_id == current_user.id %>
+										<a href="/gamechat?friend_id=<%=game.player1_id %>">
+											<button>
+												<img src="<%= url_for(game.player1.avatar) %>" >
+												<div>
+													<h3><%= game.player1.name_capitalized %> </h3>
+													<h4> Made a move.</h4>
+												</div>
+											</button>
+										</a>
+									<% end %>
+								
+							</li>
+						<% end %>
+				<% end %>
+			</ul>
+		</form>
+	</div>
+
+</div>

@@ -1,3 +1,3 @@
-<%= form_for(current_user.received_relationships.find_by(friend_active_id: @user.id),html:{ method: :patch} ,remote: true) do |f| %>
-	<%= f.submit "Accept friend request" %>
+<%= form_for(current_user.received_relationships.find_by(friend_active_id: user.id),html:{ method: :patch} ,remote: true) do |f| %>
+	<button type="submit" name="commit" class ="friendship_button">Accept friendship request</button>
 <% end %>

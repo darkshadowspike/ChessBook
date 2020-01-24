@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   get "/gamechat", to: 'users#gamechat'
   post "/checkup", to: 'users#checkup'
+  get "/navbar", to: 'users#navbar_entries'
   get "/about", to: 'static_pages#about'
   get "/contact", to: 'static_pages#contact'
-  #post "/mini_chat", to: 'messages#mini_chat'
   get "/mini_chat", to: 'messages#mini_chat'
   get "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"

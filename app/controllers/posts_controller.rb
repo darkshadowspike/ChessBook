@@ -8,6 +8,7 @@ class PostsController < ApplicationController
 		@post = current_user.posts.build(post_params)
 		if @post.save
 			# use ajax to display post or warning using javascript
+			Relationship.post_created(current_user)
 			respond_to do |format|
 				format.html {redirect_to request.referrer || root_url}
 				format.js
@@ -46,11 +47,7 @@ class PostsController < ApplicationController
 	def destroy 
 		@post.destroy
 		flash[:success] = "Post deleted"
-		respond_to do |format|
-			format.html {redirect_to request.referrer || root_url}		
-			format.js
-		end
-	
+		redirect_to request.referrer || root_url			
 	end
 
 	private  

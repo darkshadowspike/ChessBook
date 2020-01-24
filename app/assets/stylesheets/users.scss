@@ -2,6 +2,114 @@
 	background-color: #f0ebeb;
 }
 
-#show_wrapper{
+
+/* index */
+
+#users_page_wrapper{
+	padding: 50px 0;
+	background-color: #f0ebeb;
+	min-height: 600px;
+
+}
+
+
+#accept_frienships, #show_users{
+	background-color: white;
+	width: 695px;
+	border: 1px solid #dac9c9b8;
+	border-radius: 3px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	margin-left: 90px;
+	margin-top: 15px;
+}
+
+#accept_frienships h2, #show_users h2{
+	border-bottom: 1px solid #dac9c9b8;
+	width: 100%;
+	padding-bottom: 15px;
+	padding-left: 10px;
+}
+
+
+.mini_user_info_box{
+	border-top: 1px solid #dac9c9b8;
+	width: 95%;
+	margin: 0 5px;
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.mini_user_info_box.first{ 
+	border: 0;
+}
+
+.mini_user_info_box img{
+	height: 75px;	
+}
+
+.mini_user_info_box .mini_user_info_name{
+	margin-left: 20px;
+	padding: 0;
+}
+
+.mini_user_info_box a{
+	color: #ca4d4d;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.mini_user_info_box a:hover{
+	text-decoration: underline;
+}
+
+.mini_user_info_box .friendship_form{
+	margin-left: auto;
+}
+
+.mini_user_info_box .friendship_button{
+	margin-left: auto;
+	color:#fff;
+	background-color: #c94b4b;
+	border: 1px solid #7d2929;
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 2px 6px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.mini_user_info_box .friendship_button:hover{
+	background-color: #a23b3b;
+	border: 1px solid #662121;
+}
+
+.common_friends_container{
+	display: flex;
+	color: #9c9090;
+	font-size: 12px;
+	align-items: center;
+}
+
+.common_friends_container .micro_avatar{
+	height: 11px;	
+	border-radius: 50%;
 	
 }
+
+.common_friends_container  a{
+	margin-right: 5px;
+}
+
+

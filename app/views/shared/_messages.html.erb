@@ -5,6 +5,7 @@
 					<p><%=message.content%></p>
 				</li>
 			<% else %>
+				<% message.read %>
 				<li class ="friend_message">
 					<img src="<%= url_for(@friend.avatar) %>"  >
 					<p><%=message.content%></p>				 
