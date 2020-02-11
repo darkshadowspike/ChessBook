@@ -1,3 +1,9 @@
 	<% users.each_with_index do |user,ind|  %>
-		<%= render "shared/user_mini_display", user: user , ind: ind %>
+		<%if logged_in? %>
+			<% if user.id != current_user.id%>
+				<%= render "shared/user_mini_display", user: user , ind: ind %>
+			<% end %>
+		<% else %>
+			<%= render "shared/user_mini_display", user: user , ind: ind %>
+		<% end %>
 	<% end  %>

@@ -3,6 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+.static_page_wrapper{
+	margin-top: 40px;
+	margin-left: 10px;
+	margin-bottom: calc(var(--screen-height)/2);
+}
+
 #start_signup{
 	width: 100%;
 	min-height: 612px;

@@ -19,6 +19,10 @@
 //= require posts_display.js
 //= require chat_messages.js
 //= require navbar_buttons.js
+//= require buttons_assign.js
+//= require show_buttons.js
+//= require direct_uploads.js
+//= require text_area.js
 //= require checkup.js
 //= require chess.js
 //= require_tree .

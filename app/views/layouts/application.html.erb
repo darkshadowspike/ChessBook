@@ -12,6 +12,39 @@
 
   <body>
 
+    <div id="overlay" class="hidden">
+      <div class="flex_container">
+        <% if logged_in? %>
+          <div class="upload_image" id="overlay-inner">
+            
+              <%= form_for(@user, :html => {:id => "avatar_form", :class => "hidden"}) do |f| %>
+                  <input name="_method" type="hidden" value="patch" />
+                  <div class="upload_title"> 
+                    <p>Update profile picture</p> 
+                  </div>
+                  <div class="file_input_container">
+                    <%= f.file_field :avatar , direct_upload: true %> 
+                    <%= f.submit "upload" %>
+                  </div>
+              <% end %>
+              
+              <%= form_for(@user, :html => {:id => "mural_form", :class => "hidden"} ) do |f| %>
+                <input name="_method" type="hidden" value="patch" />
+                  <div class="upload_title"> 
+                    <p>Update wall picture</p> 
+                  </div>
+                  <div class="file_input_container">
+                    <%= f.file_field :mural, direct_upload: true %> 
+                    <%= f.submit "upload" %>
+                  </div>
+             <% end %>
+
+            </div>
+          <% end %>
+      </div>
+    </div>
+
+
     <% if logged_in? %>    
           <form action="/checkup" accept-charset="UTF-8" method="post" data-remote="true" class="hide">    
             <input id="user_id" name="user" type="hidden" value="<%= current_user.id %>" />
@@ -19,32 +52,29 @@
           </form>
 
           <script> 
-              document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
-              document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
-              if(typeof chat_data == "undefined" || typeof chat_data.user_name == "undefined"){ 
-                window.chat_data = {user_name: "<%= current_user.user_name %>"} ; 
-                Object.freeze(chat_data);
-              }
-
-                request_button = document.querySelector("#friendship_request_notification");
-                if(request_button != null){
-                  request_button.addEventListener('click',press_navbar_button);
+                document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
+                document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
+                if(typeof chat_data == "undefined" || typeof chat_data.user_name == "undefined"){ 
+                 window.chat_data = {user_name: "<%= current_user.user_name %>"} ; 
+                 Object.freeze(chat_data);
                 }
 
-                posts_button = document.querySelector("#general_notification")
-                if(posts_button != null){
-                    posts_button.addEventListener('click',press_navbar_button);
-                }
-
-                messages_display_button = document.querySelector("#new_message_notification")
-                if(messages_display_button != null){
-                  messages_display_button.addEventListener('click',press_navbar_button); 
+                buttons_assign();
+                text_area = document.querySelectorAll(".text_area");
+                if(typeof text_area[0] != undefined){
+                  text_area.forEach(element =>{
+                    element.addEventListener("keydown",pressEnterComment)
+                  })
                 }
  
           </script>
            <%= render "layouts/navbar" %>
     <% else %>
-      <%= render "layouts/login_header" %>
+      <script> 
+        document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
+        document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
+      </script>
+     
     <% end %>
 
     <% flash.each do |message_type, message| %>

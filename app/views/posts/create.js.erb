@@ -2,7 +2,12 @@ posts = document.querySelector("#posts");
 
 <% if @post.errors.empty? %>
 	
-	posts.insertAdjacentHTML("afterbegin", "<li><%= j render 'shared/post' , post: @post  %></li>");
+	posts.insertAdjacentHTML("afterbegin", "<li id='post_<%=@post.id%>' class='post_container'><%= j render 'shared/post' , post: @post  %></li>");
+	document.querySelector("#post_form").innerHTML ="<%= j render 'shared/post_form'  %>";
 
+<% else %>
+	post_form = document.querySelector("#post_form")
+	post_form.innerHTML ="<%= j render 'shared/post_form'  %>";
+	post_form.insertAdjacentHTML("afterbegin", "<ul><% @post.errors.full_messages.each do |message|%> <li> <%= message %> </li> <%end%> </ul>");
 
 <% end %>

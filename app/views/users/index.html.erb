@@ -9,11 +9,14 @@
 	<div id="space_for_chat_boxes">
 
 	</div>
+<% else %>
+
+	 <%= render "layouts/login_header", fixed: true %>
 <% end %>
 
 <div id="users_page_wrapper">
 
-	<% if logged_in?  && !@search %>
+	<% if logged_in?  && !@search && !@friends_of %>
 		<div id="accept_frienships">
 			<h2>Friendship requests</h2>
 			<%= render "shared/friendship_requests" %>
@@ -21,8 +24,10 @@
 	<% end %>
 	
 	<div id="show_users">
-		<% if logged_in?  && !@search %>
+		<% if logged_in?  && !@search && !@friends_of %>
 			<h2>Add more friends</h2>
+		<% elsif @friends_of %>
+			<h2> <%= @user.name_capitalized %> friends</h2>
 		<% elsif !@search %>
 			<h2>Check some users</h2>
 		<% else %>

@@ -1,7 +1,7 @@
 <% if posts.any? %>
 		
 			<% posts.each do |post| %>
-				<li><%= render "shared/post", post: post   %></li>
+				<li id="post_<%=post.id%>" class="post_container"> <%= render "shared/post", post: post   %> </li>
 			<% end %>
 		
 <% end %>

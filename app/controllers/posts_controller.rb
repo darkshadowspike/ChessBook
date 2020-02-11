@@ -7,7 +7,6 @@ class PostsController < ApplicationController
 	def create
 		@post = current_user.posts.build(post_params)
 		if @post.save
-			# use ajax to display post or warning using javascript
 			Relationship.post_created(current_user)
 			respond_to do |format|
 				format.html {redirect_to request.referrer || root_url}
@@ -15,12 +14,16 @@ class PostsController < ApplicationController
 			end
 		else
 			flash.now[:danger] = "error post couldn't be created"
+			respond_to do |format|
+				format.html {redirect_to request.referrer || root_url}
+				format.js
+			end
 		end
 
 	end
 
 	def edit
-		#use ajax
+
 		@title ="Edit post"
 		respond_to do |format|
 			format.html 
@@ -29,7 +32,7 @@ class PostsController < ApplicationController
 	end
 
 	def update
-		#use ajax
+
 		if @post.update_attributes(post_params)
 			respond_to do |format|
 				format.html { redirect_to  root_url}

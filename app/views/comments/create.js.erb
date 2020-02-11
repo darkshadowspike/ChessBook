@@ -1,0 +1,9 @@
+comments = document.querySelector("#post_comments_<%= @post.id %>");
+
+list = comments.children[0]
+
+if(list.classList.contains("comments_list")){
+	list.insertAdjacentHTML("beforeend", "<li class='comment'><%= j(render 'shared/comment', comment: @comment, post: @post)%></li>");
+} else{
+	comments.insertAdjacentHTML("afterbegin", "<ul class='comments_list'><%= j(render 'shared/comments', comments: @comments, post: @post)%></ul>");
+};

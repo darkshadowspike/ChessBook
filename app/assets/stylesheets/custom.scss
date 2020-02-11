@@ -32,7 +32,7 @@ body{
 
 @import url("https://fonts.googleapis.com/css?family=Righteous");
 
-#log-in-bar{
+.log-in-bar-fixed{
 	background-image: linear-gradient(#ae6262, #ca4d4d 50%);
 	border-bottom: 1px solid #5b1d1d;
 	display: flex;
@@ -45,15 +45,32 @@ body{
 	top: 0;
 	left: 0;
 	right: 0;
-
+	position: fixed;
+	z-index: 10;
 }
 
-#log-in-bar h1{
+.log-in-bar{
+	background-image: linear-gradient(#ae6262, #ca4d4d 50%);
+	border-bottom: 1px solid #5b1d1d;
+	display: flex;
+	flex-direction:row;
+	width: 100%;
+	height: 83px;
+	color: white;
+	align-items: flex-end;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+
+.log-in-bar h1,.log-in-bar-fixed h1{
 	
 	margin:0px 19% 10px 0px;
 }
 
-#log-in-bar h1 a{
+.log-in-bar h1 a, .log-in-bar-fixed h1 a{
 	font-size: 37px;
 	font-family: Righteous, sans-serif;
 	font-style: normal;
@@ -219,11 +236,6 @@ body{
 
 }
 
-/* static pages */
-
-.static_page_wrapper{
-	margin-top: 40px;
-}
 
 /* friends list */
 #contacts{
@@ -449,7 +461,7 @@ svg {
 	width: 100%;
 	height: 43px;
 	background: #ca4d4d;
-	border-bottom: 1px solid #5b1d1d69;
+	border-bottom: 1px solid #5b1d1d3d;
 	display:flex;
 	justify-content: center;
 	align-items: center;
@@ -786,3 +798,124 @@ svg {
 	font-size: 8px;
 }
 
+/* uploading_files */
+
+/* direct_uploads.css */
+
+.direct-upload {
+  display: inline-block;
+  position: relative;
+  padding: 2px 4px;
+  margin: 0 3px 3px 0;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.direct-upload--pending {
+  opacity: 0.6;
+}
+
+.direct-upload__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.2;
+  background: #0076ff;
+  transition: width 120ms ease-out, opacity 60ms 60ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+
+.direct-upload--complete .direct-upload__progress {
+  opacity: 0.4;
+}
+
+.direct-upload--error {
+  border-color: red;
+}
+
+input[type=file][data-direct-upload-url][disabled] {
+  display: none;
+}
+
+
+
+/* overlay*/
+
+#overlay {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  	z-index: 5;
+}
+
+#overlay .flex_container{
+	display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+ .upload_image{
+	width: 500px;
+	height: 200px;
+	background: white;
+	border-radius: 3px;
+}
+
+ .upload_image .upload_title{
+	width: 100%;
+	background-color: #f0ebeb;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-bottom: 1px solid #5b1d1d3d;
+	display: flex;
+
+}
+
+.upload_image .upload_title p{
+ 	padding:0 10px;
+}
+
+.upload_image .upload_title button{
+	cursor: pointer;
+	margin-left: auto;
+	border:0;
+	background: none;
+}
+
+.upload_image form{
+	height: 100%
+}
+
+
+.upload_image .file_input_container{
+	width: 100%;
+	height: 70%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+}
+
+.upload_image input{
+	flex-grow: 0;
+	width: 95px;
+
+}
+
+.upload_image #user_avatar, .upload_image #user_mural{
+	border: 0;
+	background: white;
+	width: 100%;
+}
+
+.clickable_media{
+	cursor: pointer;
+}

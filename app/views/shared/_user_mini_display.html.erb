@@ -28,13 +28,13 @@
 							<span>Are Friends in common</span>
 
 						<% elsif  @common_friends.length > 4 %>
-								<a href="<%= url_for(common_friends[0]) %>">
-									<img src="<%= url_for(common_friends[0].avatar) %>"  class="micro_avatar">
+								<a href="<%= url_for(@common_friends[0]) %>">
+									<img src="<%= url_for(@common_friends[0].avatar) %>"  class="micro_avatar">
 								</a>
-								<a href="<%= url_for(common_friends[1]) %>">
-									<img src="<%= url_for(common_friends[1].avatar) %>"  class="micro_avatar">
+								<a href="<%= url_for(@common_friends[1]) %>">
+									<img src="<%= url_for(@common_friends[1].avatar) %>"  class="micro_avatar">
 								</a>
-								<span>...And <%= @common_friends.length -2 %> more, are friends in common</span>
+								<span>...And <%= (@common_friends.length)-2 %> more, are friends in common</span>
 						<% end %>
 				</div>
 			<% end %>

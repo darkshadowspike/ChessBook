@@ -1,34 +1,80 @@
 
 
-<div><%= post.user.user_name %>:</div>
-<p>
-	<%= post.content %> 
+<div class="post_user_name">
+
+	<a href="<%= url_for(post.user) %>">
+			<img src="<%= url_for(post.user.avatar) %>"   >
+	</a>
+
+	<div class="name_and_date">
+		<a href="<%= url_for(post.user) %>">
+			<h3><%= post.user.name_capitalized %> </h3>
+		</a>
+		<div class="post_date">
+			<span>
+				<%= post.created_at.strftime("%d of %B, %Y") %>					
+			</span>
+		</div>
+	</div>
+	
+</div>
+
+<div class="post_content">
+		<div class="post_text">
+			<p><%= post.content %> </p>
+		</div>
+	
+		<div class="post_option_button">
+			<% if logged_in? && post.user_id == current_user.id%>
+				<%= link_to "Edit", edit_post_url(post) , remote: true, class: "edit_post" %>
+				<%= link_to "Delete", post, method: :delete, remote: true, class: "delete_post" %>
+		    <% end %>
+		</div>
+		
 		
 		<% if post.media.attached? %>
-		<br>
-			<% if (post.media.content_type =~ /image.+/im) %>
-				<img src="<%= url_for(post.media) %>"  height="320" >
+			<div class="post_media">
+				<% if (post.media.content_type =~ /image.+/im) %>
+					<img src="<%= url_for(post.media) %>"   class="clickable_media post"  >
 
-			<% elsif (post.media.content_type =~ /video\/(mp4|webm|ogg)/im) %>
+				<% elsif (post.media.content_type =~ /video\/(mp4|webm|ogg)/im) %>
 
-				 <video width="320" height="240" controls>
+					 <video  controls class="clickable_media post">
 
-				 	<% if post.media.content_type =~ /video\/mp4/im %>
-				 		<source src="<%= url_for(post.media) %>" type="video/mp4">
-				 	<% elsif post.media.content_type =~ /video\/ogg/im %>
-				 		<source src="<%= url_for(post.media) %>" type="video/ogg">
-				 	<% elsif post.media.content_type =~ /video\/webm/im %>
-				 		<source src="<%= url_for(post.media) %>" type="video/webm">
-				 	<% end %>
-				 	
-	 				 Update your browser to watch the video.
-	 			</video> 
-			<% end %>
+					 	<% if post.media.content_type =~ /video\/mp4/im %>
+					 		<source src="<%= url_for(post.media) %>" type="video/mp4" >
+					 	<% elsif post.media.content_type =~ /video\/ogg/im %>
+					 		<source src="<%= url_for(post.media) %>" type="video/ogg">
+					 	<% elsif post.media.content_type =~ /video\/webm/im %>
+					 		<source src="<%= url_for(post.media) %>" type="video/webm">
+					 	<% end %>
+					 	
+		 				 Update your browser to watch the video.
+		 			</video> 
+				<% end %>
+			</div>
 	 	<% end %>
 
-		<% if logged_in? && post.user_id == current_user.id%>
-			<%= link_to "edit", edit_post_url(post) , remote: true %>
-			<%= link_to "delete", post, method: :delete, remote: true %>
-	<% end %>
-</p>
+	    <div class ="post_comments" id="post_comments_<%= post.id %>">
+
+		    <% @comments = post.first_four_comments %>
+		   		<% if @comments.any? %>
+		   			<ul class='comments_list'>
+		   				<%= render 'shared/comments', comments: @comments, post: post %>
+
+		   			</ul>
+		   			<% if @comments.length >=  4 %>
+			   			<form action="/more_comments" accept-charset="UTF-8" data-remote="true" method="get" class="load_more_comments">
+			   				<input type="hidden" id="page_number" name="comment[page_number]" value="2"> 
+							<input type="submit" name="commit" value="load more comments" data-disable-with="comment" class="input_link">
+						    <input type="hidden" id="post_id" name="comment[post_id]" value="<%=post.id%>">
+			   			</form>
+		   			<% end %>
+		   	<% end %>
+
+		   	<% if logged_in? %>		   			
+					<%= render 'shared/comments_form', post: post , comment: @comment%>
+		   	<% end %>
+	    </div>
+</div>
 	

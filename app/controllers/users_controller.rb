@@ -2,15 +2,16 @@ class UsersController < ApplicationController
 	before_action :logged_in_user, only: [:edit, :update, :destroy, :gamechat]
 	before_action :correct_user, only: [:edit, :update]
 	before_action :is_admin, only: [:destroy]
-	before_action :set_friends, only: [:home, :gamechat, :show, :checkup, :index]
+	before_action :set_friends, only: [:home, :gamechat, :show, :checkup, :index, :edit]
 	before_action :set_user, only: [:home, :gamechat, :checkup, :index]
-	before_action :check_new_content, only: [:home, :gamechat,:show,  :checkup, :index]
+	before_action :check_new_content, only: [:home, :gamechat,:show,  :checkup, :index, :edit]
 
 	def home
 		if logged_in?
 			Relationship.watch_all_the_post_from_user(current_user)
 			@relationships_new_posts = []
 			@post = current_user.posts.build
+			@comment = current_user.comments.build
 			@pagy, @posts = pagy(Post.user_feed(@user), page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
 			respond_to do |format|
 				format.html 
@@ -23,9 +24,9 @@ class UsersController < ApplicationController
 	end
 
 	def index
-
+		@friends_of = params[:friends_of_user]
 		@search = params[:search]
-		unless @search 
+		if !@search  && !@friends_of
 			if logged_in?
 				@new_requests =[]
 				@requests = current_user.friend_requests
@@ -38,8 +39,15 @@ class UsersController < ApplicationController
 			else
 				@pagy, @users = pagy(User.all, page: params[:page], items: 10, items: 10,link_extra: 'data-remote="true"')
 			end
+		elsif @friends_of
+			@user = User.find(@friends_of.to_i)
+			@pagy, @users = pagy(@user.friends , page: params[:page], items: 10,link_extra: 'data-remote="true"')
 		else
-			@pagy, @users = pagy(User.where("user_name LIKE '%#{@search}%'") , page: params[:page], items: 10,link_extra: 'data-remote="true"')
+			if logged_in?
+				@pagy, @users = pagy(User.where("user_name LIKE '%#{@search}%' AND id != '#{current_user.id}' ") , page: params[:page], items: 10,link_extra: 'data-remote="true"')
+			else
+				@pagy, @users = pagy(User.where("user_name LIKE '%#{@search}%'") , page: params[:page], items: 10,link_extra: 'data-remote="true"')
+			end	
 		end
 		respond_to do |format|
 				format.html 
@@ -108,15 +116,22 @@ class UsersController < ApplicationController
 	end
 
 	def show
+		@photos_only = params[:photos_only]
 		@user =User.find(params[:id])
-		@relationship = Relationship.friendship(current_user.id, @user.id)
-		if @relationship
-			@relationship.watched_posts_from_user(@user)
-		end
-		@pagy, @posts = pagy(@user.posts.all, page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
+
 		if logged_in?
 			@post = current_user.posts.build
+			@comment = current_user.comments.build
+			@relationship = Relationship.friendship(current_user.id, @user.id)
+			if @relationship
+				@relationship.watched_posts_from_user(@user)
+			end
 		end
+		if @photos_only
+			@pagy, @posts = pagy(Post.photo_only(@user), page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
+		else
+			@pagy, @posts = pagy(@user.posts.all, page: params[:page] ,items: 8, link_extra: 'data-remote="true"')
+		end 
 		
 		respond_to do |format|
 				format.html 
@@ -145,18 +160,20 @@ class UsersController < ApplicationController
 	end
 
 	def update 
-		@user =User.find(params[:id])
-		if @user.update_attributes(user_params)
-			redirect_to user_url(@user)
-		else
-			render "edit"
+		if user_params
+			@user =User.find(params[:id])
+			if @user.update_attributes(user_params)
+				redirect_to user_url(@user)
+			else
+				render "edit"
+			end
 		end
 	end
 
 	def destroy
 		@user =User.find(params[:id])
 		@user.destroy
-		flash[:sucess] = "user deleted"
+		flash[:success] = "user deleted"
 		redirect_to root_url
 	end
 
@@ -164,7 +181,14 @@ class UsersController < ApplicationController
 
 	#check the paramaters and only passes permited  ones
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural, :get_messages, :get_posts, :get_requests)
+		if params[:user]!= nil
+			params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural, :get_messages, :get_posts, :get_requests)
+		else
+			@user = User.find(params[:id])
+			flash[:danger] = "empty form or values" 
+			redirect_to edit_user_url(@user)
+			return false
+		end
 	end
 
 	def correct_user

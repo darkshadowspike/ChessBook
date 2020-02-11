@@ -31,6 +31,8 @@ class User < ApplicationRecord
 
 	#association with the posts model
 	has_many :posts, dependent: :destroy
+	#association with the comment model
+	has_many :comments, dependent: :destroy
 
     #association with the relationship model, but as the active(requester) and the other user as the pasive(receiver)
 	has_many :requested_relationships, class_name: "Relationship", foreign_key: "friend_active_id", dependent: :destroy
@@ -318,6 +320,7 @@ class User < ApplicationRecord
 		end
 		return User.where("#{users_query}", user_id: self.id).distinct.includes( avatar_attachment: :blob)
 	end
+
 
   	def avatar_attached
   		if self.avatar.attached?

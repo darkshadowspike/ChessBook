@@ -1,0 +1,19 @@
+comments = document.querySelector("#post_comments_<%= @post.id %>");
+
+list = comments.children[0]
+
+list.insertAdjacentHTML("beforeend", "<%= j(render 'shared/comments', comments: @comments, post: @post)%>");
+
+<% if @last %>
+
+    comments.removeChild(comments.children[1]);
+<% else %>
+
+	form = comments.children[1]
+
+	form.children[0].setAttribute("value", "<%= @next_page %>");
+
+	console.log(form);
+
+<% end %>
+

@@ -1,6 +1,4 @@
-#show{
-	background-color: #f0ebeb;
-}
+
 
 
 /* index */
@@ -113,3 +111,475 @@
 }
 
 
+/* show */
+
+
+
+#show_container{
+	background-color: #f0ebeb;
+	margin-top: 20px;
+}
+
+#show_wrapper{
+	margin: 0 auto 0 auto;
+	width: 981px;
+	padding-right: 205px;
+	box-sizing: content-box;
+}
+
+#mural_container{
+	width: 849px;
+}
+
+#mural_container .mural{
+	width:849px; 
+	height:313px;
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	box-sizing: border-box;
+}
+
+#show_user_options_buttons{
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	border-bottom: 1px solid #5b1d1d3d;
+	margin: -4px 0 0 0 ;
+	display: flex;
+	background: white;
+	width: 100%;
+	height: 50px;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#show_user_options_buttons .show_user_button_link, #show_user_options_buttons .avatar_and_username_display{
+	flex-grow: 1;
+	border-right: 1px solid #5b1d1d3d;
+}
+
+#show_user_options_buttons .avatar_and_username_display{
+	flex-grow: 0;
+	width: 230px;
+}
+
+#show_user_options_buttons .last{
+	border-right: 0;
+}
+
+
+#show_user_options_buttons button{
+	border: 0;
+	background: white;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+
+#show_user_options_buttons button:hover{
+	background: #fff0f0;
+}
+
+#show_user_options_buttons  button h3{
+	color: #ca4d4d;
+}
+
+.avatar_and_username_display div{
+	width: 100%;
+	height: 100%;
+}
+
+.avatar_and_username_display div img{
+	width: 160px;
+	height: 160px;
+	border: 4px solid #fff;
+	position: relative;
+	bottom: 130px;
+	left: 30px;
+	border-radius: 100%;
+}
+
+.avatar_and_username_display div a{
+	position: relative;
+	bottom: 220px;
+	left: 215px;
+	line-height: 10px;
+  	display: inline-block;
+  	text-decoration: none;
+  	font-size: 20px;		
+	font-weight: 500;
+	max-width: 275px;
+	color: white;
+}
+
+#edit_options_buttons{
+	height: 0px;
+	width:0px;
+}
+
+#edit_options_buttons #edit_profile_button{
+  position: relative;
+  left: 720px;
+  top: -45px;
+}
+
+#edit_profile_button  button, #edit_avatar_button button, #edit_wall_button button {
+	border: 1px solid #9d9d9d;
+	border-radius: 2px;
+	background-color: #f0ebeb;
+	width: 90px;
+	height: 30px;
+	cursor: pointer;
+	box-sizing: content-box;
+}
+
+#edit_profile_button  button:hover, #edit_avatar_button button:hover, #edit_wall_button button:hover{
+	background-color: #eee6e6;
+}
+
+
+#edit_avatar_button{
+	position: relative;
+	left: 500px;
+	top: -77px;
+}
+
+#edit_wall_button{
+	position: relative;
+	left: 610px;
+	top: -109px;
+}
+
+
+/* posts form */
+
+#post_form {
+	width: 849px;
+	background: white;
+	border-radius: 3px;
+	box-sizing: border-box;
+	margin-top: 20px;
+}
+
+#post_form .post_form_title{
+	width: 100%;
+	height: 50px;
+	background-color: #C9C9BD;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border: 1px solid #5b1d1d24;
+	display: flex;
+}
+
+#post_form .post_form_title h2{ 
+	font-size: 15px;
+	line-height: 15px;
+	height: 15px;
+	margin: 20px;
+	color: #000000ab;
+}
+
+#post_form .post_form_text_zone{
+	max-height: 100px;
+	min-height: 71px;
+	width: 100%;
+	padding: 20px 40px 0px 40px;
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	display: flex;
+	align-items: flex-start;
+}
+
+#post_form .post_form_text_zone img{
+	border-radius: 100%;
+	height: 34px;
+	width: 34px;
+	margin-right: 10px;
+}
+
+#post_form .post_form_text_zone textarea {
+	border: 0;
+	flex: 1;
+	resize: none;
+}
+
+#post_form .post_form_text_zone .field_with_errors{
+	flex:1;
+	display: flex;
+}
+
+.post_form_end_button{
+	display: flex;
+	width: 100%;
+	height: 60px;
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	border-bottom: 1px solid #5b1d1d3d;
+	padding: 10px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.post_form_end_button input{
+	margin-left: auto;
+	border: 1px solid;
+    border-radius: 4px;
+    background: #ca4d4d;
+    color:white;
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    box-sizing: content-box;
+}
+
+.post_form_end_button input:hover{
+	background: #aa3a3a;
+    border-radius: 4px;
+}
+
+.post_form_end_button button{
+	background-color: #C9C9BD4D;
+	border-radius: 30px;
+	cursor: pointer;
+	border: 0 ;
+}
+
+.post_form_end_button button:hover{
+	background-color: #C9C9BD;
+}
+
+/* post */
+
+#posts{
+	margin: 0;
+	padding: 0;
+}
+
+.post_container{
+		width: 849px;
+	background: white;
+	border-radius: 3px;
+	box-sizing: border-box;
+	margin-top: 20px;
+	list-style: none;
+}
+
+.post_container .post_user_name{
+	width: 100%;
+	height: 60px;
+	border-top: 1px solid #5b1d1d3d;
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+}
+
+.post_container .post_user_name img{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+
+
+.post_container .post_user_name .name_and_date{
+	margin-left: 10px;
+	padding: 0;
+}
+
+.post_container .post_user_name .name_and_date a{
+	color: #ca4d4d;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+
+.post_container .post_user_name .name_and_date  a:hover{
+	text-decoration: underline;
+}
+
+.post_container .post_user_name .name_and_date h3{
+	margin: 0;
+}
+
+
+.post_container .post_user_name .name_and_date .post_date{
+	color: #9c9090;
+	font-size: 12px;
+
+}
+
+.post_container .post_user_name .name_and_date .post_date  span{
+	font-size: 8px;
+}
+
+.post_content{
+	
+}
+
+.post_content .post_text{
+	width: 100%;
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	padding: 5px 10px;
+}
+
+.post_content .post_text p{
+	margin: 0;
+}
+
+.post_content .post_media {
+	width: 100%;
+	border-top: 1px solid #5b1d1d3d;
+}
+
+.post_content .post_media img{
+	width:100%;
+}
+
+.post_content .post_media video{
+	width: 100%;
+}
+
+.post_content .post_option_button{
+	border-left: 1px solid #5b1d1d3d;
+	border-right: 1px solid #5b1d1d3d;
+	width: 100%;
+	display:flex;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+.post_content .post_option_button a{
+	margin: 0 5px;
+	color: #9c9090;
+	text-decoration: none;
+}
+
+.post_comments{
+	border: 1px solid #5b1d1d3d;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.post_comments .comment_form{
+	display: flex;
+	padding: 5px;
+}
+
+.post_comments .comment_form img{
+	height: 32px;
+	width: 32px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.post_comments .comment_form .comment_text{
+	background-color: #C9C9BD4D;
+	flex: 1 ;
+	border-radius: 30px;
+	border:1px solid #C9C9BD;
+	display: flex;
+	align-items: center;
+	padding: 2px;
+}
+
+.post_comments .comment_form .comment_text textarea{
+	border: 0;
+	flex: 1;
+	resize: none;
+	background: none;
+	border-radius: 30px;
+	height: 15px;
+	padding-left: 5px;
+}
+
+.comments_list {
+	padding: 0px 5px;
+}
+
+.comment{
+	list-style: none;
+}
+
+.comments_list .main_comment_container{
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	width: 830px;
+}
+
+.comments_list .main_comment_container> .comment_content{
+	min-width: 0;
+}
+
+.comment img{
+	height: 32px;
+	width: 32px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.comment .comment_content{
+	flex-grow:0;
+}
+
+.comment .name_and_content{
+	background-color: #C9C9BD4D;	
+	border-radius: 30px;
+    display:flex;
+    width: auto;
+    overflow-wrap:break-word;
+}
+
+.comment .name_and_content a{ 
+	color: #ca4d4d;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	text-decoration: none;
+	margin: 11px 7px 0 7px;
+	flex-shrink: 0;
+}
+
+.comment .name_and_content a:hover{ 
+	text-decoration:underline;
+}
+
+.comment .name_and_content p{ 
+	font-size: 12px;
+	margin-right: 11px;
+}
+
+.comment .name_and_content> p{
+	min-width: 0;
+}
+
+.comment .delete_comment, .comment .edit_comment{
+	color: #ca4d4d;
+	cursor: pointer;
+	font-size: 11px;
+	text-decoration:none;
+}
+
+.comment .delete_comment:hover, .comment .edit_comment:hover{
+	text-decoration:underline;
+}
+
+.load_more_comments .input_link{
+	margin: 10px 40px;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #ca4d4d;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.load_more_comments .input_link:hover{ 
+	text-decoration:underline;
+}

@@ -4,8 +4,10 @@ class Post < ApplicationRecord
   default_scope -> { order( created_at: :desc)}
 
   validates :user_id, :content, presence: true
-  validates :content, length: {maximum: 130}
+  validates :content, length: {maximum: 360}
   validate :media_attached
+
+  has_many :comments
   has_one_attached :media
 
   def media_attached
@@ -22,6 +24,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def first_four_comments
+    return Comment.where("post_id = :post_id", post_id: self.id).limit(4).includes(:user)
+  end
+
   #returns all the friends post
   def self.user_feed(user, user_posts = true)
     active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
@@ -33,5 +39,11 @@ class Post < ApplicationRecord
       return Post.where("user_id IN (#{active_ids}) OR user_id IN (#{pasive_ids}) ", user_id: user.id).includes(:user, media_attachment: :blob)
     end
   end
+
+  def self.photo_only(user)
+    return Post.joins(:media_attachment).where("user_id = :user_id", user_id: user.id).includes(:user)
+  end
+
+
 
 end

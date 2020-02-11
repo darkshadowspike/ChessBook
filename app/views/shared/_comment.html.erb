@@ -1,0 +1,13 @@
+		<div class="main_comment_container">
+			<img src="<%= url_for(comment.user.avatar) %>" height = "30px" >
+			<div class="comment_content">
+				<div class="name_and_content">
+					<a href="/users/<%=comment.user_id%>"><%= comment.user.name_capitalized %></a>
+					<p><%= comment.content %></p>
+				</div>
+			</div>
+		</div>
+		<% if logged_in? && comment.user_id == current_user.id %>
+				<%= link_to "Edit", edit_comment_url(comment, post: post.id) , remote: true, class: "edit_comment" %>
+				<%= link_to "Delete", comment, method: :delete, remote: true, class: "delete_comment" %>
+		<% end %>

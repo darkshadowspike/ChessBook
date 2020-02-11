@@ -10,11 +10,13 @@ Rails.application.routes.draw do
   get "/contact", to: 'static_pages#contact'
   get "/mini_chat", to: 'messages#mini_chat'
   get "/login", to: "sessions#new" 
+  get "/more_comments", to: "comments#load_more_comments"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
  
   resources :users
   resources :posts, only: [:edit, :update, :create, :destroy]
+  resources :comments, only: [:edit, :update, :create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_reset, only:[:new, :create, :edit,:update]
   resources :relationships, only:[:create, :update, :destroy]

@@ -15,7 +15,9 @@
 	<%= link_to "log out", logout_url, method: :delete , user_id: @user.id%>
 	<h1><%= link_to "#{@user.user_name}", @user %></h1>
 
-	<%= render "shared/post_form"%> 
+	<div id="post_form">
+			<%= render "shared/post_form"  %>
+	</div>
 
 	<ul id="posts">
 		<%= render "shared/posts", posts: @posts   %>
@@ -26,7 +28,7 @@
 	</div>
 
 <% else %>
-	
+	 <%= render "layouts/login_header" , fixed: false %>
 
 	<div id="start_signup">
 		<div id="start_signup_grid">

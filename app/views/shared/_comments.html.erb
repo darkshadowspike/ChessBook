@@ -1,0 +1,5 @@
+<% comments.each do |comment| %>
+	<li class="comment" id="comment_<%= comment.id %>">
+		<%= render 'shared/comment', comment: comment, post: post %>
+	</li>
+<% end %>

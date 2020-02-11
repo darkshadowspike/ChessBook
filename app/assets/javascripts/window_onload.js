@@ -12,10 +12,15 @@ window.onload = function(){
 		window.addEventListener('resize', loadNextPage);
 		window.addEventListener('scroll', loadNextPage);
 		window.addEventListener('load',   loadNextPage);
-		document.querySelector("#friendship_request_notification").addEventListener('click',press_navbar_button);
-		document.querySelector("#general_notification").addEventListener('click',press_navbar_button);
-		document.querySelector("#new_message_notification").addEventListener('click',press_navbar_button);
+		buttons_assign();
 		document.addEventListener("click", press_outside_navbar_display);
+		document.addEventListener("click", press_outside_overlay);
+        text_area = document.querySelectorAll(".text_area");
+            if(typeof text_area[0] != undefined){
+                text_area.forEach(element =>{
+                element.addEventListener("keydown",pressEnterComment)
+            })
+        }
 	}	
 };
 

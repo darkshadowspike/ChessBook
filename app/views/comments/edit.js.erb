@@ -1,0 +1,12 @@
+comments = document.querySelector("#post_comments_<%= @post.id %>");
+comment = document.querySelector("#comment_<%= @comment.id %>");
+
+form = comments.children[2]
+comment.innerHTML = "";
+
+comments.removeChild(form);
+
+comments.insertAdjacentHTML("beforeend", "<%= j (render 'shared/comments_form', comment: @comment, post: @post )%>");
+
+
+comments.children[2].addEventListener("keydown",pressEnterComment);

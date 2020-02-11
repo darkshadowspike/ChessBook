@@ -1,0 +1,8 @@
+					<%= form_with(model: comment, class: "comment_form") do |f| %>
+						<img src="<%= url_for(post.user.avatar) %>"   >
+						 <input type="hidden" id="post_id" name="comment[post_id]" value="<%= post.id %>">
+						 <div class="comment_text">
+						 	<%= f.text_area :content, placeholder: "Write a comment", class: "text_area" %>
+							<%= f.submit "comment" , class: "hidden", id: "comment_button"%>
+						 </div>
+			   		<% end %>

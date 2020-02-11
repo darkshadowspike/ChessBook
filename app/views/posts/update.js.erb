@@ -1,16 +1,16 @@
-post = document.querySelector("#post_editing");
+post = document.querySelectorAll(".editing")[0];
 
-while (post.firstChild) {
-	post.removeChild(post.firstChild);
-}
+
 
 <% if @post.errors.empty? %>
-	
-	post.insertAdjacentHTML("afterbegin", "<%= j render 'shared/post' , post: @post  %>");
+
+	post.setAttribute("id","post_<%=@post.id%>");
+	post.classList.remove("editing")	
+	post.innerHTML = "<%= j render 'shared/post' , post: @post  %>";
 
 <% else %>
 	
 	//create errors partial to display
-	post.insertAdjacentHTML("afterbegin", "<%= j render 'shared/post_form' %>");
+	post.innerHTML = "<%= j render 'shared/post_form' %>";
 
 <% end %>
