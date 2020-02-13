@@ -464,6 +464,7 @@
 	border: 1px solid #5b1d1d3d;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
+	padding: 5px 0;
 }
 
 .post_comments .comment_form{
@@ -582,4 +583,19 @@
 
 .load_more_comments .input_link:hover{ 
 	text-decoration:underline;
+}
+
+/* Home */
+
+#home_container{
+	background-color: #f0ebeb;
+	margin-top: 20px;
+}
+
+#home_wrapper{
+	margin: 0 auto 0 auto;
+	width: 981px;
+	padding-top: 30px;
+	padding-right: 205px;
+	box-sizing: content-box;
 }

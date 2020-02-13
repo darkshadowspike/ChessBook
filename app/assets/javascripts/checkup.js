@@ -3,4 +3,4 @@ function checkup(){
 	button.click();
 }
 
-checkup_interval = setInterval(checkup, 50000)
+checkup_interval = setInterval(checkup, 100000)

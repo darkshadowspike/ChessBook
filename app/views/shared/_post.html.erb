@@ -35,7 +35,7 @@
 		<% if post.media.attached? %>
 			<div class="post_media">
 				<% if (post.media.content_type =~ /image.+/im) %>
-					<img src="<%= url_for(post.media) %>"   class="clickable_media post"  >
+					<img src="<%= url_for(post.media) %>"   class="clickable_media media_new post"  >
 
 				<% elsif (post.media.content_type =~ /video\/(mp4|webm|ogg)/im) %>
 
@@ -58,7 +58,7 @@
 	    <div class ="post_comments" id="post_comments_<%= post.id %>">
 
 		    <% @comments = post.first_four_comments %>
-		   		<% if @comments.any? %>
+		   	<% if @comments.any? %>
 		   			<ul class='comments_list'>
 		   				<%= render 'shared/comments', comments: @comments, post: post %>
 

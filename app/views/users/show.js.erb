@@ -2,4 +2,5 @@
 document.querySelector("#posts").insertAdjacentHTML("beforeend", "<%= j(render 'shared/posts', posts: @posts)%>");
 document.querySelector('#next_posts_link').innerHTML = "<%= j(render 'shared/next_link') %>" ;
 
-
+add_event_new_media();
+add_event_new_comment_text_area();

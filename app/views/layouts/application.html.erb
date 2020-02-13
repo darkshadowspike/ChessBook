@@ -15,7 +15,7 @@
     <div id="overlay" class="hidden">
       <div class="flex_container">
         <% if logged_in? %>
-          <div class="upload_image" id="overlay-inner">
+          <div class="hidden" id="overlay-inner">
             
               <%= form_for(@user, :html => {:id => "avatar_form", :class => "hidden"}) do |f| %>
                   <input name="_method" type="hidden" value="patch" />
@@ -38,6 +38,20 @@
                     <%= f.submit "upload" %>
                   </div>
              <% end %>
+
+             <div id="overlay_inner_media_display" class="hidden">
+                  <div class="post_media_overlay">
+                    
+                  </div>
+
+                  <div class="post_container">
+                    
+                  </div>
+             </div>
+
+             <div id="overlay_inner_user_media_display" class="hidden">
+               
+             </div>
 
             </div>
           <% end %>

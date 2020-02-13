@@ -919,3 +919,41 @@ input[type=file][data-direct-upload-url][disabled] {
 .clickable_media{
 	cursor: pointer;
 }
+
+#overlay_inner_media_display{
+	width: auto;
+	height: auto;
+	max-width: calc(var(--screen-width)*0.9);
+	max-height:calc(var(--screen-height)*0.9);
+	display: flex;
+	justify-content: center;
+}
+
+#overlay_inner_media_display .post_media_overlay{
+	flex-shrink: 1;
+	flex-grow:  1 ;
+	display: flex;
+}
+
+#overlay_inner_media_display .post_media_overlay img{
+	width: 100%;
+	border:0;
+}
+
+#overlay_inner_media_display .post_media_overlay video{
+	width: 100%;
+	border:0;
+}
+#overlay_inner_media_display .post_container{
+	flex-grow: 0;
+	width: calc(var(--screen-width)*0.25);
+	margin-top:0;
+}
+
+#overlay_inner_user_media_display{
+	height: calc(var(--screen-height)*0.7);
+}
+
+#overlay_inner_user_media_display img{
+	height: 100%;
+}

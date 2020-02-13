@@ -32,11 +32,9 @@ function buttons_assign(){
                   form_media_button.addEventListener('click',(e)=>{document.querySelector("#form_media_field").click() }); 
                 }
 
-                media_clickable = document.querySelectorAll(".clickable_media")	
+                add_event_new_media();
 
-                if(media_clickable.length >0){
-                	media_clickable.forEach(media =>{
-                		media.addEventListener('click', overlay_media); 
-                	}) 
-                }
+				add_event_user_media();
+
+				add_event_new_comment_text_area();
 }

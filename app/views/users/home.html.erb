@@ -12,19 +12,22 @@
 	</div>
 
 
-	<%= link_to "log out", logout_url, method: :delete , user_id: @user.id%>
-	<h1><%= link_to "#{@user.user_name}", @user %></h1>
+	<div id="home_container">
 
-	<div id="post_form">
-			<%= render "shared/post_form"  %>
-	</div>
+		<div id ="home_wrapper">
+			<div id="post_form">
+				<%= render "shared/post_form"  %>
+			</div>
 
-	<ul id="posts">
-		<%= render "shared/posts", posts: @posts   %>
-	</ul>
+			<ul id="posts">
+				<%= render "shared/posts", posts: @posts   %>
+			</ul>
 
-	<div id="next_posts_link">
-		 <%= render 'shared/next_link' %>
+			<div id="next_posts_link">
+	     		<%= render 'shared/next_link' %>
+			</div>
+		</div>
+
 	</div>
 
 <% else %>

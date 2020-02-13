@@ -15,12 +15,7 @@ window.onload = function(){
 		buttons_assign();
 		document.addEventListener("click", press_outside_navbar_display);
 		document.addEventListener("click", press_outside_overlay);
-        text_area = document.querySelectorAll(".text_area");
-            if(typeof text_area[0] != undefined){
-                text_area.forEach(element =>{
-                element.addEventListener("keydown",pressEnterComment)
-            })
-        }
+
 	}	
 };
 
