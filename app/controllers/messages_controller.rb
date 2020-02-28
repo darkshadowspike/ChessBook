@@ -6,8 +6,7 @@ class MessagesController < ApplicationController
 		if @message.save
 			ActionCable.server.broadcast "chat_#{@relationship.id}_channel", 
 			content: @message.content,
-			sender_avatar_link: url_for(current_user.avatar),
-			sender_name: current_user.user_name,
+			sender_name: current_user.name_capitalized,
 			relationship_id: @relationship.id
 		end
 	end

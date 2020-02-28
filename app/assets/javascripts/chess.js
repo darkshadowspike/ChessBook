@@ -10,13 +10,15 @@ function submit_move_with_promotion(e){
     form.insertAdjacentHTML("afterbegin", `<input type="hidden" id="chessgame_start_pos" name="chessgame[start_pos]" value=${button_id}>`);
     form.insertAdjacentHTML("afterbegin", `<input type="hidden" id="chessgame_new_pos" name="chessgame[new_pos]" value=${e.target.id}>`);
     form.insertAdjacentHTML("afterbegin", `
-        <ul id="promotion_buttons">
-            <div>Choose a piece for the promotion</div>
-            <li><button type="submit" name="chessgame[promotion]" value="Queen">Queen</button></li>
-            <li><button type="submit" name="chessgame[promotion]" value="Knight">Knight</button></li>
-            <li><button type="submit" name="chessgame[promotion]" value="Rook">Rook</button></li>
-            <li><button type="submit" name="chessgame[promotion]" value="Bishop">Bishop</button></li>
-        </ul>
+        <div id="promotion">
+            <h4>Choose a piece for the promotion</h4>
+            <ul id="promotion_buttons">
+                <li><button type="submit" name="chessgame[promotion]" value="Queen">Queen</button></li>
+                <li><button type="submit" name="chessgame[promotion]" value="Knight">Knight</button></li>
+                <li><button type="submit" name="chessgame[promotion]" value="Rook">Rook</button></li>
+                <li><button type="submit" name="chessgame[promotion]" value="Bishop">Bishop</button></li>
+            </ul>
+        </div>
     `);
 }
 
@@ -24,6 +26,7 @@ function select_move(e){
     clean_board(true)
     e.target.classList.add('selected');
     let pawn =  e.target.classList.contains('Pawn');
+    if(pawn){ console.log(pawn)};
     button_id = e.target.id;
     posible_moves = moves_for_piece.call(player_data,`${button_id}`);
     squares = document.querySelectorAll(".board_box");
@@ -57,7 +60,7 @@ function playable_pieces(){
                 }
             )
             if (player_data.check){
-                check.innerText = "Check"
+                check.innerText = "You are in Check!"
             }
         } else {
             check.innerText = "Checkmate! You lose!"
@@ -117,8 +120,10 @@ function update_board(start_pos, new_pos){
        start_square = document.querySelector(`#${start_pos}`);
        new_square = document.querySelector(`#${new_pos}`);
        player_turn = document.querySelector("#players_turn");
-       new_square.innerText= start_square.innerHTML;
+       new_square.innerHTML = " ";
+       new_square.appendChild(start_square.children[0]);    
        start_square.innerHTML = " ";
+       delete_piece_class(start_square)
        if (player_data.your_turn){
         player_turn.innerHTML = "Your turn"
        } else {
@@ -151,3 +156,27 @@ function begin_turn(new_data, move_info){
         update_board(move_info[0], move_info[1])
         playable_pieces()
 }
+
+ function delete_piece_class(square_element){
+    if(square_element.classList.contains("Pawn")){
+        square_element.classList.remove("Pawn")
+    }
+    if(square_element.classList.contains("Queen")){
+        square_element.classList.remove("Queen")
+    }
+    if(square_element.classList.contains("King")){
+        square_element.classList.remove("King")
+    }
+    if(square_element.classList.contains("Rook")){
+        square_element.classList.remove("Rook")
+    }
+    if(square_element.classList.contains("Knight")){
+        square_element.classList.remove("Knight")
+    }
+    if(square_element.classList.contains("Bishop")){
+        square_element.classList.remove("Bishop")
+    }
+    if(!square_element.classList.contains("Node")){
+        square_element.classList.add("Node")
+    }
+ }

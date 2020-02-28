@@ -19,7 +19,8 @@
 
 		<div id="mural_container">
 			<% if @user.mural.attached? %>
-				<img src="<%= url_for(@user.mural) %>" class="mural clickable_media user_img " >
+					<img src="<%= url_for(@user.mural) %>" class="mural clickable_media user_img hidden" >
+					<img src="<%= url_for(@user.mural.variant(combine_options: {gravity: 'Center', crop: ' x313 + 0 + 0'})) %>" class="mural clickable_media user_img " >
 				
 			<% end %>
 
@@ -38,13 +39,21 @@
 						<button>Edit wall</button>
 					</div>
 				</div>
+
+			<% else %>
+
+				<div id ="friendship_button_container">
+					<%= render "shared/friendship_form", user: @user %>
+				</div>
 			<% end %>
 
 			<div id="show_user_options_buttons">
 
 				<div class="avatar_and_username_display">
 					<div>
-						<img src="<%= url_for(@user.avatar) %>" class="clickable_media user_img"  >
+						<img src="<%= url_for(@user.avatar) %>" class="clickable_media user_img hidden"  >
+						<img src="<%= url_for(@user.avatar.variant(resize: 'x160',  combine_options: {gravity: 'Center', crop: '160 x 160 + 0 + 0'})) %>" class="clickable_media user_img"  >	
+
 						<a href="<%= url_for(@user) %>"> <h3><%= @user.name_capitalized %> </h3> </a>
 
 					</div>
@@ -64,13 +73,6 @@
 
 			</div>
 		</div>
-
-		<% if logged_in?  && @user != current_user %>
-			<div id ="friendship_button">
-				<%= render "shared/friendship_form", user: @user %>
-			</div>
-			
-		<% end %>
 
 		<% if current_user?(@user)%>
 			<div id="post_form">

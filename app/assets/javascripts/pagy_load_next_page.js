@@ -17,7 +17,7 @@ let loadNextPage = function(){
 		}
 		// sets element bottom variable using the BoundingClientRect method to get its bottom in relation with the viewport plus the height of the element
 		
-		let elBottom =content.getBoundingClientRect().bottom + content.offsetHeight -500;
+		let elBottom =content.getBoundingClientRect().bottom + content.offsetHeight - 500;
 		
 		//when ammount of page scrolled + height of the windows becomes higher than the element and the distance with its bottom plus 500px it clicks on the
 		//link and puts the attribute loading until the link is replaced

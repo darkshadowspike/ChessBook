@@ -1,53 +1,61 @@
+<div id ="gamechat_wrapper">
+	<% if @friends.any? %>
+	<div id="gamechat_friend_list">
+		<div class="gamechat_list_title">
+			<img src="<%= url_for(current_user.avatar.variant(resize: 'x40',  combine_options: {gravity: 'Center', crop: '40 x 40 + 0 + 0'})) %>"   >
+			<h2>Games</h2>
+		</div>
+		<ul>
+			<% @friends.each do |friend| %>
+				<li class="gamechat_list_friend">
 
-<% if @friends.any? %>
-	<ul>
-		<% @friends.each do |friend| %>
-			<li>
-
-				<%= form_tag("/gamechat", method: "get") do %>	
-				
-					<div> 
-						<%= hidden_field_tag :friend_id, friend.id %>	
-					</div>
+					<%= form_tag("/gamechat", method: "get") do %>	
 					
-					<div>
-						<% if friend.user_name %>
-							<input  type="submit" value="<%=friend.user_name %>">
-						<% else %>
-							<input  type="submit" value="<%=friend.first_name %>">
-						<% end %>
+
+							<%= hidden_field_tag :friend_id, friend.id %>
+							<% if @friend && @friend.id == friend.id %>	
+								<button class="friend_selected">
+							<% else %>
+								<button>
+							<% end %>
+								<img src="<%= url_for(friend.avatar.variant(resize: 'x50',  combine_options: {gravity: 'Center', crop: '50 x 50 + 0 + 0'})) %>" >
+									<h3><%=friend.name_capitalized %></h3>
+							</button>
+
+					<% end %>
+					
+				</li>
+			<% end %>
+		</ul>
+	</div>
+
+		<div id="game_chat"  data-chat-room-id = "<%=@relationship.id %>">
+			<div class="gamechat_title">
+				<img src="<%= url_for(@friend.avatar.variant(resize: 'x40',  combine_options: {gravity: 'Center', crop: '40 x 40 + 0 + 0'})) %>"   >
+				<h2><%=@friend.name_capitalized %></h2>
+			</div>
+			<div id="game_chat_container">
+				<% if @chessgame %>
+
+					<div id="chessgame">
+
+
+						<%= render "chess", chessgame: @chessgame , friend: @friend %>
 					</div>
 				<% end %>
 				
-			</li>
-		<% end %>
-	</ul>
-	<div id="game_chat"  data-chat-room-id = "<%=@relationship.id %>">
-		<% if @chessgame %>
-
-			
-			<%= render "chess", chessgame: @chessgame , friend: @friend %>
-
-			<div id= newgame-button>
-
-				<%= form_for(:chessgame, url: chessgames_url) do |f| %>
-
-					<%= f.hidden_field :friend_id, value: @friend.id %>	
-					<%= f.submit "New Game"%>
-
-				<% end %>
-			
+				<div id ="chat">
+					<%= render "shared/chat" %>
+				</div>	
 			</div>
+			
+		</div>
 
-		<% end %>
-		
-		<div id ="chat">
-			<%= render "shared/chat" %>
-		</div>	
-	</div>
-<% else %>
-	<div class= "warning">
-		<p>You don't have any friends to chat or play with! go and find some.</p>
-	</div>
 
-<% end %>
+	<% else %>
+		<div class= "gamechat_warning">
+			<p>You don't have any friends to chat or play with! go and find some.</p>
+		</div>
+
+	<% end %>
+</div>

@@ -6,7 +6,7 @@
 				<% friends.each do |friend| %>
 				<li>											
 						<button type="submit" name="message[friend_id]" value="<%=friend.id %>">
-							<img src="<%= url_for(friend.avatar) %>"  height="40" width="40">
+							<img src="<%= url_for(friend.avatar.variant(resize: 'x40',  combine_options: {gravity: 'Center', crop: '40 x 40 + 0 + 0'})) %>"  height="40" width="40">
 
 							<h3><%= friend.name_capitalized %> </h3>
 

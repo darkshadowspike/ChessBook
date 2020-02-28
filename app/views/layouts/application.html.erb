@@ -61,15 +61,20 @@
 
     <% if logged_in? %>    
           <form action="/checkup" accept-charset="UTF-8" method="post" data-remote="true" class="hide">    
-            <input id="user_id" name="user" type="hidden" value="<%= current_user.id %>" />
-            <button type="submit" id="checkup_button" ></button>
+            <% if current_page?(:controller => 'users', :action => 'gamechat') %>
+                <input type="hidden" id="user_in_gamechat" name="user[in_gamechat]" value="1">
+                <input type="hidden" id="user_message_sender_id" name="user[message_sender_id]" value="<%= @friend.id %>">
+            <% else %>
+                <input type="hidden" id="user_in_gamechat" name="user[in_gamechat]" value="0">
+            <% end %>
+             <button type="submit" id="checkup_button" ></button>
           </form>
 
           <script> 
                 document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
                 document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
                 if(typeof chat_data == "undefined" || typeof chat_data.user_name == "undefined"){ 
-                 window.chat_data = {user_name: "<%= current_user.user_name %>"} ; 
+                 window.chat_data = {user_name: "<%= current_user.name_capitalized %>"} ; 
                  Object.freeze(chat_data);
                 }
 
@@ -96,6 +101,9 @@
     <% end %>
 
     <%= yield %>
-    <%= render "layouts/footer" %>
+
+    <% if !current_page?(:controller => 'users', :action => 'gamechat') %>
+      <%= render "layouts/footer" %>
+    <% end %>
   </body>
 </html>

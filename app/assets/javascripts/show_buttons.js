@@ -76,7 +76,8 @@ function overlay_user_img(e){
 	overlay_inner.classList.remove("hidden");
 	container = document.querySelector("#overlay_inner_user_media_display");
 	container.classList.remove("hidden"); 
-	container.innerHTML = e.target.outerHTML
+	container.innerHTML = e.target.parentNode.children[0].outerHTML;
+	container.children[0].classList.remove("hidden");
 }
 
 function add_event_new_media(){

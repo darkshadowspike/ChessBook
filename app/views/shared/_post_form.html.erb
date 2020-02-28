@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="post_form_text_zone">
-			<img src="<%= url_for(current_user.avatar) %>" height="34px" >
+			<img src="<%= url_for(current_user.avatar.variant(resize: 'x34',  combine_options: {gravity: 'Center', crop: '34 x 34 + 0 + 0'})) %>" height="34px" >
 			<%= f.text_area :content, placeholder: "Write a post" %>
 		</div>
 

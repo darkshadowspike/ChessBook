@@ -1,5 +1,38 @@
 
 
+/* edit */
+
+#edit_user_page{
+	margin: 80px auto;
+	width: 50%;
+	padding: 50px;
+	background-color: #f0ebeb;
+	border-radius: 3px;
+	border: 1px solid #5b1d1d3d;
+}
+
+#edit_user_page #sp_submit input{
+	color: #fff;
+	background-color: #c94b4b;
+	border: 1px solid #7d2929;
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 2px 6px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	white-space: nowrap;
+	margin-top: 10px;
+}
+
+#edit_user_page #sp_submit input:hover{
+	background-color: #a23b3b;
+	border: 1px solid #662121;
+}
 
 /* index */
 
@@ -13,7 +46,7 @@
 
 #accept_frienships, #show_users{
 	background-color: white;
-	width: 695px;
+	width: 60vw;
 	border: 1px solid #dac9c9b8;
 	border-radius: 3px;
 	display: flex;
@@ -118,25 +151,36 @@
 #show_container{
 	background-color: #f0ebeb;
 	margin-top: 20px;
+	padding-bottom: 20px;
 }
 
 #show_wrapper{
 	margin: 0 auto 0 auto;
-	width: 981px;
-	padding-right: 205px;
+	width: 60vw;
+	padding-right: 20vw;
 	box-sizing: content-box;
 }
 
 #mural_container{
-	width: 849px;
+	width: 100%;
+	background-color: #C9C9BD;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 #mural_container .mural{
-	width:849px; 
+	
 	height:313px;
 	border-left: 1px solid #5b1d1d3d;
 	border-right: 1px solid #5b1d1d3d;
 	box-sizing: border-box;
+	flex-shrink: 0;
+	flex-grow: 0;
+	flex-basis: content;
+	width: auto;
 }
 
 #show_user_options_buttons{
@@ -204,7 +248,6 @@
 	bottom: 220px;
 	left: 215px;
 	line-height: 10px;
-  	display: inline-block;
   	text-decoration: none;
   	font-size: 20px;		
 	font-weight: 500;
@@ -219,42 +262,57 @@
 
 #edit_options_buttons #edit_profile_button{
   position: relative;
-  left: 720px;
-  top: -45px;
+  height: 34px;
+  left: 17vw;
+  top: -115px;
+
 }
 
-#edit_profile_button  button, #edit_avatar_button button, #edit_wall_button button {
+#edit_profile_button  button, #edit_avatar_button button, #edit_wall_button button ,#friendship_button_container .friendship_form form button{
 	border: 1px solid #9d9d9d;
 	border-radius: 2px;
 	background-color: #f0ebeb;
+	padding-top: 0;
+	padding-bottom: 0;
 	width: 90px;
-	height: 30px;
+	height: 32px;
 	cursor: pointer;
 	box-sizing: content-box;
 }
 
-#edit_profile_button  button:hover, #edit_avatar_button button:hover, #edit_wall_button button:hover{
+#friendship_button_container .friendship_form form button{ width: auto; }
+
+#edit_profile_button  button:hover, #edit_avatar_button button:hover, #edit_wall_button button:hover, #friendship_button_container .friendship_form form button:hover{
 	background-color: #eee6e6;
 }
 
 
-#edit_avatar_button{
+#edit_avatar_button, #friendship_button_container{
 	position: relative;
-	left: 500px;
+	height: 34px;
 	top: -77px;
+	left: 17vw;
 }
+
+#friendship_button_container{
+	top: -8px;
+	left: 20vw;
+}
+
+
 
 #edit_wall_button{
 	position: relative;
-	left: 610px;
-	top: -109px;
+	height: 34px;
+	left: 17vw;
+	top: -147px;
 }
 
 
 /* posts form */
 
 #post_form {
-	width: 849px;
+	width: 100%;
 	background: white;
 	border-radius: 3px;
 	box-sizing: border-box;
@@ -356,7 +414,7 @@
 }
 
 .post_container{
-		width: 849px;
+	width: 100%;
 	background: white;
 	border-radius: 3px;
 	box-sizing: border-box;
@@ -487,6 +545,7 @@
 	display: flex;
 	align-items: center;
 	padding: 2px;
+	width: 80%;
 }
 
 .post_comments .comment_form .comment_text textarea{
@@ -511,7 +570,7 @@
 	display: flex;
 	align-items: center;
 	margin-top: 10px;
-	width: 830px;
+	
 }
 
 .comments_list .main_comment_container> .comment_content{
@@ -590,12 +649,212 @@
 #home_container{
 	background-color: #f0ebeb;
 	margin-top: 20px;
+	padding-bottom: 20px;
 }
 
 #home_wrapper{
 	margin: 0 auto 0 auto;
-	width: 981px;
+	width: 60vw;
 	padding-top: 30px;
-	padding-right: 205px;
+	padding-right: 20vw;
 	box-sizing: content-box;
+}
+
+/* gamechat */
+
+#gamechat_wrapper{
+	height: calc(100% - 43px);
+	display: flex;
+}
+
+.gamechat_warning{
+	margin: auto;
+	width: 100%;
+	text-align: center;
+	background:  #f0ebeb;
+}
+
+
+#game_chat{
+	margin-top: 43px;
+	grid-template-rows: 50% 50%; 
+	flex-grow: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+
+#gamechat_friend_list{
+	margin-top: 43px;
+	background: white;
+	border-right: 1px solid #dac9c9b8;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: auto;
+	height: 100%;
+}
+
+#gamechat_friend_list .gamechat_list_title{
+	background: white;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+	border-bottom: 1px solid #dac9c9b8;
+}
+
+#gamechat_friend_list .gamechat_list_title img{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	flex-grow: 0;
+	margin-right: 5px;
+}
+
+#gamechat_friend_list .gamechat_list_title h2{
+ 		flex-shrink: 0;
+	flex-grow: 0;
+}
+
+#gamechat_friend_list ul{
+	padding: 0;
+	overflow-y: scroll; 
+	scrollbar-color: #7b7979c2 #f0ebeb;
+	margin:0;
+}
+
+
+#gamechat_friend_list ul .gamechat_list_friend{
+	list-style: none;
+	
+}
+
+#gamechat_friend_list ul .gamechat_list_friend button{
+	display: flex;
+	border: none;
+	border-radius: 10px;
+	padding: 5px 10px;
+	width: 95%;
+	margin: 5px auto 0 auto;
+	cursor:pointer;
+	background: none;
+}
+
+#gamechat_friend_list ul .gamechat_list_friend .friend_selected{
+	background-color: #f0ebeb;
+}
+
+#gamechat_friend_list ul .gamechat_list_friend button img{
+	width: 50px;
+	height:50px;
+	border-radius: 50px;
+	flex-shrink: 0;
+	flex-grow: 0;
+	margin-right: 10px;
+}
+
+#gamechat_friend_list ul .gamechat_list_friend button h3{
+	margin: auto 5px;
+	white-space: nowrap;
+	font-size: 1.5vw;
+}
+
+.gamechat_title{
+	background: white;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+	border-bottom: 1px solid #dac9c9b8;
+}
+
+#game_chat .gamechat_title img{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	flex-grow: 0;
+	margin-right: 5px;
+}
+
+#game_chat .gamechat_title h2{
+ 	flex-shrink: 0;
+	flex-grow: 0;
+	font-size: 15px;
+	padding: 13px;
+}
+
+#game_chat_container{
+	display: flex;
+	margin: 0;
+	padding: 0;
+	flex-grow: 1;
+}
+
+#game_chat_container #chessgame{
+		flex-grow: 2;
+}
+
+#game_chat_container #chat{
+	width: 40%;
+	border-left: 1px solid #dac9c9b8;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+#game_chat_container #chat .message_list{
+	scrollbar-color: #7b7979c2 #f0ebeb;
+	border: 0;
+	flex-grow: 1;
+	padding-right: 5px;
+}
+
+#game_chat_container #chat .message_list .friend_message, #game_chat_container #chat .message_list .current_user_message{
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 70%;
+	overflow-wrap: break-word;
+	max-width: 100%;
+}
+
+#game_chat_container #chat .message_list .friend_message p, #game_chat_container #chat .message_list .current_user_message p{
+	max-width: 100%;
+}
+
+#game_chat_container #chat .message_list .friend_message img{
+	margin-left: 5px;
+	margin-right: 5px;
+	height: 28px;
+	width: 28px;
+	flex-shrink: 0;
+	flex-grow:0;
+}
+
+#game_chat_container #chat form{
+	background-color: #f0ebeb;
+	width: 95%;
+	border-radius: 30px;
+	display: flex;
+	align-items: center;
+	padding: 2px;
+	margin: 5px auto 10px auto;
+}
+
+#game_chat_container #chat form textarea{
+	border: 0;
+	width:100%;
+	resize: none;
+	background: none;
+	border-radius: 30px;
+	height: 15px;
+	padding-left: 10px;
+}
+
+#game_chat_container #chat form button{
+	height: 26px;
+	background: none;
+	border: none;
+	cursor: pointer;
 }

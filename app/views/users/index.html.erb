@@ -16,7 +16,7 @@
 
 <div id="users_page_wrapper">
 
-	<% if logged_in?  && !@search && !@friends_of %>
+	<% if logged_in?  && !@search && !@friends_of  && @requests.any? %>
 		<div id="accept_frienships">
 			<h2>Friendship requests</h2>
 			<%= render "shared/friendship_requests" %>

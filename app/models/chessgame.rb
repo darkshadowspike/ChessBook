@@ -63,8 +63,12 @@ class Chessgame < ApplicationRecord
 		return true
 	end
 
-	def self.game_between_users(first_user, other_user)
-		return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: first_user.id, other_user_id: other_user.id)[0]
+	def self.game_between_users(first_user, other_user, id_only = false)
+		unless id_only
+			return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: first_user.id, other_user_id: other_user.id)[0]
+		else
+			return Chessgame.where("(player1_id = :user_id AND player2_id = :other_user_id) OR (player1_id = :other_user_id AND player2_id = :user_id)",user_id: first_user, other_user_id: other_user)[0]
+		end
 	end
 
 	#check if there is a game where the player hasn't check a new move or play

@@ -1,4 +1,10 @@
 
+	<% if @user.first_name %> 
+		 <div id="sp_user_name">
+	 		<%= f.text_field :user_name, placeholder: "User name"%>
+	 	</div>
+	<% end %>
+	
 	 <div id="sp_first_name">
 	 	<%= f.text_field :first_name, placeholder: "First name"%>
 	 </div>
@@ -17,7 +23,11 @@
 
 	 <div id="sp_birthday">
 	 	<%= f.label :birthday, "Birthday" %>
-	 	<input type="date" id="user_birthday" name="user[birthday]">	
+	 	<% if @user.birthday %>
+	 		<input type="date" id="user_birthday" name="user[birthday]" value="<%= @user.birthday %>" max ="<%=Time.new %>">
+	 	<% else %>
+	 		<input type="date" id="user_birthday" name="user[birthday]" max ="<%=Time.new %>">
+	 	<% end %>	
 	 </div>
 
 	 <div id="sp_gender">
@@ -28,6 +38,10 @@
 	 	<%= f.label :gender, "Female" %>
 	 </div>
 
-	 <div id="sp_submit">
-	 	<%= f.submit "Sign up" %>
+	  <div id="sp_submit">
+		 <% if @user.first_name %> 
+			 	<%= f.submit "Save changes" %>
+		 <% else %>
+			 	<%= f.submit "Sign up" %>	
+		 <% end %>
 	 </div>

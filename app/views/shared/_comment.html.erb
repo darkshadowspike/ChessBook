@@ -1,5 +1,5 @@
 		<div class="main_comment_container">
-			<img src="<%= url_for(comment.user.avatar) %>" height = "30px" >
+			<img src="<%= url_for(comment.user.avatar.variant(resize: 'x30',  combine_options: {gravity: 'Center', crop: '30 x 30 + 0 + 0'})) %>" height = "30px" >
 			<div class="comment_content">
 				<div class="name_and_content">
 					<a href="/users/<%=comment.user_id%>"><%= comment.user.name_capitalized %></a>

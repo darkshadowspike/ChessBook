@@ -3,7 +3,8 @@
 <div class="post_user_name">
 
 	<a href="<%= url_for(post.user) %>">
-			<img src="<%= url_for(post.user.avatar) %>"   >
+			<img src="<%= url_for(post.user.avatar.variant(resize: 'x40',  combine_options: {gravity: 'Center', crop: '40 x 40 + 0 + 0'})) %>"   >
+
 	</a>
 
 	<div class="name_and_date">

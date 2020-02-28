@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
 
 	def check_new_content
 		if current_user
+
 			@relationships_new_posts = Relationship.friends_with_new_posts(current_user)
 			@new_messages = Message.user_new_messages(current_user)
 			@new_requests = current_user.friend_new_requests

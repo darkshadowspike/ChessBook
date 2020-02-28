@@ -26,90 +26,136 @@
 	<% end %>
 </script>
 
-<% if chessgame.player1_id == current_user.id  %>
-				
-		<p id = "players_turn">
-				<% if chessgame.player1_turn %>
-				
-					Your turn
-				<% else %>
-					Enemy's turn
-				<% end %>
-		</p>
+<div id="player_bar">
+		<% if chessgame.player1_id == current_user.id  %>				
+			<% if chessgame.player1_turn %>
+				<h2 id = "players_turn" class="your_turn"> Your turn</h2>
+			<% else %>
+				<h2 id = "players_turn" class="enemy_turn"> Enemy's turn</h2>
+			<% end %>				
 
-<% elsif chessgame.player2_id == current_user.id  %>
-		<p id = "players_turn">
-				<% if !chessgame.player1_turn %>
-			
-					Your turn
-				<% else %>
-					Enemy's turn
-				<% end %>
-		</p>
+		<% elsif chessgame.player2_id == current_user.id  %>
+			<% if !chessgame.player1_turn %>					
+				<h2 id = "players_turn" class="your_turn"> Your turn</h2>
+			<% else %>
+				<h2 id = "players_turn" class="enemy_turn"> Enemy's turn</h2>
+			<% end %>
+		<% end %>
 
-<% end %>
+		<h3 id="checkstate"></h3>
 
-<div>
-	<p id="checkstate"></p>
+		<div id= newgame-button>
+			<%= form_for(:chessgame, url: chessgames_url) do |f| %>
+					<%= f.hidden_field :friend_id, value: friend.id %>	
+					<%= f.submit "New Game", id: "newgame"%>
+			<% end %>						
+		</div>
 </div>
 
+<form action="/chessgames/<%=chessgame.id%>" accept-charset="UTF-8" method="post" data-remote="true" id='chess_form' class="chess"> 
+		<input type="hidden" id="chessgame_friend_id" name="chessgame[friend_id]" value="<%= friend.id %>">
+		<input name="_method" type="hidden" value="patch" />
+			<ul id="chessboard">
+				<% if chessgame.player1_id == current_user.id  %>
+					<% table_ind = 0 %>
+					
+					<% chessgame.board.nodes.each_with_index do |node,ind|%>					
+								<li>
+									<% pos_str = node.text_pos  %>
 
-<form action="/chessgames/<%=chessgame.id%>" accept-charset="UTF-8" method="post" data-remote="true" id='chess_form' > 
-	<input type="hidden" id="chessgame_friend_id" name="chessgame[friend_id]" value="<%= friend.id %>">
-	<input name="_method" type="hidden" value="patch" />
-	<div id ="chess">
-		<ul id="chessboard">
-			<% if chessgame.player1_id == current_user.id  %>
-				
-				<% chessgame.board.nodes.each_with_index do |node,ind|%>					
-							<li>
-								<% pos_str = node.text_pos  %>
-										<% if node.class != Node %>
-											<% symbol = node.symbol %>
+									<% if table_ind == 1  %> 
+										<% if ind % 8 == 0 %>
+											<% table_ind = 1  %>
 										<% else %>
-											<% symbol = " " %>
+											<% table_ind = 0  %>
 										<% end %>
-								<% if chessgame.player1_turn %>
-
-									<div class="board_box_container"> 
 										
-							
-										<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
-												 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>" ><%= symbol %></button>
-									</div>
-								<% else %>
-									<div class="board_box_container" >
-										<button id= "<%= pos_str %>" type="button" class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>"><%= symbol %></button>
-									</div>
-								<% end %>			
-							</li>			
-				<% end %>
-			
+									<% elsif  table_ind == 0 %>
+										<% if ind % 8 == 0 %>
+											<% table_ind = 0  %>
+										<% else %>
+											<% table_ind = 1  %>
+										<% end %>
+									<% end %>
 
-			<% elsif chessgame.player2_id == current_user.id  %>
+									<% if node.class != Node %>
+										<% symbol = node.symbol %>
+									<% else %>
+										<% symbol = " " %>
+									<% end %>
 
-				<% chessgame.board.nodes.reverse.each_with_index do |node, ind|%>
-						
-							<li>
-								<% pos_str = node.text_pos  %>
+									<% if chessgame.player1_turn %>
+
+										<div class="board_box_container"> 
+											
+								
+											<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
+													 class="board_box board_<%=(table_ind.even?)? 'white' : 'black'%>_box <%= node.class%>" >
+											    <%= render "chess_pieces", symbol: symbol %>
+													 	
+											</button>
+										</div>
+									<% else %>
+										<div class="board_box_container" >
+											<button id= "<%= pos_str %>" type="button" class="board_box board_<%=(table_ind.even?)? 'white' : 'black'%>_box <%= node.class%>">
+												 <%= render "chess_pieces", symbol: symbol %>
+													
+											</button>
+										</div>
+									<% end %>			
+								</li>			
+					<% end %>
+				
+
+				<% elsif chessgame.player2_id == current_user.id  %>
+
+					<% table_ind = 0 %>
+
+					<% chessgame.board.nodes.reverse.each_with_index do |node, ind|%>
+								
+								<li>
+									<% pos_str = node.text_pos  %>
+
+									<% if table_ind == 1  %> 
+										<% if ind % 8 == 0 %>
+											<% table_ind = 1  %>
+										<% else %>
+											<% table_ind = 0  %>
+										<% end %>
+										
+									<% elsif  table_ind == 0 %>
+										<% if ind % 8 == 0 %>
+											<% table_ind = 0  %>
+										<% else %>
+											<% table_ind = 1  %>
+										<% end %>
+									<% end %>
+
 									<% if node.class != Node %>
 										<% symbol = node.symbol %>
 									<% end %>
-								<% if !chessgame.player1_turn %>
-									<div class="board_box_container"> 
+									<% if !chessgame.player1_turn %>
+										<div class="board_box_container"> 
 
-										<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
-											 class="board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>" ><%= symbol %></button>
-									</div>
-								<% else %>
-									<div class="board_box_container" >
-										<button id= "<%= pos_str %>" type="button" class="board_box board_box board_<%=(ind.even?)? 'white' : 'black'%>_box <%= node.class%>"><%= symbol %></button>
-									</div>
-								<% end %>			
-							</li>		
+
+											<button id= "<%= pos_str %>" type="button" value="<%= pos_str %>"
+												 class="board_box board_<%=(table_ind.even?)? 'white' : 'black'%>_box <%= node.class%>" >
+												 <%= render "chess_pieces", symbol: symbol %>
+												 
+											</button>
+										</div>
+									<% else %>
+										<div class="board_box_container" >
+											<button id= "<%= pos_str %>" type="button" class="board_box board_box board_<%=(table_ind.even?)? 'white' : 'black'%>_box <%= node.class%>">
+												<%= render "chess_pieces", symbol: symbol %>
+													
+											</button>
+										</div>
+									<% end %>	
+	
+								</li>		
+					<% end %>
+
 				<% end %>
-
-			<% end %>
-		</ul>
-	</div>	
+			</ul>
 </form>

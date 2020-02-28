@@ -37,4 +37,8 @@ class Message < ApplicationRecord
 		return Message.where("#{messages_query}",user_id: user.id).group(:sender_id).includes(:sender)
 	end
 
+	def self.read_all(user_id, sender_id)
+		Message.where("receiver_id = :user_id AND sender_id = :sender_id AND viewed = 0",user_id: user_id, sender_id: sender_id).update_all(viewed: true)
+	end
+
 end

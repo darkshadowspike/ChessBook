@@ -1,5 +1,7 @@
 
 class User < ApplicationRecord
+
+	require "mini_magick"
 	
 	attr_accessor :activation_token, :remember_token, :reset_token
 	#Has_secure_passwords Adds methods to set and authenticate  a password with  BCrypt password
@@ -343,6 +345,12 @@ class User < ApplicationRecord
 	def downcase_email
 		self.email = self.email.downcase
 	end
+
+	#def resize_avatar_and_wall
+	#	avatar = MiniMagick::Image.open(self.avatar)
+	#	mural =  MiniMagick::Image.open(self.mural)
+	#	self.avatar = avatar.crop! "#{avatar.height}x#{avatar.height} +x +y"
+	#end
 
 	#creates activation token  and its digest and assign them like instace variables
 	def create_activation_hash

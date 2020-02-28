@@ -1,12 +1,12 @@
 <%= form_for(:session, url: login_url) do |f| %>
-	<%= f.label :email , "Email" %>
+	<%= f.label :email , "Email", id:"label_email" , class: "label" %>
 	<%= f.text_field :email %>
 
-	<%= f.label :password , "Password" %>
+	<%= f.label :password , "Password", id: "label_password", class: "label"  %>
 	<%= f.password_field :password %>
 
-	<%= f.label :remember, "Remember me" %>
+	<%= f.label :remember, "Remember me", id: "label_remember", class: "label" %>
 	<%= f.check_box :remember %>
 
-	<%= f.submit "log in"%>
+	<%= f.submit "log in", id:"submit_button"%>
 <% end %>

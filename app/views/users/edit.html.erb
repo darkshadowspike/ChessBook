@@ -1,28 +1,13 @@
-
-<%= form_for(@user) do |f| %>
-	<div>
-	 	<%= f.text_field :first_name, placeholder: "Firstname"%>
-	 </div>
-
-	 <div>
-	 	<%= f.text_field :last_name, placeholder: "Surname"%>
-	 </div>
-
-	 <div>
-	 	<%= f.text_field :user_name, placeholder: "Username"%>
-	 </div>
-
-	 <div>
-	 	<%= f.email_field :email, placeholder: "Email address"%>
-	 </div>
-
-	  <div>
-	 	<%= f.label :birthday, "Birthday" %>
-	 	<input type="date" id="user_birthday" name="user[birthday]" value= <%=@user.birthday %> >	
-	 </div>
-
-	 <div>
-	 	<%= f.submit "Save changes" %>
-	 </div>
-
-<% end %>
+<div id="edit_user_page">
+	<h2><%=@user.name_capitalized %>'s info </h2>
+	<% if @user.errors.any? %>
+		<ul>
+			<% @user.errors.full_messages.each do |message|%> 
+				<li> <%= message %> </li> 
+			<%end%>
+		</ul>
+	<% end %>
+	<%= form_for(@user) do |f| %>			
+			<%= render "shared/form", f: f %>
+	<% end %>
+</div>

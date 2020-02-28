@@ -19,7 +19,8 @@ connect_chat_channel= ()-> (
 				    	if  message.sender_name == chat_data.user_name    
 					   		messages.insertAdjacentHTML("beforeend", "<li class='current_user_message'><p>#{message.content}</p></li>");
 					   	else
-					   		messages.insertAdjacentHTML("beforeend", "<li class='friend_message'><img src=#{message.sender_avatar_link}><p>#{message.content}</p></li>");					   		
+					   		sender_avatar_link = document.querySelectorAll(".message_friend_avatar_pic")[0].src
+					   		messages.insertAdjacentHTML("beforeend", "<li class='friend_message'><img src=#{sender_avatar_link}><p>#{message.content}</p></li>");					   		
 
 					   	if messages.scrolltop != 0
 					   		messages.scrollTop = messages.scrollHeight - messages.clientHeight;

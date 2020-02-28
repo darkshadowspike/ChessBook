@@ -1,9 +1,17 @@
 <div id="next_message_link_<%=@relationship.id %>">
 	<%= render 'shared/next_link_messages' %>
 </div>
-<ul id = "message_list_<%=@relationship.id %>" class="message_list" data-relationship-id="<%=@relationship.id %>" >
-	<%= render 'shared/messages', messages: @messages %>
-</ul>
+
+<% if @messages.any? %>
+	<ul id = "message_list_<%=@relationship.id %>" class="message_list" data-relationship-id="<%=@relationship.id %>" >
+		<%= render 'shared/messages', messages: @messages %>
+	</ul>
+<% else %>
+	<ul id = "message_list_<%=@relationship.id %>" class="message_list" data-relationship-id="<%=@relationship.id %>" >
+		<img src="<%= url_for(@friend.avatar.variant(resize: 'x28',  combine_options: {gravity: 'Center', crop: '28 x 28 + 0 + 0'})) %>"  class="message_friend_avatar_pic hidden">
+		<li>No messages, write something!</li>
+	</ul>
+<% end %>
 
 <%= form_with model: @message do |f| %>
 	<%= f.text_area :content, placeholder: "write a message" %>

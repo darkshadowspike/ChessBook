@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 	before_action :is_admin, only: [:destroy]
 	before_action :set_friends, only: [:home, :gamechat, :show, :checkup, :index, :edit]
 	before_action :set_user, only: [:home, :gamechat, :checkup, :index]
-	before_action :check_new_content, only: [:home, :gamechat,:show,  :checkup, :index, :edit]
+	before_action :check_new_content, only: [:home, :gamechat,:show,  :checkup, :index, :edit, :update]
 
 	def home
 		if logged_in?
@@ -57,8 +57,15 @@ class UsersController < ApplicationController
 
 
 	def checkup
+		#debugger
 		if logged_in?
 			current_user.connect
+			@gamechat = user_params[:in_gamechat].to_i
+			if  @gamechat == 1
+				Message.read_all(current_user.id, user_params[:message_sender_id].to_i )
+				@game = Chessgame.game_between_users(current_user.id, user_params[:message_sender_id].to_i, true)
+				@game.viewing_game
+			end
 		end
 		respond_to do |format|
 				format.html 
@@ -67,7 +74,8 @@ class UsersController < ApplicationController
 	end
 
 	def navbar_entries
-		@get_posts = user_params[:get_posts] 
+		@get_posts = user_params[:get_posts]
+		@gamechat =  user_params[:in_gamechat].to_i
 		@get_messages = user_params[:get_messages]
 		@get_requests = user_params[:get_requests]
 
@@ -80,6 +88,9 @@ class UsersController < ApplicationController
 			@pagy , @new_requests = pagy(current_user.friend_requests , page: 1 ,items: 5)
 			if !@new_requests.any?
 				@pagy, @new_requests = pagy(current_user.friends_suggestion(true) , page: 1 ,items: 5)
+				if !@new_requests.any?
+				 	@pagy, @new_requests = pagy(current_user.friends_suggestion(false) , page: 1 ,items: 5)
+				end	
 			end
 		end
 		respond_to do |format|
@@ -89,8 +100,7 @@ class UsersController < ApplicationController
 	end
 
 	def gamechat
-		@new_messages= []
-		@new_chessgame_moves = []
+		@gamechat = 1
 		@message = current_user.sended_messages.build
 		unless params[:friend_id]
 			@friend = @friends[0]
@@ -99,7 +109,7 @@ class UsersController < ApplicationController
 		end
 		if @friend
 			@relationship = Relationship.friendship(current_user.id, @friend.id)
-			@pagy, @messages = pagy(Message.messages_between_users(current_user,@friend ),   page: params[:page] ,  items: 8, link_extra: 'data-remote="true"')
+			@pagy, @messages = pagy(Message.messages_between_users(current_user,@friend ),   page: params[:page] ,  items: 20, link_extra: 'data-remote="true"')
 			@chessgame = Chessgame.game_between_users(current_user,@friend)
 			if  @chessgame
 				@chessgame.load_board
@@ -121,7 +131,7 @@ class UsersController < ApplicationController
 
 		if logged_in?
 			@post = current_user.posts.build
-			@comment = current_user.comments.build
+			comment = current_user.comments.build
 			@relationship = Relationship.friendship(current_user.id, @user.id)
 			if @relationship
 				@relationship.watched_posts_from_user(@user)
@@ -145,8 +155,8 @@ class UsersController < ApplicationController
 
 	def create
 		@user= User.new(user_params)
-		@user.avatar.attach(io: File.open('app/assets/images/default_profile_pic.png'), filename: "default_profile_pic.png")
-		@user.mural.attach(io: File.open('app/assets/images/default_profile_mural.jpg'), filename: "default_profile_mural.jpg")
+		@user.avatar.attach(io: File.open('./public/default_profile_pic.png'), filename: "default_profile_pic.png")
+		@user.mural.attach(io: File.open('./public/default_profile_mural.jpg'), filename: "default_profile_mural.jpg")
 		if @user.save
 			@user.send_activation_email
 			render "activation"
@@ -182,7 +192,7 @@ class UsersController < ApplicationController
 	#check the paramaters and only passes permited  ones
 	def user_params
 		if params[:user]!= nil
-			params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural, :get_messages, :get_posts, :get_requests)
+			params.require(:user).permit(:first_name, :last_name, :user_name, :email , :birthday, :gender, :password, :avatar, :mural, :get_messages, :get_posts, :get_requests, :in_gamechat, :message_sender_id)
 		else
 			@user = User.find(params[:id])
 			flash[:danger] = "empty form or values" 

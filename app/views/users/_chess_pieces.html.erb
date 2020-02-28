@@ -1,0 +1,29 @@
+<% if symbol == "♙" %>
+	
+	<%=image_tag("/White_Pawn.png", alt: "♙")%>
+<% elsif symbol == "♖" %>
+	<%=image_tag("/White_Rook.png", alt: "♖")%>
+<% elsif symbol == "♘" %>
+	<%=image_tag("/White_Knight.png", alt: "♘")%>
+<% elsif symbol == "♗" %>
+	<%=image_tag("/White_Bishop.png", alt: "♗")%>
+<% elsif symbol == "♕" %>
+	<%=image_tag("/White_Queen.png", alt: "♕")%>
+<% elsif symbol == "♔" %>
+	<%=image_tag("/White_King.png", alt: "♔")%>
+<% elsif symbol == "♟" %>
+	<%=image_tag("/Black_Pawn.png", alt: "♟")%>
+<% elsif symbol == "♜" %>
+	<%=image_tag("/Black_Rook.png", alt: "♜")%>
+<% elsif symbol == "♞" %>
+	<%=image_tag("/Black_Knight.png", alt: "♞")%>
+<% elsif symbol == "♝" %>
+	<%=image_tag("/Black_Bishop.png", alt: "♝")%>
+<% elsif symbol == "♛" %>
+	<%=image_tag("/Black_Queen.png", alt: "♛")%>
+<% elsif symbol == "♚" %>
+	<%=image_tag("/Black_King.png", alt: "♚")%>
+<% else %>
+	<div class="blank_space"><%= symbol%></div>
+<% end %>
+

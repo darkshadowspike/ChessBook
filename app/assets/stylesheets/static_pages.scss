@@ -146,3 +146,83 @@
 #start_signup_grid #sp_submit input:hover{
 	background: linear-gradient(#FBB73A, #a87b28);
 }
+
+#login_page{
+	margin: 50px auto;
+	padding: 50px;
+	background-color: #f0ebeb;
+	border-radius: 3px;
+	border: 1px solid #5b1d1d3d;
+	width: 50%;
+}
+
+#login_page form{
+	display: grid;
+	grid-gap: 5px;
+	grid-template-areas: "labele labelp labelr . " "email password remember log_in";
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+#login_page form .label{
+	font-weight: normal;
+	padding-left: 1px;
+	font-size: 12px;
+	text-align: left;
+	font-family: inherit;
+	width: auto;
+}
+
+#login_page form  #label_email{
+	grid-area: labele;
+	width: 100%;
+}
+
+#login_page form #label_password{
+	grid-area: labelp;
+	width: 100%;
+}
+
+#login_page form  #session_email{
+	grid-area: email;
+	width: 100%;
+}
+
+#login_page form #session_password{
+	grid-area: password;
+	width: 100%;
+}
+
+#login_page form #label_remember{
+	grid-area: labelr;
+	width: 100%;
+}
+
+#login_page form  #session_remember{
+	grid-area: remember;
+	margin-right: auto;
+	width: 100%;
+}
+
+#login form #submit_button{
+	grid-area: log_in;
+	color: #fff;
+	background-color: #c94b4b;
+	border: 1px solid #7d2929;
+	border-radius: 2px;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 2px 6px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	white-space: nowrap;
+	width: 60px;
+}
+
+#login form #submit_button:hover{
+	background-color: #a23b3b;
+	border: 1px solid #662121;
+}

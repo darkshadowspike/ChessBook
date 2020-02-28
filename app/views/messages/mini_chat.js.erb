@@ -10,11 +10,11 @@
 	if(chat_box != null){
 		chat_space.removeChild(chat_box);
 	}
-	chat_space.insertAdjacentHTML("beforeend", `		
+	chat_space.insertAdjacentHTML("afterbegin", `		
 		<div class ="chat_box" id="chat_box_<%=@relationship.id %>" >
 			<div class="chat_box_name">
 				<a href="<%= url_for(@friend) %>">
-					<img src="<%= url_for(@friend.avatar) %>"  height="28" width="28">
+					<img src="<%= url_for(@friend.avatar.variant(resize: 'x28',  combine_options: {gravity: 'Center', crop: '28 x 28 + 0 + 0'})) %>"  height="28" width="28">
 					<h3><%= @friend.name_capitalized %> </h3>
 				</a>
 				<button class="close_mini_chat_button" value="<%=@relationship.id %>"> 

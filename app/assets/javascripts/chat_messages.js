@@ -10,7 +10,8 @@ let loadNextPageMessages = function(e){
 
 	if(next_link_button.hasAttribute("loading")){ return } //checks for the loading attribute to stop if loading
 						
-	if ( e.target.scrollTop < Math.round((e.target.scrollHeight ) * 13 /100)){
+	if ( e.target.scrollTop < Math.round((e.target.scrollHeight ) * 3 /100)){
+		e.target.scrollTop = Math.round((e.target.scrollHeight ) * 10 /100)
 		next_link_button.click();
 		next_link_button.setAttribute("loading", true)
 	}

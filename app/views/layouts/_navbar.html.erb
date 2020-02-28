@@ -20,7 +20,7 @@
 			
 			<a href="<%= url_for(current_user) %>">
 				<button>
-					<img src="<%= url_for(current_user.avatar) %>"  height="24" width="24">
+					<img src="<%= url_for(current_user.avatar.variant(resize: 'x24',  combine_options: {gravity: 'Center', crop: '24 x 24 + 0 + 0'})) %>"  height="24" width="24">
 					<h3><%= current_user.name_capitalized %> </h3>
 				</button>
 			</a>
