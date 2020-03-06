@@ -73,6 +73,7 @@
           </form>
 
           <script> 
+                checkup_interval = setInterval(checkup, 100000)
                 document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
                 document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
                 if(typeof chat_data == "undefined" || typeof chat_data.user_name == "undefined"){ 

@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require "letter_opener" if Rails.env.development?
+#require "letter_opener" if Rails.env.development?
 
 module ChessBook
   class Application < Rails::Application
