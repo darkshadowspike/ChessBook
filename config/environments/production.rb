@@ -39,7 +39,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+  config.active_storage.service = :dropbox
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
@@ -95,4 +95,27 @@ Rails.application.configure do
   config.serve_static_assets = true
 
   config.public_file_server.enabled = true
+
+  #production action cable config
+
+  config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
+
+  config.action_cable.allowed_request_origins = ['https://chessbook.herokuapp.com', 'http://chessbook.herokuapp.com']
+
+  config.action_mailer.default :charset => "utf-8" 
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  host ="chessbook.herokuapp.com"
+  Rails.application.routes.default_url_options[:host] = host
+  config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
+  config.action_mailer.smtp_settings = {
+     address:              'smtp.gmail.com',
+     port:                 587,
+     domain:               'chessbook.herokuapp.com',
+     user_name:            ENV['GMAIL_USERNAME'],
+     password:             ENV['GMAIL_PASSWORD'],
+     authentication:       'plain',
+     enable_starttls_auto: true  }
+
+
 end
