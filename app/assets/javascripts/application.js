@@ -25,4 +25,5 @@
 //= require text_area.js
 //= require checkup.js
 //= require chess.js
+//= require_tree ./channels
 //= require_tree .

@@ -34,6 +34,6 @@ user =  User.find_by(email: "seeduser1@mail.com" )
 
 10.times do |index|
 	post_img = user.posts.create!(content: "Servants chess #{index}" )
-	post_img.media.attach(io: File.open('/servantchess.jpg'), filename: "servantchess.jpg")
+	post_img.media.attach(io: File.open('./public/servantchess.jpg'), filename: "servantchess.jpg")
 	user.posts.create!(content: "hello there! #{index}")
 end

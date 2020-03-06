@@ -3,4 +3,4 @@ post = document.querySelector("#post_<%=@post.id%>")
 
 post.setAttribute("id","post_form");
 post.classList.add("editing")
-post.innerHTML = "<%= j render 'shared/post_form' %>";
+post.innerHTML = "<%= j render 'shared/post_form', post: @post  %>";

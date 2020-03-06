@@ -63,7 +63,7 @@
 
     <% if logged_in? %>    
           <form action="/checkup" accept-charset="UTF-8" method="post" data-remote="true" class="hide">    
-            <% if current_page?(:controller => 'users', :action => 'gamechat') %>
+            <% if current_page?(:controller => 'users', :action => 'gamechat') && @friend %>
                 <input type="hidden" id="user_in_gamechat" name="user[in_gamechat]" value="1">
                 <input type="hidden" id="user_message_sender_id" name="user[message_sender_id]" value="<%= @friend.id %>">
             <% else %>
@@ -73,6 +73,7 @@
           </form>
 
           <script> 
+                checkup_interval = setInterval(checkup, 100000)
                 document.querySelector("body").style.setProperty('--screen-height', screen.height + 'px')
                 document.querySelector("body").style.setProperty('--screen-width', screen.width + 'px')
                 if(typeof chat_data == "undefined" || typeof chat_data.user_name == "undefined"){ 

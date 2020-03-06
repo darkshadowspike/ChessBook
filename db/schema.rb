@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2020_01_27_154402) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -40,7 +43,7 @@ ActiveRecord::Schema.define(version: 2020_01_27_154402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "player1_turn", default: true
-    t.boolean "viewed_play", default: true
+    t.boolean "viewed_play", default: false
     t.index ["player1_id", "player2_id"], name: "index_chessgames_on_player1_id_and_player2_id"
     t.index ["player1_id"], name: "index_chessgames_on_player1_id"
     t.index ["player2_id"], name: "index_chessgames_on_player2_id"
@@ -48,8 +51,8 @@ ActiveRecord::Schema.define(version: 2020_01_27_154402) do
 
   create_table "comments", force: :cascade do |t|
     t.string "content"
-    t.integer "post_id"
-    t.integer "user_id"
+    t.bigint "post_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
@@ -70,7 +73,7 @@ ActiveRecord::Schema.define(version: 2020_01_27_154402) do
 
   create_table "posts", force: :cascade do |t|
     t.text "content"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "viewed", default: false
@@ -111,4 +114,8 @@ ActiveRecord::Schema.define(version: 2020_01_27_154402) do
     t.datetime "online_at"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "posts", "users"
 end

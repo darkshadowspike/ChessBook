@@ -12,7 +12,7 @@
 					<% relationships_new_posts.each do |relationship| %>
 						<li>
 							<% if relationship.friend_active_id == current_user.id  %>
-								<a href="/users/<%=relationship.friend_pasive_id%>">	
+								<a href="/users/<%=relationship.friend_pasive_id%>" data-turbolinks="false">	
 									<button>
 										<img src="<%= url_for(relationship.friend_pasive.avatar) %>" >
 										<div>
@@ -21,7 +21,7 @@
 									</button>					
 								</a>
 							<% elsif relationship.friend_pasive_id == current_user.id  %>
-								<a href="/users/<%=relationship.friend_active_id%>">	
+								<a href="/users/<%=relationship.friend_active_id%>" data-turbolinks="false">	
 									<button>
 										<img src="<%= url_for(relationship.friend_active.avatar) %>" >
 										<div>

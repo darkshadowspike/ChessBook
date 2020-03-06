@@ -1,12 +1,15 @@
-if( document.querySelector("#contacts") != null){
-	document.querySelector("#contacts").innerHTML = "<%= j(render 'shared/friends_list', friends: @friends)%>";
-}
+<% if logged_in? %>
 
-<% if @new_requests.any? || @relationships_new_posts.any? || @new_messages.any? || @new_chessgame_moves.any?  %>
-	if( document.querySelector("#navbar_notification_buttons") != null){
-		document.querySelector("#navbar_notification_buttons").innerHTML = "<%= j( render 'layouts/navbar_notification_buttons' )%>";
-		document.querySelector("#friendship_request_notification").addEventListener('click',press_navbar_button);
-		document.querySelector("#general_notification").addEventListener('click',press_navbar_button);
-		document.querySelector("#new_message_notification").addEventListener('click',press_navbar_button);
+	if( document.querySelector("#contacts") != null){
+		document.querySelector("#contacts").innerHTML = "<%= j(render 'shared/friends_list', friends: @friends)%>";
 	}
+
+	<% if @new_requests.any? || @relationships_new_posts.any? || @new_messages.any? || @new_chessgame_moves.any?  %>
+		if( document.querySelector("#navbar_notification_buttons") != null){
+			document.querySelector("#navbar_notification_buttons").innerHTML = "<%= j( render 'layouts/navbar_notification_buttons' )%>";
+			document.querySelector("#friendship_request_notification").addEventListener('click',press_navbar_button);
+			document.querySelector("#general_notification").addEventListener('click',press_navbar_button);
+			document.querySelector("#new_message_notification").addEventListener('click',press_navbar_button);
+		}
+	<% end %>
 <% end %>

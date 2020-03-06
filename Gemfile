@@ -8,13 +8,15 @@ gem 'rails', '~> 5.2.2'
 # Bcrypt for Secure Hash Algorithm
 gem 'bcrypt', '3.1.12'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3' , '~> 1.3.6'
+#gem 'sqlite3' , '~> 1.3.6'
+#use postgresql as the databes for active record
+gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
@@ -26,7 +28,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+ gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -39,6 +41,8 @@ gem 'jbuilder', '~> 2.5'
 # Using pagy for pagination
 gem 'pagy'
 
+#activestore for dropbox used in production
+gem 'activestorage-dropbox'
 
 
 

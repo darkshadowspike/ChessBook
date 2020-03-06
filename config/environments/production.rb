@@ -23,7 +23,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -39,7 +39,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+  config.active_storage.service = :dropbox
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
@@ -47,7 +47,7 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-   config.force_ssl = true
+   #config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -95,4 +95,33 @@ Rails.application.configure do
   config.serve_static_assets = true
 
   config.public_file_server.enabled = true
+
+  #production action cable config
+  config.middleware.use MidActionCable
+  #config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
+  config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
+
+ # config.action_cable.allowed_request_origins = ['https://chessbook.herokuapp.com', 'http://chessbook.herokuapp.com']
+ config.action_cable.allowed_request_origins = ['http://chessbook.herokuapp.com']
+
+  config.action_mailer.default :charset => "utf-8" 
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  host ="chessbook.herokuapp.com"
+  Rails.application.routes.default_url_options[:host] = host
+  #config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
+  config.action_mailer.smtp_settings = {
+     address:              'smtp.sendgrid.net',
+     port:                 '465',
+     domain:               'chessbook.herokuapp.com',
+     user_name:            ENV['SENDGRID_USERNAME'],
+     password:             ENV['SENGRID_PASSWORD'],
+     authentication:       'plain',
+     enable_starttls_auto: true,
+     openssl_verify_mode:  'none',
+     ssl: true,
+     tls: true   }
+
+  #config.consider_all_requests_local = true
+
 end

@@ -6,6 +6,7 @@ class PostsController < ApplicationController
 	
 	def create
 		@post = current_user.posts.build(post_params)
+		@new_post = current_user.posts.build
 		if @post.save
 			Relationship.post_created(current_user)
 			respond_to do |format|

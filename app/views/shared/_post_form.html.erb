@@ -1,4 +1,4 @@
-<%= form_with(model: @post) do |f| %>
+<%= form_with(model: post) do |f| %>
 
 		<div class="post_form_title">
 			<h2>Create Post</h2>
@@ -12,10 +12,9 @@
 		
 
 		<div class="post_form_end_button">
-			<Button type="button" id="form_media_button">Photo/Video</Button>
-			<%= f.file_field :media , accept: 'image/png,image/gif,image/jpeg,video/mp4,video/webm,video/ogg' ,direct_upload: true, class: 'hidden', id: "form_media_field" %>  
-
-			<%= f.submit "Post" %>
+			<Button type='button' id='form_media_button'>Photo/Video</Button>
+			<%= f.file_field :media , accept: 'image/png,image/gif,image/jpeg,video/mp4,video/webm,video/ogg' ,direct_upload: true, class: 'hidden', id: 'form_media_field' %>  
+			<%= f.submit 'Post' %>
 		</div>
 		
 

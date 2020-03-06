@@ -61,13 +61,16 @@ Rails.application.configure do
   #mailer configuration
   
   host = "localhost:3000"
+
+  #config.action_mailer.delivery_method = :sendmail
   Rails.application.routes.default_url_options[:host] = host
   Rails.application.routes.default_url_options[:protocol] = "http"
 
   #Using  letter_opener gem to  open emails in browser to develop
 
-  config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.perform_deliveries = true
+    #config.action_mailer.delivery_method = :letter_opener
+
+    #config.action_mailer.perform_deliveries = true
   
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
@@ -75,4 +78,27 @@ Rails.application.configure do
   config.serve_static_assets = true
 
   config.public_file_server.enabled = true
+
+  host = "localhost:3000"
+
+
+  Rails.application.routes.default_url_options[:host] = host
+  Rails.application.routes.default_url_options[:protocol] = "http"
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  #config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
+
+  config.action_mailer.smtp_settings = {
+     address:              'smtp.sendgrid.net',
+     port:                 '465',
+     domain:               'localhost:3000',
+     user_name:            ENV['SENDGRID_USERNAME'],
+     password:             ENV['SENGRID_PASSWORD'],
+     authentication:       'plain',
+     enable_starttls_auto: true ,
+     openssl_verify_mode:  'none',
+     ssl: true,
+     tls: true }
+
+
 end
