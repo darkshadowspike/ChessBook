@@ -25,9 +25,9 @@
 
 									
 										<% if game.player1_id == current_user.id %>
-											<a href="/gamechat?friend_id=<%=game.player2_id %>">
+											<a href="/gamechat?friend_id=<%=game.player2_id %>" data-turbolinks="false">
 
-												<button>
+												<button type="button"> 
 													<img src="<%= url_for(game.player2.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 													<div>
 														<h3><%= game.player2.name_capitalized %> </h3>
@@ -41,8 +41,8 @@
 											</a>
 
 										<% elsif game.player2_id == current_user.id %>
-											<a href="/gamechat?friend_id=<%=game.player1_id %>">
-												<button>
+											<a href="/gamechat?friend_id=<%=game.player1_id %>" data-turbolinks="false">
+												<button type="button" >
 													<img src="<%= url_for(game.player1.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 													<div>
 														<h3><%= game.player1.name_capitalized %> </h3>
@@ -63,8 +63,8 @@
 
 									<% if  @gamechat == 1 %>
 
-										<a href="/gamechat?friend_id=<%=message.sender_id%>">
-											<button>
+										<a href="/gamechat?friend_id=<%=message.sender_id%>" data-turbolinks="false">
+											<button type="button">
 												<img src="<%= url_for(message.sender.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 												<div>
 													<h3><%= message.sender.name_capitalized %> </h3>
@@ -76,7 +76,7 @@
 									<% else %>		
 					
 										<li>
-											<button type="submit" name="message[friend_id]" value="<%=message.sender_id %>">
+											<button type="submit" name="message[friend_id]" value="<%=message.sender_id %>" >
 												<img src="<%= url_for(message.sender.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>"  >
 												<div>
 													<h3><%= message.sender.name_capitalized %> </h3>
@@ -94,8 +94,8 @@
 								<li>
 									<% if @gamechat == 1 %>
 
-										<a href="/gamechat?friend_id=<%=message.sender_id%>">
-											<button>
+										<a href="/gamechat?friend_id=<%=message.sender_id%>" data-turbolinks="false">
+											<button type="button" >
 												<img src="<%= url_for(message.sender.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 												<div>
 													<h3><%= message.sender.name_capitalized %> </h3>
@@ -121,8 +121,8 @@
 							<li>
 								
 									<% if game.player1_id == current_user.id %>
-										<a href="/gamechat?friend_id=<%=game.player2_id %>">
-											<button>
+										<a href="/gamechat?friend_id=<%=game.player2_id %>" data-turbolinks="false">
+											<button type="button">
 												<img src="<%= url_for(game.player2.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 												<div>
 													<h3><%= game.player2.name_capitalized %> </h3>
@@ -132,8 +132,8 @@
 										</a>
 
 									<% elsif game.player2_id == current_user.id %>
-										<a href="/gamechat?friend_id=<%=game.player1_id %>">
-											<button>
+										<a href="/gamechat?friend_id=<%=game.player1_id %>" data-turbolinks="false">
+											<button type="button">
 												<img src="<%= url_for(game.player1.avatar.variant(resize: 'x48',  combine_options: {gravity: 'Center', crop: '48 x 48 + 0 + 0'})) %>" >
 												<div>
 													<h3><%= game.player1.name_capitalized %> </h3>

@@ -73,7 +73,7 @@ class Chessgame < ApplicationRecord
 
 	#check if there is a game where the player hasn't check a new move or play
 	def self.check_games_with_new_player_moves(user)
-		query ="(player1_id = :user_id AND player1_turn = 1 AND viewed_play = 0) OR (player2_id = :user_id AND player1_turn = 0 AND viewed_play = 0) "
+		query ="(player1_id = :user_id AND player1_turn = true AND viewed_play = false) OR (player2_id = :user_id AND player1_turn = false AND viewed_play = false) "
 		return Chessgame.where("#{query}",user_id: user.id).includes(:player1, :player2)
 	end
 

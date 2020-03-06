@@ -30,15 +30,15 @@ class Message < ApplicationRecord
 
 	def self.user_new_messages(user, new_only = true)
 		if new_only
-			messages_query = "receiver_id = :user_id AND viewed = 0"
+			messages_query = "receiver_id = :user_id AND viewed = false"
 		else
 			messages_query = "receiver_id = :user_id"
 		end
-		return Message.where("#{messages_query}",user_id: user.id).group(:sender_id).includes(:sender)
+		return Message.group('messages.id').where("#{messages_query}",user_id: user.id).group(:sender_id).includes(:sender)
 	end
 
 	def self.read_all(user_id, sender_id)
-		Message.where("receiver_id = :user_id AND sender_id = :sender_id AND viewed = 0",user_id: user_id, sender_id: sender_id).update_all(viewed: true)
+		Message.where("receiver_id = :user_id AND sender_id = :sender_id AND viewed = false",user_id: user_id, sender_id: sender_id).update_all(viewed: true)
 	end
 
 end

@@ -1,13 +1,21 @@
+console.log("pepino");
 posts = document.querySelector("#posts");
 
 <% if @post.errors.empty? %>
-	
+
+
 	posts.insertAdjacentHTML("afterbegin", "<li id='post_<%=@post.id%>' class='post_container'><%= j render 'shared/post' , post: @post  %></li>");
-	document.querySelector("#post_form").innerHTML ="<%= j render 'shared/post_form'  %>";
+	post_form = document.querySelector("#post_form");
+	post_form.innerHTML = "<%= j render 'shared/post_form', post: @new_post %>";
+	add_event_new_media();
+	form_media_button = document.querySelector("#form_media_button");
+	if(form_media_button!= null){
+       form_media_button.addEventListener('click',(e)=>{document.querySelector("#form_media_field").click() }); 
+    }
 
 <% else %>
 	post_form = document.querySelector("#post_form")
-	post_form.innerHTML ="<%= j render 'shared/post_form'  %>";
+	post_form.innerHTML ="<%= j render 'shared/post_form', post: @post  %>";
 	post_form.insertAdjacentHTML("afterbegin", "<ul><% @post.errors.full_messages.each do |message|%> <li> <%= message %> </li> <%end%> </ul>");
 
 <% end %>

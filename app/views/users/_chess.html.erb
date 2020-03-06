@@ -55,6 +55,7 @@
 <form action="/chessgames/<%=chessgame.id%>" accept-charset="UTF-8" method="post" data-remote="true" id='chess_form' class="chess"> 
 		<input type="hidden" id="chessgame_friend_id" name="chessgame[friend_id]" value="<%= friend.id %>">
 		<input name="_method" type="hidden" value="patch" />
+		
 			<ul id="chessboard">
 				<% if chessgame.player1_id == current_user.id  %>
 					<% table_ind = 0 %>

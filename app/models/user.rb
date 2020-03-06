@@ -263,12 +263,12 @@ class User < ApplicationRecord
 	#return other users that have requested a friendship with the user
 
 	def friend_requests
-		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0 ORDER BY new_request ASC , created_at ASC"
+		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = false ORDER BY new_request ASC , created_at ASC"
 		return User.where("id IN (#{active_ids})", user_id: self.id).includes( avatar_attachment: :blob)
 	end
 
 	def friend_new_requests
-		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0 AND new_request = 1"
+		active_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = false AND new_request = true"
 		return User.where("id IN (#{active_ids})", user_id: self.id).includes( avatar_attachment: :blob)
 	end
 
@@ -279,35 +279,35 @@ class User < ApplicationRecord
 
 	def friends
 		#sql query for the requested  and accepted friendships ID's using the user id
-		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = true"
 		#sql query for the received and accepted friendships ID's using the user id
-		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = true"
 		return User.where("id IN (#{active_ids}) OR id IN (#{pasive_ids})", user_id: self.id).includes( avatar_attachment: :blob)
 	end
 
 	def friends_ordered_by_latest_messaged
 		#sql query for the requested  and accepted friendships ID's using the user id
-		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = true"
 		#sql query for the received and accepted friendships ID's using the user id
-		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = true"
 		#sql query with both active and pasive ids
-		friends_query ="SELECT * FROM 'users' WHERE id IN (#{active_ids}) OR id IN (#{pasive_ids})"
-		users_receive_messages = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON  users.id = messages.sender_id"
-		user_last_sended_message = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON users.id = messages.receiver_id WHERE sender_id = :user_id "
-		messages_query = "#{user_last_sended_message} UNION #{users_receive_messages} ORDER BY last_message DESC"
-		users_query =  "SELECT DISTINCT users.id, users.first_name, users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at, users.online_at FROM (#{messages_query}) AS users"
-		return User.find_by_sql(["#{users_query}", {user_id: self.id}])
+		friends_query ="SELECT * FROM users WHERE id IN (#{active_ids}) OR id IN (#{pasive_ids})"
+		users_receive_messages = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON  users.id = messages.sender_id AND messages.receiver_id = :user_id"
+		user_last_sended_message = "SELECT users.* , messages.created_at AS last_message FROM (#{friends_query}) AS users LEFT OUTER JOIN messages ON users.id = messages.receiver_id AND messages.sender_id = :user_id"
+		messages_query = "#{users_receive_messages}  UNION #{user_last_sended_message} ORDER BY last_message DESC NULLS LAST "
+		users_query =  "SELECT DISTINCT ON (users.id) users.id, users.first_name , users.last_name, users.user_name, users.email, users.birthday, users.gender, users.password_digest, users.created_at, users.updated_at, users.activation_digest, users.activated, users.activated_at, users.remember_digest, users.admin, users.reset_digest, users.reset_sent_at, users.online_at, users.last_message FROM (#{messages_query}) AS users ORDER BY id, last_message DESC NULLS LAST "
+		return User.find_by_sql(["SELECT users.* FROM (#{users_query}) AS users ORDER BY last_message DESC NULLS LAST", {user_id: self.id}])
 
 	end
 
 	#returns users that are friends of the user's friend or  users unrelated to the user or his friends
 	def friends_suggestion(friends_of_friends = false)
 		#sql query for the requested  and accepted friendships ID's using the user id
-		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = 1"
+		active_ids = "SELECT friend_pasive_id FROM relationships WHERE friend_active_id = :user_id AND accepted = true"
 		#sql query for the received and accepted friendships ID's using the user id
-		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 1"
+		pasive_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = true"
 		#not answered friendship request
-		friend_requests_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted = 0"
+		friend_requests_ids = "SELECT friend_active_id FROM relationships WHERE friend_pasive_id = :user_id AND accepted =  false"
 		#sql query for  the id's of the pasive friends from the user's id friends
 		friends_pasive_friends_ids ="SELECT friend_pasive_id FROM relationships WHERE friend_active_id IN (#{active_ids}) OR friend_active_id IN (#{pasive_ids})"
 		#sql query for  the id's of the active friends from the user's id friends

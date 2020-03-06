@@ -76,7 +76,7 @@
 
 		<% if current_user?(@user)%>
 			<div id="post_form">
-				<%= render "shared/post_form"  %>
+				<%= render "shared/post_form", post: @post   %>
 			</div>
 			
 		<% end %>

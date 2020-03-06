@@ -121,9 +121,11 @@ function update_board(start_pos, new_pos){
        new_square = document.querySelector(`#${new_pos}`);
        player_turn = document.querySelector("#players_turn");
        new_square.innerHTML = " ";
-       new_square.appendChild(start_square.children[0]);    
+       new_square.appendChild(start_square.children[0]);  
+       delete_piece_class(new_square);
+       add_piece_class(start_square , new_square) ; 
        start_square.innerHTML = " ";
-       delete_piece_class(start_square)
+       delete_piece_class(start_square);
        if (player_data.your_turn){
         player_turn.innerHTML = "Your turn"
        } else {
@@ -179,4 +181,30 @@ function begin_turn(new_data, move_info){
     if(!square_element.classList.contains("Node")){
         square_element.classList.add("Node")
     }
+ }
+
+  function add_piece_class(start_square_element , new_square_element){
+
+    if(new_square_element.classList.contains("Node")){
+        new_square_element.classList.remove("Node")
+    }
+    if(start_square_element.classList.contains("Pawn")){
+        new_square_element.classList.add("Pawn")
+    }
+    if(start_square_element.classList.contains("Queen")){
+        new_square_element.classList.add("Queen")
+    }
+    if(start_square_element.classList.contains("King")){
+        new_square_element.classList.add("King")
+    }
+    if(start_square_element.classList.contains("Rook")){
+        new_square_element.classList.add("Rook")
+    }
+    if(start_square_element.classList.contains("Knight")){
+        new_square_element.classList.add("Knight")
+    }
+    if(start_square_element.classList.contains("Bishop")){
+        new_square_element.classList.add("Bishop")
+    }
+
  }

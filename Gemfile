@@ -8,7 +8,9 @@ gem 'rails', '~> 5.2.2'
 # Bcrypt for Secure Hash Algorithm
 gem 'bcrypt', '3.1.12'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3' , '~> 1.3.6'
+#gem 'sqlite3' , '~> 1.3.6'
+#use postgresql as the databes for active record
+gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
