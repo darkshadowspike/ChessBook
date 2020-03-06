@@ -7,8 +7,8 @@ local:
   root: <%= Rails.root.join("storage") %>
 
 dropbox:
-  service: dropbox
-  access_token: ENV['DROP_BOX_ACCESS_TOKEN']
+  service: Dropbox
+  access_token: <%= ENV['DROP_BOX_ACCESS_TOKEN'] %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
