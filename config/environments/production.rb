@@ -107,13 +107,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   host ="chessbook.herokuapp.com"
   Rails.application.routes.default_url_options[:host] = host
-  config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
+  #config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
   config.action_mailer.smtp_settings = {
-     address:              'smtp.gmail.com',
-     port:                 587,
+     address:              'smtp.sendgrid.net',
+     port:                 465,
      domain:               'chessbook.herokuapp.com',
-     user_name:            ENV['LOCAL_GMAIL_USERNAME'],
-     password:             ENV['LOCAL_GMAIL_PASSWORD'],
+     user_name:            ENV['SENDGRID_USERNAME'],
+     password:             ENV['SENGRID_PASSWORD'],
      authentication:       'plain',
      enable_starttls_auto: true  }
 
