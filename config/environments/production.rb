@@ -110,12 +110,15 @@ Rails.application.configure do
   #config.action_mailer.default_options = {from: 'testnonreply@gmail.com'}
   config.action_mailer.smtp_settings = {
      address:              'smtp.sendgrid.net',
-     port:                 465,
+     port:                 '465',
      domain:               'chessbook.herokuapp.com',
      user_name:            ENV['SENDGRID_USERNAME'],
      password:             ENV['SENGRID_PASSWORD'],
      authentication:       'plain',
-     enable_starttls_auto: true  }
+     enable_starttls_auto: true,
+     openssl_verify_mode:  'none',
+     ssl: true,
+     tls: true   }
 
   config.consider_all_requests_local = true
 
