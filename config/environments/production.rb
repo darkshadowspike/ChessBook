@@ -120,6 +120,6 @@ Rails.application.configure do
      ssl: true,
      tls: true   }
 
-  config.consider_all_requests_local = true
+  #config.consider_all_requests_local = true
 
 end
