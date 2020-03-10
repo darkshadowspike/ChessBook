@@ -1,10 +1,10 @@
-class MidActionCable
+class MidActionCable < ActionCable::Connection::WebSocket
 	def initialize(app, options = {})
 		@app = app
 	end
 
 	def call(env)
-		if Faye::WebSocket.Websocket?(env)
+		if ::WebSocket::Driver.Websocket?(env)
 			ActionCable.server.call(env)
 		else
 			@app.call(env)
