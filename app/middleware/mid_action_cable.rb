@@ -4,7 +4,7 @@ class MidActionCable
 	end
 
 	def call(env)
-		if Faye::Websocket::Driver.Websocket?(env)
+		if Websocket::Driver.Websocket?(env)
 			ActionCable.server.call(env)
 		else
 			@app.call(env)
