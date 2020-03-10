@@ -4,8 +4,12 @@ development:
 test:
   adapter: async
 
-production: 
+production:  &production
 
-  adapter: redis
-  url: redis://redistogo:058dd1b88778cc0418a609ca5040703f@pike.redistogo.com:10463
-  channel_prefix: ChessBook_production
+  :url: redis://redistogo:058dd1b88778cc0418a609ca5040703f@pike.redistogo.com:10463
+  :host: pike.redistogo.com
+  :port: 10463
+  :password: 058dd1b88778cc0418a609ca5040703f
+  :inline: true
+  :timeout: 1
+
