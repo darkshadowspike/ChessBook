@@ -97,7 +97,7 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   #production action cable config
-  config.middleware.use MidActionCable
+  #config.middleware.use MidActionCable
   config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
 
   config.action_cable.allowed_request_origins = ['https://chessbook.herokuapp.com', 'http://chessbook.herokuapp.com']
