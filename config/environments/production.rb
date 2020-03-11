@@ -98,11 +98,11 @@ Rails.application.configure do
 
   #production action cable config
   config.middleware.use MidActionCable
-  #config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
   config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
+  #config.web_socket_server_url = "wss://chessbook.herokuapp.com/cable" 
 
- # config.action_cable.allowed_request_origins = ['https://chessbook.herokuapp.com', 'http://chessbook.herokuapp.com']
- config.action_cable.allowed_request_origins = ['http://chessbook.herokuapp.com']
+  config.action_cable.allowed_request_origins = ['https://chessbook.herokuapp.com', 'http://chessbook.herokuapp.com']
+ #config.action_cable.allowed_request_origins = ['http://chessbook.herokuapp.com']
 
   config.action_mailer.default :charset => "utf-8" 
   config.action_mailer.raise_delivery_errors = true
