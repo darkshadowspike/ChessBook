@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 	
 	
 	def create
-
+		@comment = current_user.comments.build
 		@post = current_user.posts.build(post_params)
 		@new_post = current_user.posts.build
 		if @post.save

@@ -1,4 +1,4 @@
-console.log("pepino");
+
 posts = document.querySelector("#posts");
 
 <% if @post.errors.empty? %>
@@ -11,6 +11,11 @@ posts = document.querySelector("#posts");
 	form_media_button = document.querySelector("#form_media_button");
 	if(form_media_button!= null){
        form_media_button.addEventListener('click',(e)=>{document.querySelector("#form_media_field").click() }); 
+    }
+
+    text_area = document.querySelectorAll(".text_area");
+    if(typeof text_area[0] != undefined){    
+        text_area[0].addEventListener("keydown",pressEnterComment)
     }
 
 <% else %>
