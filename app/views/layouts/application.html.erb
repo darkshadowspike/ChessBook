@@ -25,7 +25,7 @@
                     <p>Update profile picture</p> 
                   </div>
                   <div class="file_input_container">
-                    <%= f.file_field :avatar , direct_upload: true %> 
+                    <%= f.file_field :avatar , direct_upload: false %> 
                     <%= f.submit "upload" %>
                   </div>
               <% end %>
@@ -36,7 +36,7 @@
                     <p>Update wall picture</p> 
                   </div>
                   <div class="file_input_container">
-                    <%= f.file_field :mural, direct_upload: true %> 
+                    <%= f.file_field :mural, direct_upload: false%> 
                     <%= f.submit "upload" %>
                   </div>
              <% end %>
