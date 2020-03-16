@@ -2,7 +2,7 @@
 						<img src="<%= url_for(post.user.avatar.variant(resize: 'x32',  combine_options: {gravity: 'Center', crop: '32 x 32 + 0 + 0'})) %>"   >
 						 <input type="hidden" id="post_id" name="comment[post_id]" value="<%= post.id %>">
 						 <div class="comment_text">
-						 	<%= f.text_area :content, placeholder: "Write a comment", class: "text_area new_post_comment_text_area" %>
+						 	<%= f.text_area :content, placeholder: "Write a comment", class: "text_area new_post_comment_text_area", name: "comment[content]", id:"comment_content" %>
 							<%= f.submit "comment" , class: "hidden", id: "comment_button"%>
 						 </div>
 			   		<% end %>

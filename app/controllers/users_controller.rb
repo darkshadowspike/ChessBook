@@ -131,7 +131,7 @@ class UsersController < ApplicationController
 
 		if logged_in?
 			@post = current_user.posts.build
-			comment = current_user.comments.build
+			@comment = current_user.comments.build
 			@relationship = Relationship.friendship(current_user.id, @user.id)
 			if @relationship
 				@relationship.watched_posts_from_user(@user)
