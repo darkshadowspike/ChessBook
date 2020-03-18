@@ -33,3 +33,4 @@
 #ignore local enviroment variable
  /config/local_env.yml
 
+config/local_env.yml
